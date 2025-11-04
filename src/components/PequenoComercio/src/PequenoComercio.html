@@ -25,34 +25,65 @@
             No hay usuarios disponibles
           </div>
 
-          <div v-else class="row">
-            <div v-for="usuario in usuarios" :key="usuario.id" class="col-md-4 mb-3">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="text-center mb-3">
-                    <img 
-                      :src="usuario.avatar" 
-                      :alt="`${usuario.nombre} ${usuario.apellido}`"
-                      class="rounded-circle"
-                      style="width: 100px; height: 100px; object-fit: cover;"
-                      @error="$event.target.src='https://via.placeholder.com/100'"
-                    />
+          <div v-else>
+            <div class="row mb-3">
+              <div v-for="usuario in usuariosPaginados" :key="usuario.id" class="col-md-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <div class="text-center mb-3">
+                      <img 
+                        :src="usuario.avatar" 
+                        :alt="`${usuario.nombre} ${usuario.apellido}`"
+                        class="rounded-circle"
+                        style="width: 100px; height: 100px; object-fit: cover;"
+                        @error="$event.target.src='https://via.placeholder.com/100'"
+                      />
+                    </div>
+                    <h6 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h6>
+                    <p class="card-text mb-1">
+                      <small class="text-muted"><strong>Email:</strong> {{ usuario.email }}</small>
+                    </p>
+                    <p class="card-text mb-1">
+                      <small class="text-muted"><strong>Teléfono:</strong> {{ usuario.numero }}</small>
+                    </p>
+                    <p class="card-text mb-1">
+                      <small class="text-muted"><strong>Trabajo:</strong> {{ usuario.trabajo }}</small>
+                    </p>
+                    <p class="card-text">
+                      <small class="text-muted"><strong>Descripción:</strong> {{ usuario.trabajodescripcion }}</small>
+                    </p>
                   </div>
-                  <h6 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h6>
-                  <p class="card-text mb-1">
-                    <small class="text-muted"><strong>Email:</strong> {{ usuario.email }}</small>
-                  </p>
-                  <p class="card-text mb-1">
-                    <small class="text-muted"><strong>Teléfono:</strong> {{ usuario.numero }}</small>
-                  </p>
-                  <p class="card-text mb-1">
-                    <small class="text-muted"><strong>Trabajo:</strong> {{ usuario.trabajo }}</small>
-                  </p>
-                  <p class="card-text">
-                    <small class="text-muted"><strong>Descripción:</strong> {{ usuario.trabajodescripcion }}</small>
-                  </p>
                 </div>
               </div>
+            </div>
+
+            <!-- Controles de paginación -->
+            <nav v-if="totalPaginas > 1" aria-label="Paginación de usuarios">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                  <a class="page-link" href="#" @click.prevent="paginaAnterior">Anterior</a>
+                </li>
+                <li 
+                  v-for="pagina in totalPaginas" 
+                  :key="pagina"
+                  class="page-item" 
+                  :class="{ active: pagina === paginaActual }"
+                >
+                  <a class="page-link" href="#" @click.prevent="irAPagina(pagina)">{{ pagina }}</a>
+                </li>
+                <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
+                  <a class="page-link" href="#" @click.prevent="paginaSiguiente">Siguiente</a>
+                </li>
+              </ul>
+            </nav>
+
+            <!-- Información de paginación -->
+            <div class="text-center mt-3">
+              <small class="text-muted">
+                Mostrando {{ (paginaActual - 1) * usuariosPorPagina + 1 }} - 
+                {{ Math.min(paginaActual * usuariosPorPagina, usuarios.length) }} 
+                de {{ usuarios.length }} usuarios
+              </small>
             </div>
           </div>
         </div>
