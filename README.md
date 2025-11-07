@@ -1,27 +1,41 @@
-# TP3: Vue CLI - Router / Formularios
+# PNT2 – TP Final
 
-Realizar un desarrollo web front-end empleando Vue CLI que presente las siguientes vistas manejadas por un router, seleccionadas desde una barra de navegación:
+Realizar una aplicación frontend basada en Vue CLI, con tema de elección libre, que integre los temas que se detallan a continuación:
 
-## 1) Formulario con Validaciones
+## Temas a Integrar
 
-Un formulario que contenga tres campos: nombre, edad e email. Este debe tener validaciones mediante carteles de:
-- Campos requeridos
-- Nombre entre 5 y 15 caracteres
-- Edad entre 18 y 120 años
-- Email válido
+• Vue CLI 3
 
-Los datos válidos ingresados por el formulario, se deben representar en un tabla por debajo del mismo, en el mismo momento del ingreso.
+• Framework CSS (Bootstrap, Materialize, Material)
 
-## 2) Componente con MockAPI
+• Componentes (archivo único, múltiples archivos)
 
-Realizar un componente que pida los objetos almacenados en un recurso de mockapi.io llamado usuarios, que contengan datos aleatorios con las claves: nombre, email y número de teléfono. Se representarán en una tabla en la vista.
+• Uso de métodos y propiedades computadas
 
-Para la comunicación con mockapi.io utilizar axios.
+• Directivas Data Binding (v-bind ':', v-on '@', v-model)
 
-## Requisitos Técnicos
+• Directivas estructurales (v-if, v-show, v-for, v-else, v-else-if)
 
-- Utilizar Bootstrap como framework css del sitio.
+• Directivas de atributos (:class :style)
 
-## Entrega
+• Lifecycle Hooks
 
-Enviar por email a danielsanchez68@hotmail.com el link al repo de cada uno de ustedes con el ejercicio resuelto.
+• Manejo de Props y eventos
+
+• Formulario con validaciones
+
+• Routeo de componentes con parámetros (manejados desde HTML y desde código)
+
+• Implementación de una API Rest Full mediante axios (con async/await)
+
+• Uso de patrón de estado global
+
+## Notas
+
+Se podrá utilizar el backend desarrollado en otra materia (Ej, el backend Node.js de TP2). Sólo se calificará lo realizado en el frontend.
+
+El trabajo se realizará en equipo (de 3 a 4 integrantes) y se presentará en forma grupal para su defensa en la última fecha de cursada.
+
+## Alumnos
+
+Lucas Evangelista - Gino Tubaro - Facundo Martinez
