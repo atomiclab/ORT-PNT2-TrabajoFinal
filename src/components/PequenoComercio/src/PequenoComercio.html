@@ -3,26 +3,22 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header bg-success text-white">
-          <h5 class="m-0">Pequeño Comercio</h5>
+          <h5 class="m-0">Guild Masters</h5>
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <p class="mb-0">Usuarios de nuestra pequeña empresa traidos desde MockAPI</p>
+            <p class="mb-0">Personajes RPG traídos desde MockAPI</p>
             <button class="btn btn-primary" @click="obtenerUsuarios" :disabled="cargando">
               {{ cargando ? 'Cargando...' : 'Actualizar' }}
             </button>
           </div>
 
-          <div v-if="cargando" class="alert alert-info">
-            Cargando usuarios...
-          </div>
+          <div v-if="cargando" class="alert alert-info">Cargando personajes...</div>
 
-          <div v-else-if="error" class="alert alert-danger">
-            {{ error }}
-          </div>
+          <div v-else-if="error" class="alert alert-danger">{{ error }}</div>
 
           <div v-else-if="usuarios.length === 0" class="alert alert-warning">
-            No hay usuarios disponibles
+            No hay personajes disponibles
           </div>
 
           <div v-else>
@@ -30,27 +26,51 @@
               <div v-for="usuario in usuariosPaginados" :key="usuario.id" class="col-md-4 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
-                    <div class="text-center mb-3">
-                      <img 
-                        :src="usuario.avatar" 
-                        :alt="`${usuario.nombre} ${usuario.apellido}`"
+                    <div class="text-center mb-3 position-relative">
+                      <img
+                        :src="usuario.avatar"
+                        :alt="usuario.name"
                         class="rounded-circle"
-                        style="width: 100px; height: 100px; object-fit: cover;"
+                        style="width: 100px; height: 100px; object-fit: cover"
                         @error="$event.target.src='https://via.placeholder.com/100'"
                       />
+                      <span
+                        class="badge position-absolute top-0 end-0"
+                        :class="usuario.isOnline ? 'bg-success' : 'bg-secondary'"
+                        style="margin-right: 10px"
+                      >
+                        {{ usuario.isOnline ? 'En línea' : 'Offline' }}
+                      </span>
                     </div>
-                    <h6 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h6>
-                    <p class="card-text mb-1">
-                      <small class="text-muted"><strong>Email:</strong> {{ usuario.email }}</small>
+                    <h6 class="card-title text-center">{{ usuario.name }}</h6>
+                    <hr />
+                    <p class="card-text mb-2">
+                      <small class="text-muted"><strong>Raza:</strong> {{ usuario.race }}</small>
                     </p>
-                    <p class="card-text mb-1">
-                      <small class="text-muted"><strong>Teléfono:</strong> {{ usuario.numero }}</small>
+                    <p class="card-text mb-2">
+                      <small class="text-muted"><strong>Clase:</strong> {{ usuario.class }}</small>
                     </p>
-                    <p class="card-text mb-1">
-                      <small class="text-muted"><strong>Trabajo:</strong> {{ usuario.trabajo }}</small>
+                    <p class="card-text mb-2">
+                      <small class="text-muted"><strong>Gremio:</strong> {{ usuario.guild }}</small>
+                    </p>
+                    <p class="card-text mb-2">
+                      <small class="text-muted"
+                        ><strong>HP:</strong>
+                        <span
+                          class="badge"
+                          :class="usuario.hp > 50 ? 'bg-success' : usuario.hp > 20 ? 'bg-warning' : 'bg-danger'"
+                        >
+                          {{ usuario.hp }}
+                        </span>
+                      </small>
+                    </p>
+                    <p class="card-text mb-2">
+                      <small class="text-muted"
+                        ><strong>Reino:</strong> {{ usuario.kingdom }}</small
+                      >
                     </p>
                     <p class="card-text">
-                      <small class="text-muted"><strong>Descripción:</strong> {{ usuario.trabajodescripcion }}</small>
+                      <!-- <small class="text-muted"><strong>ID:</strong> {{ usuario.id }}</small>-->
                     </p>
                   </div>
                 </div>
@@ -58,15 +78,15 @@
             </div>
 
             <!-- Controles de paginación -->
-            <nav v-if="totalPaginas > 1" aria-label="Paginación de usuarios">
+            <nav v-if="totalPaginas > 1" aria-label="Paginación de personajes">
               <ul class="pagination justify-content-center">
                 <li class="page-item" :class="{ disabled: paginaActual === 1 }">
                   <a class="page-link" href="#" @click.prevent="paginaAnterior">Anterior</a>
                 </li>
-                <li 
-                  v-for="pagina in totalPaginas" 
+                <li
+                  v-for="pagina in totalPaginas"
                   :key="pagina"
-                  class="page-item" 
+                  class="page-item"
                   :class="{ active: pagina === paginaActual }"
                 >
                   <a class="page-link" href="#" @click.prevent="irAPagina(pagina)">{{ pagina }}</a>
@@ -80,9 +100,9 @@
             <!-- Información de paginación -->
             <div class="text-center mt-3">
               <small class="text-muted">
-                Mostrando {{ (paginaActual - 1) * usuariosPorPagina + 1 }} - 
-                {{ Math.min(paginaActual * usuariosPorPagina, usuarios.length) }} 
-                de {{ usuarios.length }} usuarios
+                Mostrando {{ (paginaActual - 1) * usuariosPorPagina + 1 }} - {{
+                Math.min(paginaActual * usuariosPorPagina, usuarios.length) }} de {{ usuarios.length
+                }} personajes
               </small>
             </div>
           </div>
@@ -91,4 +111,3 @@
     </div>
   </div>
 </div>
-
