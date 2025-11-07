@@ -25,6 +25,16 @@ class servicioProductos {
       console.error('Error productos POST', error.message)
     }
   }
+
+  delete = async (id) => {
+    try {
+      await axios.delete(`${this.#url}/${id}`)
+      return true
+    } catch (error) {
+      console.error('Error productos DELETE', error.message)
+      return false
+    }
+  }
 }
 
 export default servicioProductos

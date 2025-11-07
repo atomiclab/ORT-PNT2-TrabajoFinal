@@ -130,3 +130,198 @@ hr {
   margin-top: 1.5rem;
 }
 
+/* Botones de acción en las tarjetas */
+.btn-info {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #4a90e2 0%, #5ba3f5 100%);
+  border: 2px solid #6bb3ff;
+  color: #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 8px rgba(74, 144, 226, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-info:hover {
+  background: linear-gradient(135deg, #5ba3f5 0%, #6bb3ff 100%);
+  border-color: #7bc4ff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 12px rgba(74, 144, 226, 0.5);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.btn-danger {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+  border: 2px solid #ec7063;
+  color: #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 8px rgba(231, 76, 60, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #e74c3c 0%, #ec7063 100%);
+  border-color: #f1948a;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 12px rgba(231, 76, 60, 0.5);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 4px;
+}
+
+/* Estilos para SweetAlert2 - Tema Medieval */
+.swal-medieval-popup {
+  border: 3px solid #d4af37 !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 2rem !important;
+}
+
+.swal-medieval-title {
+  font-family: 'Cinzel Decorative', cursive !important;
+  color: #d4af37 !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.4) !important;
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.swal-medieval-content {
+  font-family: 'MedievalSharp', cursive !important;
+  color: #c0c0c0 !important;
+}
+
+.swal-medieval-confirm {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%) !important;
+  border: 2px solid #f4d03f !important;
+  color: #1a1a1a !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.3) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  font-size: 0.95rem !important;
+}
+
+.swal-medieval-confirm:hover {
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+  border-color: #f4d03f !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.5) !important;
+  transform: translateY(-2px) !important;
+  color: #1a1a1a !important;
+}
+
+.swal-medieval-confirm-delete {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%) !important;
+  border: 2px solid #ec7063 !important;
+  color: #ffffff !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(231, 76, 60, 0.3) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  font-size: 0.95rem !important;
+}
+
+.swal-medieval-confirm-delete:hover {
+  background: linear-gradient(135deg, #e74c3c 0%, #ec7063 100%) !important;
+  border-color: #f1948a !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(231, 76, 60, 0.5) !important;
+  transform: translateY(-2px) !important;
+  color: #ffffff !important;
+}
+
+.swal-medieval-cancel {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  background: linear-gradient(135deg, rgba(61, 41, 20, 0.8) 0%, rgba(26, 26, 26, 0.8) 100%) !important;
+  border: 2px solid #b8941f !important;
+  color: #d4af37 !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(184, 148, 31, 0.2) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  font-size: 0.95rem !important;
+  margin-right: 0.5rem !important;
+}
+
+.swal-medieval-cancel:hover {
+  background: linear-gradient(135deg, rgba(90, 61, 34, 0.9) 0%, rgba(61, 41, 20, 0.9) 100%) !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.3) !important;
+  transform: translateY(-2px) !important;
+  color: #f4d03f !important;
+}
+
+/* Estilos para los íconos de SweetAlert2 */
+.swal2-icon.swal2-success {
+  border-color: #28a745 !important;
+  color: #28a745 !important;
+}
+
+.swal2-icon.swal2-error {
+  border-color: #e74c3c !important;
+  color: #e74c3c !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #e74c3c !important;
+  color: #e74c3c !important;
+}
+
+/* Animaciones para SweetAlert2 */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -30px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -30px, 0);
+  }
+}
+
+.animate__animated {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.animate__fadeInDown {
+  animation-name: fadeInDown;
+}
+
+.animate__fadeOutUp {
+  animation-name: fadeOutUp;
+}
+
