@@ -1,2 +1,175 @@
-/* Estilos del componente Formulario */
+/* Estilos del componente Formulario - Tema Medieval */
 
+.card-header.bg-primary {
+  background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%) !important;
+  border-bottom: 3px solid #d4af37 !important;
+  font-family: 'Cinzel Decorative', cursive !important;
+  color: #d4af37 !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.4) !important;
+}
+
+.card-header.bg-primary h5 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.card-header.bg-dark {
+  background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%) !important;
+  border-bottom: 3px solid #d4af37 !important;
+  font-family: 'Cinzel Decorative', cursive !important;
+  color: #d4af37 !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+.card-header.bg-dark h6 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Estilos para inputs */
+.form-control {
+  background: rgba(26, 26, 26, 0.7) !important;
+  border: 2px solid #b8941f !important;
+  color: #c0c0c0 !important;
+  font-family: 'MedievalSharp', cursive !important;
+  padding: 0.75rem 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+  background: rgba(26, 26, 26, 0.9) !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4) !important;
+  color: #c0c0c0 !important;
+}
+
+.form-control::placeholder {
+  color: #8b7355 !important;
+  opacity: 0.7;
+}
+
+.form-control.is-valid {
+  border-color: #4a7c2a !important;
+  background: rgba(45, 80, 22, 0.3) !important;
+}
+
+.form-control.is-invalid {
+  border-color: #b22222 !important;
+  background: rgba(139, 0, 0, 0.2) !important;
+}
+
+.form-label {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  color: #d4af37 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+  margin-bottom: 0.5rem !important;
+  letter-spacing: 1px;
+}
+
+/* Mensajes de validación */
+.invalid-feedback {
+  font-family: 'MedievalSharp', cursive !important;
+  color: #ff6b6b !important;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.valid-feedback {
+  font-family: 'MedievalSharp', cursive !important;
+  color: #51cf66 !important;
+}
+
+/* Tabla con estilo medieval */
+.table {
+  background: rgba(13, 13, 13, 0.6);
+  color: #c0c0c0;
+  font-family: 'MedievalSharp', cursive;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%);
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #d4af37;
+  padding: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.table tbody tr {
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateX(5px);
+}
+
+.table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody td.text-center {
+  color: #8b7355;
+  font-style: italic;
+  padding: 2rem;
+}
+
+/* Botones del formulario */
+.btn-primary,
+.btn-secondary {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #5a4a2a 0%, #6a5a3a 100%) !important;
+  border-color: #7a6a4a !important;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%);
+  border-color: #6a6a6a;
+  color: #c0c0c0;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #5a5a5a 0%, #6a6a6a 100%);
+  border-color: #7a7a7a;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table-responsive {
+    border-radius: 0;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}

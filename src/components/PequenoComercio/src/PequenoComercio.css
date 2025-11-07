@@ -1,6 +1,131 @@
-/* Estilos del componente PequenoComercio */
+/* Estilos del componente PequenoComercio - Tema Medieval */
 
 .card-header {
-  background-color: #28a745 !important;
+  background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%) !important;
+  border-bottom: 3px solid #d4af37 !important;
+  font-family: 'Cinzel Decorative', cursive !important;
+  color: #d4af37 !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.4) !important;
+  padding: 1.25rem 1.5rem !important;
+  letter-spacing: 2px;
 }
 
+.card-header h5 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Tarjetas de personajes */
+.card.h-100 {
+  background: linear-gradient(135deg, rgba(61, 41, 20, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+  border: 2px solid #d4af37;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card.h-100::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.card.h-100:hover {
+  border-color: #f4d03f;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.5);
+  transform: translateY(-5px);
+}
+
+.card.h-100:hover::before {
+  left: 100%;
+}
+
+.card-body {
+  background: rgba(13, 13, 13, 0.6);
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  color: #d4af37;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+}
+
+/* Badges de estado */
+.badge.position-absolute {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  border: 1px solid;
+}
+
+/* Información de personaje */
+.card-text {
+  font-family: 'MedievalSharp', cursive;
+  color: #c0c0c0;
+  margin-bottom: 0.75rem;
+}
+
+.card-text strong {
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Separador HR */
+hr {
+  border: none;
+  border-top: 2px solid #b8941f;
+  margin: 1rem 0;
+  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.4);
+}
+
+/* Badge de HP */
+.badge[class*="bg-"] {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.85rem;
+  border: 1px solid;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Botón de actualizar */
+.btn-primary {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%);
+  border: 2px solid #f4d03f;
+  color: #1a1a1a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  border-color: #f4d03f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Paginación */
+.pagination {
+  margin-top: 1.5rem;
+}

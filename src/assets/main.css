@@ -1,1 +1,445 @@
-/* Limpiar estilos por defecto */
+/* Estilos Globales - Tema RPG Medieval */
+
+/* Variables CSS para el tema medieval */
+:root {
+  /* Colores medievales */
+  --color-dark: #1a1a1a;
+  --color-darker: #0d0d0d;
+  --color-wood: #3d2914;
+  --color-wood-light: #5a3d22;
+  --color-gold: #d4af37;
+  --color-gold-light: #f4d03f;
+  --color-gold-dark: #b8941f;
+  --color-bronze: #cd7f32;
+  --color-stone: #8b7355;
+  --color-stone-light: #a6896d;
+  --color-red-dark: #8b0000;
+  --color-red-light: #b22222;
+  --color-green-dark: #2d5016;
+  --color-green-light: #4a7c2a;
+  --color-silver: #c0c0c0;
+
+  /* Tipografía */
+  --font-primary: 'Cinzel', serif;
+  --font-decorative: 'Cinzel Decorative', cursive;
+  --font-body: 'MedievalSharp', cursive;
+
+  /* Sombras y efectos */
+  --shadow-medieval: 0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Reset y estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(
+    135deg,
+    var(--color-darker) 0%,
+    var(--color-dark) 50%,
+    var(--color-wood) 100%
+  );
+  background-attachment: fixed;
+  color: var(--color-silver);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Efecto de textura de pergamino en el fondo */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tipografías */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-decorative);
+  color: var(--color-gold);
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 10px rgba(212, 175, 55, 0.3);
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1.5rem;
+}
+
+p,
+span,
+div,
+a,
+button,
+input,
+textarea,
+select,
+label {
+  font-family: var(--font-body);
+}
+
+/* Estilos para cards con apariencia medieval */
+.card {
+  background: linear-gradient(135deg, var(--color-wood-light) 0%, var(--color-wood) 100%);
+  border: 2px solid var(--color-gold-dark);
+  border-radius: 8px;
+  box-shadow: var(--shadow-medieval);
+  color: var(--color-silver);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  opacity: 0.6;
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--color-wood) 0%, var(--color-wood-light) 100%);
+  border-bottom: 2px solid var(--color-gold);
+  font-family: var(--font-decorative);
+  color: var(--color-gold);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  padding: 1rem 1.5rem;
+}
+
+.card-body {
+  background: rgba(26, 26, 26, 0.4);
+  padding: 1.5rem;
+}
+
+/* Botones con estilo medieval */
+.btn {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  border: 2px solid;
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-medieval);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.6s,
+    height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
+  border-color: var(--color-gold-light);
+  color: var(--color-dark);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+  border-color: var(--color-gold-light);
+  color: var(--color-dark);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--color-green-dark) 0%, var(--color-green-light) 100%);
+  border-color: var(--color-green-light);
+  color: var(--color-silver);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, var(--color-green-light) 0%, #5a9f3a 100%);
+  box-shadow: 0 0 15px rgba(74, 124, 42, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--color-red-dark) 0%, var(--color-red-light) 100%);
+  border-color: var(--color-red-light);
+  color: var(--color-silver);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #8b6914 0%, #b8941f 100%);
+  border-color: var(--color-gold);
+  color: var(--color-dark);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #3a3a3a 0%, #4a4a4a 100%);
+  border-color: #5a5a5a;
+  color: var(--color-silver);
+}
+
+/* Alerts con estilo medieval */
+.alert {
+  border: 2px solid;
+  border-radius: 6px;
+  font-family: var(--font-primary);
+  box-shadow: var(--shadow-medieval);
+}
+
+.alert-info {
+  background: linear-gradient(135deg, rgba(74, 124, 42, 0.3) 0%, rgba(45, 80, 22, 0.3) 100%);
+  border-color: var(--color-green-light);
+  color: var(--color-silver);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(178, 34, 34, 0.3) 100%);
+  border-color: var(--color-red-light);
+  color: var(--color-silver);
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, rgba(184, 148, 31, 0.3) 0%, rgba(212, 175, 55, 0.3) 100%);
+  border-color: var(--color-gold);
+  color: var(--color-dark);
+}
+
+/* Badges con estilo medieval */
+.badge {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bg-success {
+  background: linear-gradient(
+    135deg,
+    var(--color-green-dark) 0%,
+    var(--color-green-light) 100%
+  ) !important;
+  border-color: var(--color-green-light) !important;
+}
+
+.bg-secondary {
+  background: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%) !important;
+  border-color: #6a6a6a !important;
+}
+
+.bg-danger {
+  background: linear-gradient(
+    135deg,
+    var(--color-red-dark) 0%,
+    var(--color-red-light) 100%
+  ) !important;
+  border-color: var(--color-red-light) !important;
+}
+
+.bg-warning {
+  background: linear-gradient(135deg, #b8941f 0%, var(--color-gold) 100%) !important;
+  border-color: var(--color-gold-light) !important;
+  color: var(--color-dark) !important;
+}
+
+/* Paginación con estilo medieval */
+.pagination .page-link {
+  background: linear-gradient(135deg, var(--color-wood-light) 0%, var(--color-wood) 100%);
+  border: 2px solid var(--color-gold-dark);
+  color: var(--color-gold);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  margin: 0 2px;
+  transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+  background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
+  color: var(--color-dark);
+  border-color: var(--color-gold-light);
+  box-shadow: var(--shadow-glow);
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+  border-color: var(--color-gold-light);
+  color: var(--color-dark);
+  box-shadow: var(--shadow-glow);
+}
+
+.pagination .page-item.disabled .page-link {
+  background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+  border-color: #4a4a4a;
+  color: #6a6a6a;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Inputs y formularios con estilo medieval */
+.form-control,
+.form-select {
+  background: rgba(26, 26, 26, 0.6);
+  border: 2px solid var(--color-gold-dark);
+  border-radius: 4px;
+  color: var(--color-silver);
+  font-family: var(--font-body);
+  padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: rgba(26, 26, 26, 0.8);
+  border-color: var(--color-gold);
+  color: var(--color-silver);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  outline: none;
+}
+
+.form-label {
+  color: var(--color-gold);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+  border-left: 1px solid var(--color-gold-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
+  border-radius: 6px;
+  border: 2px solid var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+}
+
+/* Efectos de texto */
+.text-muted {
+  color: var(--color-stone-light) !important;
+}
+
+/* Imágenes con borde decorativo */
+img.rounded-circle {
+  border: 3px solid var(--color-gold);
+  box-shadow: var(--shadow-medieval), var(--shadow-glow);
+  transition: all 0.3s ease;
+}
+
+img.rounded-circle:hover {
+  border-color: var(--color-gold-light);
+  box-shadow:
+    var(--shadow-medieval),
+    0 0 20px rgba(212, 175, 55, 0.6);
+  transform: scale(1.05);
+}
+
+/* Separadores */
+hr {
+  border: none;
+  border-top: 2px solid var(--color-gold-dark);
+  margin: 1rem 0;
+  box-shadow: 0 1px 2px rgba(212, 175, 55, 0.3);
+}
+
+/* Contenedores */
+.container,
+.container-fluid {
+  position: relative;
+  z-index: 1;
+}
+
+/* Links */
+a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-gold-light);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-out;
+}
