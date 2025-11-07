@@ -28,13 +28,13 @@
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/pequeno-comercio" active-class="active">
+            <RouterLink class="nav-link" to="/guild" active-class="active">
               <span class="nav-icon">🏰</span>
               <span>Guild Masters</span>
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/inicio" active-class="active">
+            <RouterLink class="nav-link" to="/consigna" active-class="active">
               <span class="nav-icon">📖</span>
               <span>Consigna</span>
             </RouterLink>

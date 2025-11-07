@@ -1,7 +1,7 @@
 import servicioProductos from '../../../servicios/productos.js'
 
 export default {
-  name: 'PequenoComercio',
+  name: 'Guild',
 
   components: {
     // componentes hijos

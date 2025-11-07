@@ -1,4 +1,4 @@
-/* Estilos del componente PequenoComercio - Tema Medieval */
+/* Estilos del componente Guild - Tema Medieval */
 
 .card-header {
   background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%) !important;
@@ -129,3 +129,4 @@ hr {
 .pagination {
   margin-top: 1.5rem;
 }
+
