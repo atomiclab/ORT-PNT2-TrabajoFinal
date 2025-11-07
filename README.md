@@ -38,4 +38,4 @@ El trabajo se realizará en equipo (de 3 a 4 integrantes) y se presentará en fo
 
 ## Alumnos
 
-Lucas Evangelista - Gino Tubaro - Facundo Martinez
+Lucas Evangelista - Gino Tubaro - Facundo Martinez - Akman Manuel.
