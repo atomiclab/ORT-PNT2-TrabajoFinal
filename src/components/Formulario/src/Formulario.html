@@ -1,94 +1,160 @@
 <div class="container mt-3">
   <div class="row">
-    <div class="col-12 col-lg-8 mx-auto">
+    <div class="col-12 col-lg-10 mx-auto">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          <h5 class="m-0">📜 Formulario con Validaciones</h5>
+          <h5 class="m-0">⚔️ Alta de Guerrero</h5>
         </div>
         <div class="card-body">
           <form @submit.prevent="onSubmit" novalidate>
-            <div class="mb-3">
-              <label class="form-label" for="nombre">Nombre</label>
-              <input
-                id="nombre"
-                type="text"
-                class="form-control"
-                v-model.trim="form.nombre"
-                @input="formDirty.nombre = true"
-                :class="{ 'is-invalid': errorNombre.mostrar, 'is-valid': formDirty.nombre && errorNombre.ok }"
-                placeholder="Entre 5 y 15 caracteres"
-              />
-              <div class="invalid-feedback" v-if="errorNombre.mostrar">{{ errorNombre.mensaje }}</div>
+            <div class="row">
+              <div class="col-12 mb-3">
+                <label class="form-label" for="name">Nombre del Usuario</label>
+                <input
+                  id="name"
+                  type="text"
+                  class="form-control"
+                  v-model.trim="form.name"
+                  @input="formDirty.name = true"
+                  :class="{ 'is-invalid': errorName.mostrar, 'is-valid': formDirty.name && errorName.ok }"
+                  placeholder="Ingresa el nombre del personaje"
+                />
+                <div class="invalid-feedback" v-if="errorName.mostrar">{{ errorName.mensaje }}</div>
+              </div>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label" for="edad">Edad</label>
-              <input
-                id="edad"
-                type="number"
-                class="form-control"
-                v-model.number="form.edad"
-                @input="formDirty.edad = true"
-                :class="{ 'is-invalid': errorEdad.mostrar, 'is-valid': formDirty.edad && errorEdad.ok }"
-                placeholder="Entre 18 y 120"
-                min="0"
-              />
-              <div class="invalid-feedback" v-if="errorEdad.mostrar">{{ errorEdad.mensaje }}</div>
+            <div class="row">
+              <div class="col-12 col-md-6 mb-3">
+                <label class="form-label" for="race">Raza</label>
+                <select
+                  id="race"
+                  class="form-control"
+                  v-model="form.race"
+                  @change="formDirty.race = true"
+                  :class="{ 'is-invalid': errorRace.mostrar, 'is-valid': formDirty.race && errorRace.ok }"
+                >
+                  <option value="">Selecciona una raza</option>
+                  <option v-for="raza in razas" :key="raza" :value="raza">{{ raza }}</option>
+                </select>
+                <div class="invalid-feedback" v-if="errorRace.mostrar">{{ errorRace.mensaje }}</div>
+              </div>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label" for="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                class="form-control"
-                v-model.trim="form.email"
-                @input="formDirty.email = true"
-                :class="{ 'is-invalid': errorEmail.mostrar, 'is-valid': formDirty.email && errorEmail.ok }"
-                placeholder="nombre@dominio.com"
-              />
-              <div class="invalid-feedback" v-if="errorEmail.mostrar">{{ errorEmail.mensaje }}</div>
+            <div class="row" v-if="form.race">
+              <div class="col-12 mb-3">
+                <label class="form-label">Selecciona un Avatar</label>
+                <div v-if="avataresDisponibles.length === 0" class="alert alert-warning">
+                  No hay avatares disponibles para esta raza: {{ form.race }}
+                </div>
+                <div v-else class="avatar-grid">
+                  <div
+                    v-for="(avatarUrl, index) in avataresDisponibles"
+                    :key="index"
+                    class="avatar-option"
+                    :class="{ 'selected': form.avatar === avatarUrl, 'invalid': errorAvatar.mostrar && !form.avatar }"
+                    @click="seleccionarAvatar(avatarUrl)"
+                  >
+                    <img
+                      :src="avatarUrl"
+                      :alt="`Avatar ${form.race} ${index + 1}`"
+                      @error="$event.target.src='https://via.placeholder.com/150?text=Error'"
+                    />
+                    <div class="avatar-check" v-if="form.avatar === avatarUrl">✓</div>
+                  </div>
+                </div>
+                <div class="invalid-feedback" v-if="errorAvatar.mostrar">
+                  {{ errorAvatar.mensaje }}
+                </div>
+                <div class="valid-feedback" v-if="formDirty.avatar && errorAvatar.ok">
+                  Avatar seleccionado
+                </div>
+              </div>
             </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button class="btn btn-primary" type="submit" :disabled="!isValid">Agregar</button>
-              <button class="btn btn-secondary" type="button" @click="resetForm">Limpiar</button>
+            <div class="row">
+              <div class="col-12 col-md-6 mb-3">
+                <label class="form-label" for="class">Clase</label>
+                <select
+                  id="class"
+                  class="form-control"
+                  v-model="form.class"
+                  @change="formDirty.class = true"
+                  :class="{ 'is-invalid': errorClass.mostrar, 'is-valid': formDirty.class && errorClass.ok }"
+                >
+                  <option value="">Selecciona una clase</option>
+                  <option v-for="clase in clases" :key="clase" :value="clase">{{ clase }}</option>
+                </select>
+                <div class="invalid-feedback" v-if="errorClass.mostrar">
+                  {{ errorClass.mensaje }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-md-6 mb-3">
+                <label class="form-label" for="guild">Gremio</label>
+                <select
+                  id="guild"
+                  class="form-control"
+                  v-model="form.guild"
+                  @change="formDirty.guild = true"
+                  :class="{ 'is-invalid': errorGuild.mostrar, 'is-valid': formDirty.guild && errorGuild.ok }"
+                >
+                  <option value="">Selecciona un gremio</option>
+                  <option v-for="gremio in gremios" :key="gremio" :value="gremio">
+                    {{ gremio }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" v-if="errorGuild.mostrar">
+                  {{ errorGuild.mensaje }}
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 mb-3">
+                <label class="form-label" for="kingdom">Reino</label>
+                <select
+                  id="kingdom"
+                  class="form-control"
+                  v-model="form.kingdom"
+                  @change="formDirty.kingdom = true"
+                  :class="{ 'is-invalid': errorKingdom.mostrar, 'is-valid': formDirty.kingdom && errorKingdom.ok }"
+                >
+                  <option value="">Selecciona un reino</option>
+                  <option v-for="reino in reinos" :key="reino" :value="reino">{{ reino }}</option>
+                </select>
+                <div class="invalid-feedback" v-if="errorKingdom.mostrar">
+                  {{ errorKingdom.mensaje }}
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="alert alert-info mt-3"
+              style="background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37"
+            >
+              <small>
+                <strong>ℹ️ Nota:</strong> La vida (HP) se generará automáticamente entre 50 y 100
+                puntos.
+              </small>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+              <button class="btn btn-primary" type="submit" :disabled="!isValid || enviando">
+                <span v-if="enviando">⏳ Creando...</span>
+                <span v-else>✨ Crear Usuario</span>
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+                @click="resetForm"
+                :disabled="enviando"
+              >
+                🗑️ Limpiar
+              </button>
             </div>
           </form>
-        </div>
-      </div>
-
-      <div class="card mt-3">
-        <div class="card-header bg-dark text-white">
-          <h6 class="m-0">📋 Registros</h6>
-        </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-striped table-hover m-0">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nombre</th>
-                  <th>Edad</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-if="registros.length === 0">
-                  <td colspan="4" class="text-center py-3">Sin registros</td>
-                </tr>
-                <tr v-for="(r, i) in registros" :key="i">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ r.nombre }}</td>
-                  <td>{{ r.edad }}</td>
-                  <td>{{ r.email }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-

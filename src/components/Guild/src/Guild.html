@@ -72,11 +72,14 @@
                     <p class="card-text">
                       <!-- <small class="text-muted"><strong>ID:</strong> {{ usuario.id }}</small>-->
                     </p>
-                    <div class="d-flex justify-content-between mt-3">
-                      <button class="btn btn-info btn-sm" @click="mostrarMasInfo(usuario)">
+                    <div class="d-flex justify-content-between gap-2 mt-3">
+                      <button class="btn btn-info btn-sm flex-fill" @click="mostrarMasInfo(usuario)">
                         Más info
                       </button>
-                      <button class="btn btn-danger btn-sm" @click="borrarUsuario(usuario.id)">
+                      <button class="btn btn-warning btn-sm flex-fill" @click="editarUsuario(usuario)">
+                        Editar
+                      </button>
+                      <button class="btn btn-danger btn-sm flex-fill" @click="borrarUsuario(usuario.id)">
                         Borrar
                       </button>
                     </div>

@@ -35,6 +35,16 @@ class servicioProductos {
       return false
     }
   }
+
+  put = async (id, producto) => {
+    try {
+      const { data: productoActualizado } = await axios.put(`${this.#url}/${id}`, producto)
+      return productoActualizado
+    } catch (error) {
+      console.error('Error productos PUT', error.message)
+      return null
+    }
+  }
 }
 
 export default servicioProductos
