@@ -33,6 +33,11 @@
               >Consigna</RouterLink
             >
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/login" active-class="active"
+              >Login</RouterLink
+            >
+          </li>
         </ul>
       </div>
     </div>
