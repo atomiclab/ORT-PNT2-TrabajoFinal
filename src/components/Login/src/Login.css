@@ -5,12 +5,12 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background-color: #362f2d; /* Color de fondo oscuro */
 }
 
 h2 {
   text-align: center;
-  color: #333;
+  color: #c0a06c; /* Color de texto claro */
   margin-bottom: 20px;
 }
 
@@ -21,23 +21,33 @@ h2 {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #555;
+  color: #c0a06c; /* Color de texto claro para etiquetas */
 }
 
 input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
+  background: rgba(26, 26, 26, 0.7) !important; /* Fondo oscuro */
+  border: 2px solid #b8941f !important; /* Borde dorado */
   border-radius: 4px;
+  color: #c0c0c0 !important; /* Texto claro */
   box-sizing: border-box; /* Ensures padding doesn't affect overall width */
 }
 
 input[type="email"]:focus,
 input[type="password"]:focus {
-  border-color: #007bff;
+  background: rgba(26, 26, 26, 0.9) !important;
+  border-color: #d4af37 !important;
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4) !important;
+  color: #c0c0c0 !important;
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: #8b7355 !important;
+  opacity: 0.7;
 }
 
 .error-message {
@@ -49,20 +59,28 @@ input[type="password"]:focus {
 button[type="submit"] {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  background: linear-gradient(135deg, #5a3d22 0%, #7a5d32 100%) !important; /* Fondo del botón */
+  color: #d4af37 !important; /* Color del texto del botón */
+  border: 2px solid #d4af37 !important; /* Borde dorado */
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease; /* Transición para efectos de hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Sombra para el botón */
 }
 
 button[type="submit"]:hover:not(:disabled) {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #6a4d32 0%, #8a6d42 100%) !important;
+  border-color: #f4cf57 !important;
+  color: #f4cf57 !important;
+  box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
+  transform: translateY(-2px);
 }
 
 button[type="submit"]:disabled {
-  background-color: #cccccc;
+  opacity: 0.5;
   cursor: not-allowed;
+  background: linear-gradient(135deg, #5a4a2a 0%, #6a5a3a 100%) !important;
+  border-color: #7a6a4a !important;
+  color: #d4af37 !important; /* Mantener color de texto dorado pero atenuado */
 }
