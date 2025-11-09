@@ -1,12 +1,17 @@
 import servicioAuth from '../../../servicios/auth.js'
+import servicioCharacters from '../../../servicios/characters.js'
 import Swal from 'sweetalert2'
 
 export default {
   data() {
     return {
       user: null,
+      characters: [],
       isLoading: true,
+      isLoadingCharacters: false,
       error: null,
+      charactersError: null,
+      currentCharacterIndex: 0,
     }
   },
   async mounted() {
@@ -32,9 +37,19 @@ export default {
 
         if (resultado.success) {
           this.user = resultado.data.user || resultado.data
+          console.log('Usuario cargado en perfil:', this.user)
+          // Intentar obtener el userId de diferentes ubicaciones
+          const userId = this.user?.id || this.user?.userId || this.user?.data?.id
+          console.log('UserId del usuario:', userId)
+          console.log('Claves del objeto usuario:', this.user ? Object.keys(this.user) : [])
+          
           // Actualizar localStorage con los datos actualizados
           if (this.user) {
             localStorage.setItem('user', JSON.stringify(this.user))
+            // Cargar personajes del usuario después de obtener el perfil
+            // Esperar un poco para asegurar que el usuario está completamente cargado
+            await this.$nextTick()
+            await this.loadCharacters()
           }
         } else {
           this.error = resultado.error || 'Error al cargar el perfil'
@@ -108,6 +123,97 @@ export default {
       } catch {
         return dateString
       }
+    },
+    async loadCharacters() {
+      // Obtener el userId de diferentes posibles ubicaciones
+      const userId = this.user?.id || this.user?.userId || this.user?.data?.id
+      
+      if (!this.user || !userId) {
+        console.warn('No se puede cargar personajes: usuario o userId no disponible', {
+          user: this.user,
+          userId: userId,
+          userKeys: this.user ? Object.keys(this.user) : [],
+        })
+        return
+      }
+
+      this.isLoadingCharacters = true
+      this.charactersError = null
+
+      try {
+        const servicio = new servicioCharacters()
+        console.log('Cargando personajes para userId:', userId)
+        
+        const resultado = await servicio.getByUserId(userId)
+        console.log('Resultado de getByUserId:', resultado)
+
+        if (resultado.success) {
+          // El endpoint puede devolver un array directamente o dentro de data
+          const charactersData = resultado.data
+          console.log('Datos de personajes recibidos:', charactersData)
+          
+          if (Array.isArray(charactersData)) {
+            this.characters = charactersData
+          } else if (charactersData && Array.isArray(charactersData.data)) {
+            this.characters = charactersData.data
+          } else if (charactersData && charactersData.data) {
+            this.characters = [charactersData.data]
+          } else {
+            this.characters = []
+          }
+          
+          console.log('Personajes procesados:', this.characters)
+          // Resetear el índice del carrusel cuando se cargan nuevos personajes
+          this.currentCharacterIndex = 0
+        } else {
+          this.charactersError = resultado.error || 'Error al cargar los personajes'
+          console.error('Error al obtener personajes:', resultado)
+          // Si es un error 404, puede que el usuario no tenga personajes todavía
+          if (resultado.statusCode === 404) {
+            this.characters = []
+            this.charactersError = null // No mostrar error si simplemente no hay personajes
+          }
+        }
+      } catch (error) {
+        this.charactersError = 'Error al cargar los personajes'
+        console.error('Error al obtener personajes (catch):', error)
+        console.error('Detalles del error:', {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+        })
+      } finally {
+        this.isLoadingCharacters = false
+      }
+    },
+    nextCharacter() {
+      if (this.characters.length > 0) {
+        this.currentCharacterIndex = (this.currentCharacterIndex + 1) % this.characters.length
+      }
+    },
+    prevCharacter() {
+      if (this.characters.length > 0) {
+        this.currentCharacterIndex =
+          this.currentCharacterIndex === 0
+            ? this.characters.length - 1
+            : this.currentCharacterIndex - 1
+      }
+    },
+    goToCharacter(index) {
+      if (index >= 0 && index < this.characters.length) {
+        this.currentCharacterIndex = index
+      }
+    },
+  },
+  computed: {
+    currentCharacter() {
+      if (this.characters.length > 0 && this.currentCharacterIndex < this.characters.length) {
+        return this.characters[this.currentCharacterIndex]
+      }
+      return null
+    },
+    hasMultipleCharacters() {
+      return this.characters.length > 1
     },
   },
 }

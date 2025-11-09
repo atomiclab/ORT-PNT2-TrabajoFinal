@@ -1,4 +1,5 @@
-import servicioProductos from '../../../servicios/productos.js'
+import servicioCharacters from '../../../servicios/characters.js'
+import servicioAuth from '../../../servicios/auth.js'
 import Swal from 'sweetalert2'
 
 export default {
@@ -42,13 +43,33 @@ export default {
       this.cargando = true
       this.error = null
       try {
-        const servicio = new servicioProductos()
-        const usuarios = await servicio.getAll()
-        this.usuarios = usuarios || []
-        this.paginaActual = 1
+        // Verificar autenticación
+        const authService = new servicioAuth()
+        if (!authService.isAuthenticated()) {
+          this.error = 'Debes iniciar sesión para ver los personajes'
+          this.cargando = false
+          return
+        }
+
+        const servicio = new servicioCharacters()
+        const resultado = await servicio.getAll()
+        if (resultado.success) {
+          // El endpoint puede devolver un array directamente o dentro de data
+          this.usuarios = Array.isArray(resultado.data) ? resultado.data : []
+          this.paginaActual = 1
+        } else {
+          // Si es un error 401, probablemente el token expiró
+          if (resultado.statusCode === 401) {
+            this.error = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.'
+            authService.logout()
+          } else {
+            this.error = resultado.error || 'Error al cargar los personajes'
+          }
+          console.error('Error al obtener personajes:', resultado.error)
+        }
       } catch (error) {
-        this.error = 'Error al cargar los usuarios'
-        console.error('Error al obtener usuarios:', error)
+        this.error = 'Error al cargar los personajes'
+        console.error('Error al obtener personajes:', error)
       } finally {
         this.cargando = false
       }
@@ -86,8 +107,16 @@ export default {
             <div style="background: rgba(26, 26, 26, 0.6); padding: 1rem; border-radius: 8px; border: 2px solid #b8941f; margin-bottom: 0.5rem;">
               <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">HP:</strong> 
                 <span class="badge ${usuario.hp > 50 ? 'bg-success' : usuario.hp > 20 ? 'bg-warning' : 'bg-danger'}" 
-                      style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.hp}</span>
+                      style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.hp || 0}</span>
               </p>
+              ${usuario.shield !== undefined ? `<p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Escudo:</strong> 
+                <span class="badge bg-info" 
+                      style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.shield}</span>
+              </p>` : ''}
+              ${usuario.level !== undefined ? `<p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Nivel:</strong> 
+                <span class="badge bg-primary" 
+                      style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.level}</span>
+              </p>` : ''}
               <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Reino:</strong> <span style="color: #c0c0c0;">${usuario.kingdom}</span></p>
               <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Estado:</strong> 
                 <span class="badge ${usuario.isOnline ? 'bg-success' : 'bg-secondary'}" 
@@ -139,6 +168,8 @@ export default {
         class: usuario.class || '',
         guild: usuario.guild || '',
         hp: usuario.hp || 0,
+        shield: usuario.shield || 0,
+        level: usuario.level || 1,
         kingdom: usuario.kingdom || '',
         avatar: usuario.avatar || '',
         isOnline: usuario.isOnline || false,
@@ -194,6 +225,20 @@ export default {
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">HP</label>
               <input type="number" id="editHp" value="${valoresOriginales.hp}" min="0" max="100"
+                     style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
+                     class="swal-form-input">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Escudo</label>
+              <input type="number" id="editShield" value="${valoresOriginales.shield}" min="0" max="100"
+                     style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
+                     class="swal-form-input">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Nivel</label>
+              <input type="number" id="editLevel" value="${valoresOriginales.level}" min="1" max="100"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
@@ -258,6 +303,8 @@ export default {
               class: document.getElementById('editClass').value.trim(),
               guild: document.getElementById('editGuild').value.trim(),
               hp: parseInt(document.getElementById('editHp').value) || 0,
+              shield: parseInt(document.getElementById('editShield').value) || 0,
+              level: parseInt(document.getElementById('editLevel').value) || 1,
               kingdom: document.getElementById('editKingdom').value.trim(),
               avatar: document.getElementById('editAvatar').value.trim(),
               isOnline: document.getElementById('editIsOnline').value === 'true',
@@ -270,6 +317,8 @@ export default {
               currentValues.class !== valoresOriginales.class ||
               currentValues.guild !== valoresOriginales.guild ||
               currentValues.hp !== valoresOriginales.hp ||
+              currentValues.shield !== valoresOriginales.shield ||
+              currentValues.level !== valoresOriginales.level ||
               currentValues.kingdom !== valoresOriginales.kingdom ||
               currentValues.avatar !== valoresOriginales.avatar ||
               currentValues.isOnline !== valoresOriginales.isOnline
@@ -315,6 +364,8 @@ export default {
           const classValue = document.getElementById('editClass').value.trim()
           const guild = document.getElementById('editGuild').value.trim()
           const hp = parseInt(document.getElementById('editHp').value) || 0
+          const shield = parseInt(document.getElementById('editShield').value) || 0
+          const level = parseInt(document.getElementById('editLevel').value) || 1
           const kingdom = document.getElementById('editKingdom').value.trim()
           const avatar = document.getElementById('editAvatar').value.trim()
           const isOnline = document.getElementById('editIsOnline').value === 'true'
@@ -330,23 +381,40 @@ export default {
             return false
           }
 
+          if (shield < 0 || shield > 100) {
+            Swal.showValidationMessage('El Escudo debe estar entre 0 y 100')
+            return false
+          }
+
+          if (level < 1 || level > 100) {
+            Swal.showValidationMessage('El Nivel debe estar entre 1 y 100')
+            return false
+          }
+
           try {
-            const servicio = new servicioProductos()
+            const servicio = new servicioCharacters()
             const datosActualizados = {
               name,
               race,
               class: classValue,
               guild,
               hp,
+              shield,
+              level,
               kingdom,
               avatar: avatar || 'https://via.placeholder.com/120',
               isOnline,
             }
 
-            const usuarioActualizado = await servicio.put(usuario.id, datosActualizados)
-            return usuarioActualizado
+            const resultado = await servicio.update(usuario.id, datosActualizados)
+            if (resultado.success) {
+              return resultado.data
+            } else {
+              Swal.showValidationMessage(resultado.error || 'Error al actualizar el personaje')
+              return false
+            }
           } catch (err) {
-            console.error('Error al actualizar usuario:', err)
+            console.error('Error al actualizar personaje:', err)
             Swal.showValidationMessage('Error al actualizar el personaje')
             return false
           }
@@ -431,9 +499,9 @@ export default {
 
       if (resultado.isConfirmed) {
         try {
-          const servicio = new servicioProductos()
-          const exito = await servicio.delete(id)
-          if (exito) {
+          const servicio = new servicioCharacters()
+          const resultadoDelete = await servicio.delete(id)
+          if (resultadoDelete.success) {
             // Remover el usuario de la lista local
             this.usuarios = this.usuarios.filter((usuario) => usuario.id !== id)
             // Ajustar la página actual si es necesario

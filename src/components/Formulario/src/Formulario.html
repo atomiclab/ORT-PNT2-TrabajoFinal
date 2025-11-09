@@ -9,7 +9,7 @@
           <form @submit.prevent="onSubmit" novalidate>
             <div class="row">
               <div class="col-12 mb-3">
-                <label class="form-label" for="name">Nombre del Usuario</label>
+                <label class="form-label" for="name">Nombre del Personaje</label>
                 <input
                   id="name"
                   type="text"
@@ -134,14 +134,14 @@
             >
               <small>
                 <strong>ℹ️ Nota:</strong> La vida (HP) se generará automáticamente entre 50 y 100
-                puntos.
+                puntos. El escudo (Shield) entre 10 y 30 puntos, y el nivel inicial será 1.
               </small>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
               <button class="btn btn-primary" type="submit" :disabled="!isValid || enviando">
                 <span v-if="enviando">⏳ Creando...</span>
-                <span v-else>✨ Crear Usuario</span>
+                <span v-else>✨ Crear Personaje</span>
               </button>
               <button
                 class="btn btn-secondary"

@@ -1,4 +1,5 @@
-import servicioProductos from '../../../servicios/productos.js'
+import servicioCharacters from '../../../servicios/characters.js'
+import servicioAuth from '../../../servicios/auth.js'
 import Swal from 'sweetalert2'
 
 export default {
@@ -260,6 +261,14 @@ export default {
       // Genera HP aleatorio entre 50 y 100
       return Math.floor(Math.random() * (100 - 50 + 1)) + 50
     },
+    generarShield() {
+      // Genera Shield aleatorio entre 10 y 30
+      return Math.floor(Math.random() * (30 - 10 + 1)) + 10
+    },
+    generarLevel() {
+      // Genera Level inicial (1 para nuevos personajes)
+      return 1
+    },
     async onSubmit() {
       this.formDirty = {
         name: true,
@@ -271,41 +280,120 @@ export default {
       }
       if (!this.isValid) return
 
+      // Verificar autenticación
+      const authService = new servicioAuth()
+      if (!authService.isAuthenticated()) {
+        await Swal.fire({
+          icon: 'warning',
+          title: 'No autenticado',
+          text: 'Debes iniciar sesión para crear un personaje.',
+          confirmButtonText: 'Ir al Login',
+          background: '#1a1a1a',
+          color: '#d4af37',
+          confirmButtonColor: '#5a3d22',
+        })
+        this.$router.push('/login')
+        return
+      }
+
+      // Obtener el userId del usuario autenticado
+      let user = authService.getUser()
+      let userId = null
+
+      // Intentar obtener el ID del usuario desde localStorage
+      if (user) {
+        // El userId puede estar en user.id, user.userId, o dentro de user.data.id
+        userId = user.id || user.userId || user.data?.id
+      }
+
+      // Si no está en localStorage, obtenerlo del perfil
+      if (!userId) {
+        try {
+          const profileResult = await authService.getProfile()
+          if (profileResult.success) {
+            user = profileResult.data.user || profileResult.data
+            // Intentar obtener el ID de diferentes formas posibles
+            userId = user?.id || user?.userId || user?.data?.id
+            // Actualizar localStorage con los datos del perfil
+            if (user && userId) {
+              localStorage.setItem('user', JSON.stringify(user))
+            }
+          } else {
+            // Si falla al obtener el perfil, puede ser un problema de autenticación
+            throw new Error(profileResult.error || 'Error al obtener el perfil del usuario')
+          }
+        } catch (error) {
+          console.error('Error al obtener el perfil:', error)
+          await Swal.fire({
+            icon: 'error',
+            title: 'Error de autenticación',
+            text:
+              error.message ||
+              'No se pudo obtener la información del usuario. Por favor, inicia sesión nuevamente.',
+            confirmButtonText: 'Ir al Login',
+            background: '#1a1a1a',
+            color: '#d4af37',
+            confirmButtonColor: '#5a3d22',
+          })
+          this.$router.push('/login')
+          return
+        }
+      }
+
+      // Si aún no tenemos el userId, mostrar error
+      if (!userId) {
+        await Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo obtener el ID del usuario. Por favor, inicia sesión nuevamente.',
+          confirmButtonText: 'Aceptar',
+          background: '#1a1a1a',
+          color: '#d4af37',
+          confirmButtonColor: '#5a3d22',
+        })
+        this.$router.push('/login')
+        return
+      }
+
       this.enviando = true
 
       try {
-        const servicio = new servicioProductos()
-        const nuevoUsuario = {
+        const servicio = new servicioCharacters()
+        const nuevoCharacter = {
+          userId: userId,
           name: this.form.name,
           avatar: this.form.avatar,
-          race: this.form.race,
+          race: this.form.race.toLowerCase(),
           class: this.form.class,
           guild: this.form.guild,
           kingdom: this.form.kingdom,
           hp: this.generarHP(),
+          shield: this.generarShield(),
+          level: this.generarLevel(),
           isOnline: false,
-          createdAt: new Date().toISOString(),
         }
 
-        const usuarioGuardado = await servicio.post(nuevoUsuario)
+        const resultado = await servicio.create(nuevoCharacter)
 
-        if (usuarioGuardado) {
+        if (resultado.success) {
           await Swal.fire({
             icon: 'success',
-            title: '¡Usuario creado!',
-            text: `${nuevoUsuario.name} ha sido agregado exitosamente.`,
+            title: '¡Personaje creado!',
+            text: `${nuevoCharacter.name} ha sido creado exitosamente.`,
             confirmButtonText: 'Aceptar',
             background: '#1a1a1a',
             color: '#d4af37',
             confirmButtonColor: '#5a3d22',
           })
           this.resetForm()
+        } else {
+          throw new Error(resultado.error || 'Error al crear personaje')
         }
-      } catch {
+      } catch (error) {
         await Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo crear el usuario. Por favor, intenta nuevamente.',
+          text: error.message || 'No se pudo crear el personaje. Por favor, intenta nuevamente.',
           confirmButtonText: 'Aceptar',
           background: '#1a1a1a',
           color: '#d4af37',

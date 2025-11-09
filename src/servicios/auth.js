@@ -62,12 +62,15 @@ class servicioAuth {
         },
       )
       const token = data.data?.token
-      const user = data.data?.user
+      const user = data.data?.user || data.data
 
       if (token) {
         // Guardar token en localStorage
         localStorage.setItem('authToken', token)
-        localStorage.setItem('user', JSON.stringify(user))
+        // Guardar usuario si existe
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user))
+        }
       }
 
       return {

@@ -163,6 +163,402 @@
   transform: translateY(-2px);
 }
 
+/* Sección de Personajes */
+.characters-section {
+  margin-top: 30px;
+  border-top: 2px solid #d4af37;
+  padding-top: 30px;
+}
+
+.characters-header {
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.characters-header h3 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.8rem;
+  color: #d4af37;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.refresh-characters-button {
+  background: transparent;
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #d4af37;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.refresh-characters-button:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #f4d03f;
+  color: #f4d03f;
+  transform: rotate(180deg);
+}
+
+.refresh-characters-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.debug-info {
+  margin-top: 10px;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.characters-loading,
+.characters-error,
+.characters-empty {
+  text-align: center;
+  padding: 30px;
+  color: #c0c0c0;
+  font-family: 'Cinzel', serif;
+}
+
+.characters-error {
+  color: #ff6b6b;
+}
+
+.characters-empty p {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.create-character-link {
+  text-decoration: none;
+}
+
+.create-character-button {
+  padding: 10px 25px;
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #5a3d22 0%, #3d2914 100%);
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.create-character-button:hover {
+  background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%);
+  border-color: #f4d03f;
+  color: #f4d03f;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+  transform: translateY(-2px);
+}
+
+.retry-button-small {
+  padding: 8px 16px;
+  margin-top: 10px;
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #5a3d22 0%, #3d2914 100%);
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.retry-button-small:hover {
+  background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%);
+  border-color: #f4d03f;
+  color: #f4d03f;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+}
+
+/* Carrusel de Personajes */
+.characters-carousel-container {
+  position: relative;
+  padding: 20px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.characters-carousel {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.character-card-wrapper {
+  min-width: 100%;
+  flex-shrink: 0;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.carousel-button {
+  background: linear-gradient(135deg, rgba(90, 61, 34, 0.9) 0%, rgba(61, 41, 20, 0.9) 100%);
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: #d4af37;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.carousel-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(61, 41, 20, 0.9) 0%, rgba(90, 61, 34, 0.9) 100%);
+  border-color: #f4d03f;
+  color: #f4d03f;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+  transform: scale(1.1);
+}
+
+.carousel-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-button-prev {
+  left: 0;
+}
+
+.carousel-button-next {
+  right: 0;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.carousel-dot:hover {
+  background: rgba(212, 175, 55, 0.5);
+  transform: scale(1.2);
+}
+
+.carousel-dot.active {
+  background: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+}
+
+.carousel-counter {
+  text-align: center;
+  margin-top: 15px;
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Mantener el grid para compatibilidad, pero no se usará si hay carrusel */
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.character-card {
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(61, 41, 20, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* En el carrusel, las tarjetas no deben tener hover que las mueva */
+.characters-carousel-container .character-card:hover {
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-color: #d4af37;
+}
+
+/* Fuera del carrusel (grid), mantener el efecto hover */
+.characters-grid .character-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.4);
+  border-color: #f4d03f;
+}
+
+.character-avatar {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(90, 61, 34, 0.5) 0%, rgba(61, 41, 20, 0.5) 100%);
+}
+
+.character-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.character-status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.character-status.online {
+  background: rgba(40, 167, 69, 0.3);
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.character-status.offline {
+  background: rgba(108, 117, 125, 0.3);
+  color: #6c757d;
+  border: 1px solid #6c757d;
+}
+
+.character-info {
+  padding: 15px 20px;
+}
+
+.character-name {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.3rem;
+  color: #d4af37;
+  text-align: center;
+  margin: 0 0 15px 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.character-details {
+  margin-bottom: 15px;
+}
+
+.character-details p {
+  margin: 8px 0;
+  font-family: 'Cinzel', serif;
+  color: #c0c0c0;
+  font-size: 0.9rem;
+}
+
+.character-details strong {
+  color: #d4af37;
+  margin-right: 8px;
+}
+
+.character-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.stat-value.high {
+  color: #28a745;
+  background: rgba(40, 167, 69, 0.2);
+  border: 1px solid #28a745;
+}
+
+.stat-value.medium {
+  color: #ffc107;
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+}
+
+.stat-value.low {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.2);
+  border: 1px solid #dc3545;
+}
+
+.stat-value.shield {
+  color: #17a2b8;
+  background: rgba(23, 162, 184, 0.2);
+  border: 1px solid #17a2b8;
+}
+
 @media (max-width: 768px) {
   .profile-container {
     padding: 10px;
@@ -182,6 +578,49 @@
     text-align: left;
     margin-left: 0;
     width: 100%;
+  }
+
+  .characters-carousel-container {
+    padding: 10px;
+  }
+
+  .carousel-wrapper {
+    gap: 10px;
+  }
+
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .character-card-wrapper {
+    padding: 0 5px;
+  }
+
+  .carousel-indicators {
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .carousel-counter {
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  /* Mantener el grid para compatibilidad */
+  .characters-grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .character-card {
+    margin-bottom: 15px;
   }
 }
 

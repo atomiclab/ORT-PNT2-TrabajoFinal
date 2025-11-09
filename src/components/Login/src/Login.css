@@ -38,8 +38,8 @@ label {
   letter-spacing: 1px;
 }
 
-input[type="email"],
-input[type="password"] {
+input[type='email'],
+input[type='password'] {
   width: 100%;
   padding: 12px;
   border: 2px solid #d4af37;
@@ -51,8 +51,8 @@ input[type="password"] {
   transition: all 0.3s ease;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus {
+input[type='email']:focus,
+input[type='password']:focus {
   border-color: #f4d03f;
   outline: none;
   box-shadow:
@@ -61,8 +61,8 @@ input[type="password"]:focus {
   background: rgba(26, 26, 26, 0.95);
 }
 
-input[type="email"]:disabled,
-input[type="password"]:disabled {
+input[type='email']:disabled,
+input[type='password']:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -75,7 +75,7 @@ input[type="password"]:disabled {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-button[type="submit"] {
+button[type='submit'] {
   width: 100%;
   padding: 12px;
   background: linear-gradient(135deg, #5a3d22 0%, #3d2914 100%);
@@ -93,7 +93,7 @@ button[type="submit"] {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-button[type="submit"]:hover:not(:disabled) {
+button[type='submit']:hover:not(:disabled) {
   background: linear-gradient(135deg, #3d2914 0%, #5a3d22 100%);
   border-color: #f4d03f;
   color: #f4d03f;
@@ -103,7 +103,7 @@ button[type="submit"]:hover:not(:disabled) {
   transform: translateY(-2px);
 }
 
-button[type="submit"]:disabled {
+button[type='submit']:disabled {
   background: rgba(90, 61, 34, 0.5);
   border-color: rgba(212, 175, 55, 0.3);
   color: rgba(212, 175, 55, 0.5);
