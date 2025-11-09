@@ -39,7 +39,19 @@
               <span>Consigna</span>
             </RouterLink>
           </li>
-          <li class="nav-item">
+          <li v-if="isAuthenticated" class="nav-item">
+            <RouterLink class="nav-link" to="/profile" active-class="active">
+              <span class="nav-icon">👤</span>
+              <span>Perfil</span>
+            </RouterLink>
+          </li>
+          <li v-if="isAuthenticated" class="nav-item">
+            <a class="nav-link" href="#" @click.prevent="logout">
+              <span class="nav-icon">🚪</span>
+              <span>Cerrar Sesión</span>
+            </a>
+          </li>
+          <li v-if="!isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/login" active-class="active">
               <span class="nav-icon">🔐</span>
               <span>Login</span>
@@ -52,8 +64,47 @@
 </template>
 
 <script>
+import servicioAuth from '../servicios/auth.js'
+
 export default {
   name: 'AppNavbar',
+  data() {
+    return {
+      isAuthenticated: false,
+      user: null,
+    }
+  },
+  mounted() {
+    this.checkAuth()
+    // Escuchar cambios en el almacenamiento para actualizar el estado
+    window.addEventListener('storage', this.checkAuth)
+    // Escuchar eventos personalizados de autenticación
+    window.addEventListener('auth-change', this.checkAuth)
+  },
+  beforeUnmount() {
+    window.removeEventListener('storage', this.checkAuth)
+    window.removeEventListener('auth-change', this.checkAuth)
+  },
+  methods: {
+    checkAuth() {
+      const servicio = new servicioAuth()
+      this.isAuthenticated = servicio.isAuthenticated()
+      this.user = servicio.getUser()
+    },
+    async logout() {
+      const servicio = new servicioAuth()
+      servicio.logout()
+      this.isAuthenticated = false
+      this.user = null
+      this.$router.push('/login')
+    },
+  },
+  watch: {
+    // Observar cambios en la ruta para actualizar el estado de autenticación
+    $route() {
+      this.checkAuth()
+    },
+  },
 }
 </script>
 

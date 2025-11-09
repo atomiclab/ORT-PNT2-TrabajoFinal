@@ -4,6 +4,8 @@ import Inicio from './components/Inicio.vue'
 import Consigna from './components/Consigna.vue'
 import Guild from './components/Guild/index.vue'
 import Login from './components/Login/index.vue'
+import Register from './components/Register/index.vue'
+import Profile from './components/Profile/index.vue'
 
 const routes = [
   /* ---- definición de la ruta raíz ---- */
@@ -12,6 +14,8 @@ const routes = [
   { path: '/inicio', component: Inicio },
   { path: '/consigna', component: Consigna },
   { path: '/login', component: Login },
+  { path: '/register', component: Register },
+  { path: '/profile', component: Profile },
   { path: '/', redirect: '/inicio' },
 
   /* ---- definición de las rutas no existentes ---- */

@@ -3,13 +3,33 @@
   <form @submit.prevent="login">
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" id="email" v-model="email" @input="validateEmail" required />
+      <input 
+        type="email" 
+        id="email" 
+        v-model="email" 
+        @input="validateEmail" 
+        :disabled="isLoading"
+        required 
+      />
       <p v-if="emailError" class="error-message">{{ emailError }}</p>
     </div>
     <div class="form-group">
       <label for="password">Contraseña:</label>
-      <input type="password" id="password" v-model="password" @input="validateForm" required />
+      <input 
+        type="password" 
+        id="password" 
+        v-model="password" 
+        @input="validateForm" 
+        :disabled="isLoading"
+        required 
+      />
     </div>
-    <button type="submit" :disabled="!isFormValid">Iniciar Sesión</button>
+    <button type="submit" :disabled="!isFormValid || isLoading">
+      <span v-if="isLoading">Iniciando sesión...</span>
+      <span v-else>Iniciar Sesión</span>
+    </button>
+    <div class="register-link">
+      <p>¿No tienes una cuenta? <a href="#" @click.prevent="$router.push('/register')">Regístrate aquí</a></p>
+    </div>
   </form>
 </div>

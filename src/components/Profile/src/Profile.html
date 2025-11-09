@@ -1,0 +1,47 @@
+<div class="profile-container">
+  <div v-if="isLoading" class="loading">
+    <p>Cargando perfil...</p>
+  </div>
+  <div v-else-if="error" class="error-message">
+    <h2>Error al cargar el perfil</h2>
+    <p>{{ error }}</p>
+    <button @click="loadProfile" class="retry-button">Reintentar</button>
+    <button @click="goToLogin" class="login-button">Ir al Login</button>
+  </div>
+  <div v-else-if="user" class="profile-card">
+    <div class="profile-header">
+      <h2>Mi Perfil</h2>
+      <div class="profile-icon">👤</div>
+    </div>
+    <div class="profile-content">
+      <div class="profile-field">
+        <label>Nombre:</label>
+        <span class="profile-value">{{ user.nombre || 'No especificado' }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Email:</label>
+        <span class="profile-value">{{ user.email || 'No especificado' }}</span>
+      </div>
+      <div class="profile-field" v-if="user.telefono">
+        <label>Teléfono:</label>
+        <span class="profile-value">{{ user.telefono }}</span>
+      </div>
+      <div class="profile-field" v-if="user.edad">
+        <label>Edad:</label>
+        <span class="profile-value">{{ user.edad }} años</span>
+      </div>
+      <div class="profile-field">
+        <label>ID de Usuario:</label>
+        <span class="profile-value">{{ user.id || 'N/A' }}</span>
+      </div>
+      <div class="profile-field" v-if="user.createdAt">
+        <label>Fecha de Registro:</label>
+        <span class="profile-value">{{ formatDate(user.createdAt) }}</span>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button @click="logout" class="logout-button">Cerrar Sesión</button>
+    </div>
+  </div>
+</div>
+
