@@ -57,6 +57,12 @@
               <span>Login</span>
             </RouterLink>
           </li>
+          <li v-if="isAuthenticated" class="nav-item">
+            <RouterLink class="nav-link" to="/combate" active-class="active">
+              <span class="nav-icon">⚔️</span>
+              <span>Combate</span>
+            </RouterLink>
+          </li>
         </ul>
       </div>
     </div>

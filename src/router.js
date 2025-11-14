@@ -6,6 +6,7 @@ import Guild from './components/Guild/index.vue'
 import Login from './components/Login/index.vue'
 import Register from './components/Register/index.vue'
 import Profile from './components/Profile/index.vue'
+import Combate from './components/Combate.vue'
 
 const routes = [
   /* ---- definición de la ruta raíz ---- */
@@ -16,7 +17,8 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/profile', component: Profile },
-  { path: '/', redirect: '/inicio' },
+  { path: '/combate', component: Combate },
+  { path: '/', redirect: '/login' },
 
   /* ---- definición de las rutas no existentes ---- */
   { path: '/:pathmatch(.*)*', redirect: '/' },
