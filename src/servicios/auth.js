@@ -172,7 +172,7 @@ class servicioAuth {
    */
   logout = async () => {
     const token = this.getToken()
-    
+
     // Intentar llamar al endpoint si hay token
     if (token) {
       try {
@@ -184,7 +184,7 @@ class servicioAuth {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         )
 
         // Limpiar localStorage en caso de éxito
