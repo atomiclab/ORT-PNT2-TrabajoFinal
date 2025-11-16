@@ -21,13 +21,13 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <li v-if="isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/formulario" active-class="active">
               <span class="nav-icon">📜</span>
-              <span>Formulario</span>
+              <span>Crear Personaje</span>
             </RouterLink>
           </li>
-          <li class="nav-item">
+          <li v-if="isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/guild" active-class="active">
               <span class="nav-icon">🏰</span>
               <span>Guild Masters</span>

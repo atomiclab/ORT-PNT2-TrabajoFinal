@@ -5,7 +5,9 @@
   border-bottom: 3px solid #d4af37 !important;
   font-family: 'Cinzel Decorative', cursive !important;
   color: #d4af37 !important;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.4) !important;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 10px rgba(212, 175, 55, 0.4) !important;
   padding: 1.25rem 1.5rem !important;
   letter-spacing: 2px;
 }
@@ -38,7 +40,9 @@
 
 .card.h-100:hover {
   border-color: #f4d03f;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.5);
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(212, 175, 55, 0.5);
   transform: translateY(-5px);
 }
 
@@ -80,6 +84,12 @@
   margin-bottom: 0.75rem;
 }
 
+.card-text .text-muted,
+.card-text small.text-muted {
+  color: #ffffff !important;
+  font-size: 1rem !important;
+}
+
 .card-text strong {
   color: #d4af37;
   font-family: 'Cinzel', serif;
@@ -96,7 +106,7 @@ hr {
 }
 
 /* Badge de HP */
-.badge[class*="bg-"] {
+.badge[class*='bg-'] {
   font-family: 'Cinzel', serif;
   font-weight: 700;
   padding: 0.35rem 0.7rem;
@@ -115,13 +125,17 @@ hr {
   background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%);
   border: 2px solid #f4d03f;
   color: #1a1a1a;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.3);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
   border-color: #f4d03f;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.5);
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(212, 175, 55, 0.5);
   transform: translateY(-2px);
 }
 
@@ -139,36 +153,20 @@ hr {
   background: linear-gradient(135deg, #4a90e2 0%, #5ba3f5 100%);
   border: 2px solid #6bb3ff;
   color: #ffffff;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 8px rgba(74, 144, 226, 0.3);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(74, 144, 226, 0.3);
   transition: all 0.3s ease;
 }
 
 .btn-info:hover {
   background: linear-gradient(135deg, #5ba3f5 0%, #6bb3ff 100%);
   border-color: #7bc4ff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 12px rgba(74, 144, 226, 0.5);
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(74, 144, 226, 0.5);
   transform: translateY(-2px);
   color: #ffffff;
-}
-
-.btn-warning {
-  font-family: 'Cinzel', serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, #d68910 0%, #f39c12 100%);
-  border: 2px solid #f7dc6f;
-  color: #1a1a1a;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 8px rgba(243, 156, 18, 0.3);
-  transition: all 0.3s ease;
-}
-
-.btn-warning:hover {
-  background: linear-gradient(135deg, #f39c12 0%, #f7dc6f 100%);
-  border-color: #f9e79f;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 12px rgba(243, 156, 18, 0.5);
-  transform: translateY(-2px);
-  color: #1a1a1a;
 }
 
 .btn-danger {
@@ -179,14 +177,18 @@ hr {
   background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
   border: 2px solid #ec7063;
   color: #ffffff;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 8px rgba(231, 76, 60, 0.3);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(231, 76, 60, 0.3);
   transition: all 0.3s ease;
 }
 
 .btn-danger:hover {
   background: linear-gradient(135deg, #e74c3c 0%, #ec7063 100%);
   border-color: #f1948a;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 12px rgba(231, 76, 60, 0.5);
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(231, 76, 60, 0.5);
   transform: translateY(-2px);
   color: #ffffff;
 }
@@ -200,7 +202,9 @@ hr {
 /* Estilos para SweetAlert2 - Tema Medieval */
 .swal-medieval-popup {
   border: 3px solid #d4af37 !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.4) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(212, 175, 55, 0.4) !important;
   border-radius: 12px !important;
   padding: 2rem !important;
 }
@@ -208,7 +212,9 @@ hr {
 .swal-medieval-title {
   font-family: 'Cinzel Decorative', cursive !important;
   color: #d4af37 !important;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.4) !important;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 10px rgba(212, 175, 55, 0.4) !important;
   font-size: 1.75rem !important;
   font-weight: 700 !important;
   letter-spacing: 2px !important;
@@ -230,7 +236,9 @@ hr {
   color: #1a1a1a !important;
   padding: 0.75rem 2rem !important;
   border-radius: 6px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.3) !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(212, 175, 55, 0.3) !important;
   transition: all 0.3s ease !important;
   cursor: pointer !important;
   font-size: 0.95rem !important;
@@ -239,7 +247,9 @@ hr {
 .swal-medieval-confirm:hover {
   background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
   border-color: #f4d03f !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.5) !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(212, 175, 55, 0.5) !important;
   transform: translateY(-2px) !important;
   color: #1a1a1a !important;
 }
@@ -254,7 +264,9 @@ hr {
   color: #ffffff !important;
   padding: 0.75rem 2rem !important;
   border-radius: 6px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(231, 76, 60, 0.3) !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(231, 76, 60, 0.3) !important;
   transition: all 0.3s ease !important;
   cursor: pointer !important;
   font-size: 0.95rem !important;
@@ -263,7 +275,9 @@ hr {
 .swal-medieval-confirm-delete:hover {
   background: linear-gradient(135deg, #e74c3c 0%, #ec7063 100%) !important;
   border-color: #f1948a !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(231, 76, 60, 0.5) !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(231, 76, 60, 0.5) !important;
   transform: translateY(-2px) !important;
   color: #ffffff !important;
 }
@@ -273,12 +287,18 @@ hr {
   font-weight: 600 !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
-  background: linear-gradient(135deg, rgba(61, 41, 20, 0.8) 0%, rgba(26, 26, 26, 0.8) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(61, 41, 20, 0.8) 0%,
+    rgba(26, 26, 26, 0.8) 100%
+  ) !important;
   border: 2px solid #b8941f !important;
   color: #d4af37 !important;
   padding: 0.75rem 2rem !important;
   border-radius: 6px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(184, 148, 31, 0.2) !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(184, 148, 31, 0.2) !important;
   transition: all 0.3s ease !important;
   cursor: pointer !important;
   font-size: 0.95rem !important;
@@ -286,102 +306,17 @@ hr {
 }
 
 .swal-medieval-cancel:hover {
-  background: linear-gradient(135deg, rgba(90, 61, 34, 0.9) 0%, rgba(61, 41, 20, 0.9) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(90, 61, 34, 0.9) 0%,
+    rgba(61, 41, 20, 0.9) 100%
+  ) !important;
   border-color: #d4af37 !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.3) !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(212, 175, 55, 0.3) !important;
   transform: translateY(-2px) !important;
   color: #f4d03f !important;
-}
-
-.swal-medieval-edit {
-  font-family: 'Cinzel', serif !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  background: linear-gradient(135deg, #4a90e2 0%, #5ba3f5 100%) !important;
-  border: 2px solid #6bb3ff !important;
-  color: #ffffff !important;
-  padding: 0.75rem 2rem !important;
-  border-radius: 6px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(74, 144, 226, 0.3) !important;
-  transition: all 0.3s ease !important;
-  cursor: pointer !important;
-  font-size: 0.95rem !important;
-  margin-right: 0.5rem !important;
-}
-
-.swal-medieval-edit:hover {
-  background: linear-gradient(135deg, #5ba3f5 0%, #6bb3ff 100%) !important;
-  border-color: #7bc4ff !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(74, 144, 226, 0.5) !important;
-  transform: translateY(-2px) !important;
-  color: #ffffff !important;
-}
-
-.swal-medieval-confirm-edit {
-  font-family: 'Cinzel', serif !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%) !important;
-  border: 2px solid #f4d03f !important;
-  color: #1a1a1a !important;
-  padding: 0.75rem 2rem !important;
-  border-radius: 6px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.3) !important;
-  transition: all 0.3s ease !important;
-  cursor: pointer !important;
-  font-size: 0.95rem !important;
-}
-
-.swal-medieval-confirm-edit:hover:not(:disabled) {
-  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
-  border-color: #f4d03f !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.5) !important;
-  transform: translateY(-2px) !important;
-  color: #1a1a1a !important;
-}
-
-.swal-medieval-confirm-edit:disabled {
-  opacity: 0.5 !important;
-  cursor: not-allowed !important;
-  pointer-events: none !important;
-}
-
-/* Estilos para los inputs del formulario */
-.swal-form-input {
-  transition: all 0.3s ease !important;
-}
-
-.swal-form-input:focus {
-  outline: none !important;
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3) !important;
-  background: rgba(13, 13, 13, 0.95) !important;
-}
-
-.swal-form-input:hover {
-  border-color: #d4af37 !important;
-}
-
-/* Estilos para labels del formulario */
-.swal-medieval-content label {
-  display: block;
-  color: #d4af37;
-  font-family: 'Cinzel', serif;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-/* Estilos para el select */
-.swal-form-input[type='select'],
-.swal-form-input select {
-  cursor: pointer !important;
-}
-
-.swal-form-input option {
-  background: rgba(26, 26, 26, 0.95) !important;
-  color: #c0c0c0 !important;
 }
 
 /* Estilos para los íconos de SweetAlert2 */
@@ -435,4 +370,3 @@ hr {
 .animate__fadeOutUp {
   animation-name: fadeOutUp;
 }
-
