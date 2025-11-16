@@ -1,0 +1,103 @@
+<div class="statistics-container">
+  <div v-if="!character" class="no-character">
+    <div class="no-character-icon">📊</div>
+    <h3>Estadísticas</h3>
+    <p>Selecciona un personaje para ver sus estadísticas</p>
+  </div>
+  <div v-else class="statistics-card">
+    <div class="statistics-header">
+      <h2>📊 Estadísticas</h2>
+      <div class="character-avatar-small">
+        <img
+          :src="character.avatar"
+          :alt="character.name"
+          @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\'%3E%3Crect fill=\'%23ddd\' width=\'60\' height=\'60\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'10\'%3E60x60%3C/text%3E%3C/svg%3E'"
+        />
+      </div>
+    </div>
+
+    <div class="statistics-content">
+      <div class="statistics-section">
+        <h3 class="section-title">⚔️ Información General</h3>
+        <div class="stat-item">
+          <span class="stat-label">Nombre:</span>
+          <span class="stat-value-text">{{ character.name }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Raza:</span>
+          <span class="stat-value-text">{{ character.race || 'No especificada' }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Clase:</span>
+          <span class="stat-value-text">{{ character.class || 'No especificada' }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Gremio:</span>
+          <span class="stat-value-text">{{ character.guild || 'Sin gremio' }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Estado:</span>
+          <span
+            class="stat-value-text status-badge"
+            :class="character.isOnline ? 'online' : 'offline'"
+          >
+            {{ character.isOnline ? '🟢 En línea' : '⚫ Offline' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="statistics-section">
+        <h3 class="section-title">💪 Atributos</h3>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-box-label">Nivel</div>
+            <div class="stat-box-value level">{{ character.level || 1 }}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-label">HP</div>
+            <div
+              class="stat-box-value hp"
+              :class="character.hp > 50 ? 'high' : character.hp > 20 ? 'medium' : 'low'"
+            >
+              {{ character.hp || 0 }}
+            </div>
+          </div>
+          <div class="stat-box" v-if="character.shield !== undefined">
+            <div class="stat-box-label">Escudo</div>
+            <div class="stat-box-value shield">{{ character.shield || 0 }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="statistics-section" v-if="character.hp !== undefined">
+        <h3 class="section-title">❤️ Salud</h3>
+        <div class="health-bar-container">
+          <div class="health-bar-label">
+            <span>Vida: {{ character.hp || 0 }}%</span>
+          </div>
+          <div class="health-bar">
+            <div
+              class="health-bar-fill"
+              :style="{ width: (character.hp || 0) + '%' }"
+              :class="character.hp > 50 ? 'high' : character.hp > 20 ? 'medium' : 'low'"
+            ></div>
+          </div>
+        </div>
+        <div
+          class="health-bar-container"
+          v-if="character.shield !== undefined && character.shield > 0"
+        >
+          <div class="health-bar-label">
+            <span>Escudo: {{ character.shield }}%</span>
+          </div>
+          <div class="health-bar">
+            <div
+              class="health-bar-fill shield-bar"
+              :style="{ width: character.shield + '%' }"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,12 @@
 import servicioAuth from '../../../servicios/auth.js'
 import servicioCharacters from '../../../servicios/characters.js'
 import Swal from 'sweetalert2'
+import Statistics from '../../Statistics/index.vue'
 
 export default {
+  components: {
+    Statistics,
+  },
   data() {
     return {
       user: null,
@@ -42,7 +46,7 @@ export default {
           const userId = this.user?.id || this.user?.userId || this.user?.data?.id
           console.log('UserId del usuario:', userId)
           console.log('Claves del objeto usuario:', this.user ? Object.keys(this.user) : [])
-          
+
           // Actualizar localStorage con los datos actualizados
           if (this.user) {
             localStorage.setItem('user', JSON.stringify(this.user))
@@ -53,7 +57,7 @@ export default {
           }
         } else {
           this.error = resultado.error || 'Error al cargar el perfil'
-          
+
           // Si el token es inválido, redirigir al login
           if (resultado.statusCode === 401) {
             await Swal.fire({
@@ -141,7 +145,7 @@ export default {
     async loadCharacters() {
       // Obtener el userId de diferentes posibles ubicaciones
       const userId = this.user?.id || this.user?.userId || this.user?.data?.id
-      
+
       if (!this.user || !userId) {
         console.warn('No se puede cargar personajes: usuario o userId no disponible', {
           user: this.user,
@@ -157,7 +161,7 @@ export default {
       try {
         const servicio = new servicioCharacters()
         console.log('Cargando personajes para userId:', userId)
-        
+
         const resultado = await servicio.getByUserId(userId)
         console.log('Resultado de getByUserId:', resultado)
 
@@ -165,7 +169,7 @@ export default {
           // El endpoint puede devolver un array directamente o dentro de data
           const charactersData = resultado.data
           console.log('Datos de personajes recibidos:', charactersData)
-          
+
           if (Array.isArray(charactersData)) {
             this.characters = charactersData
           } else if (charactersData && Array.isArray(charactersData.data)) {
@@ -175,7 +179,7 @@ export default {
           } else {
             this.characters = []
           }
-          
+
           console.log('Personajes procesados:', this.characters)
           // Resetear el índice del carrusel cuando se cargan nuevos personajes
           this.currentCharacterIndex = 0
@@ -231,4 +235,3 @@ export default {
     },
   },
 }
-

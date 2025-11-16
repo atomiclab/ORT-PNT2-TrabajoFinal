@@ -8,167 +8,177 @@
     <button @click="loadProfile" class="retry-button">Reintentar</button>
     <button @click="goToLogin" class="login-button">Ir al Login</button>
   </div>
-  <div v-else-if="user" class="profile-card">
-    <div class="profile-header">
-      <h2>Mi Perfil</h2>
-      <div class="profile-icon">👤</div>
-    </div>
-    <div class="profile-content">
-      <div class="profile-field">
-        <label>Nombre:</label>
-        <span class="profile-value">{{ user.nombre || 'No especificado' }}</span>
-      </div>
-      <div class="profile-field">
-        <label>Email:</label>
-        <span class="profile-value">{{ user.email || 'No especificado' }}</span>
-      </div>
-      <div class="profile-field" v-if="user.telefono">
-        <label>Teléfono:</label>
-        <span class="profile-value">{{ user.telefono }}</span>
-      </div>
-      <div class="profile-field" v-if="user.edad">
-        <label>Edad:</label>
-        <span class="profile-value">{{ user.edad }} años</span>
-      </div>
+  <div v-else-if="user" class="profile-layout">
+    <!-- Columna Izquierda: Información del Usuario y Personajes -->
+    <div class="profile-left-column">
+      <div class="profile-card">
+        <div class="profile-header">
+          <h2>Mi Perfil</h2>
+          <div class="profile-icon">👤</div>
+        </div>
+        <div class="profile-content">
+          <div class="profile-field">
+            <label>Nombre:</label>
+            <span class="profile-value">{{ user.nombre || 'No especificado' }}</span>
+          </div>
+          <div class="profile-field">
+            <label>Email:</label>
+            <span class="profile-value">{{ user.email || 'No especificado' }}</span>
+          </div>
+          <div class="profile-field" v-if="user.telefono">
+            <label>Teléfono:</label>
+            <span class="profile-value">{{ user.telefono }}</span>
+          </div>
+          <div class="profile-field" v-if="user.edad">
+            <label>Edad:</label>
+            <span class="profile-value">{{ user.edad }} años</span>
+          </div>
 
-      <div class="profile-field" v-if="user.createdAt">
-        <label>Fecha de Registro:</label>
-        <span class="profile-value">{{ formatDate(user.createdAt) }}</span>
-      </div>
-    </div>
+          <div class="profile-field" v-if="user.createdAt">
+            <label>Fecha de Registro:</label>
+            <span class="profile-value">{{ formatDate(user.createdAt) }}</span>
+          </div>
+        </div>
 
-    <!-- Sección de Personajes -->
-    <div class="characters-section">
-      <div class="characters-header">
-        <h3>⚔️ Mis Personajes</h3>
-        <button
-          @click="loadCharacters"
-          class="refresh-characters-button"
-          :disabled="isLoadingCharacters"
-          title="Actualizar personajes"
-        >
-          {{ isLoadingCharacters ? '⏳' : '🔄' }}
-        </button>
-      </div>
-      <div v-if="isLoadingCharacters" class="characters-loading">
-        <p>Cargando personajes...</p>
-      </div>
-      <div v-else-if="charactersError" class="characters-error">
-        <p><strong>Error:</strong> {{ charactersError }}</p>
-        <p v-if="user && (user.id || user.userId)" class="debug-info">
-          <small>UserId: {{ user.id || user.userId }}</small>
-        </p>
-        <button @click="loadCharacters" class="retry-button-small">Reintentar</button>
-      </div>
-      <div v-else-if="characters.length === 0" class="characters-empty">
-        <p>No tienes personajes creados aún.</p>
-        <p v-if="user && (user.id || user.userId)" class="debug-info">
-          <small>UserId: {{ user.id || user.userId }}</small>
-        </p>
-        <router-link to="/formulario" class="create-character-link">
-          <button class="create-character-button">Crear Personaje</button>
-        </router-link>
-      </div>
-      <div v-else class="characters-carousel-container">
-        <div class="carousel-wrapper">
-          <!-- Botón anterior -->
-          <button
-            v-if="hasMultipleCharacters"
-            @click="prevCharacter"
-            class="carousel-button carousel-button-prev"
-            :disabled="isLoadingCharacters"
-            aria-label="Personaje anterior"
-          >
-            ◀
-          </button>
-
-          <!-- Contenedor del carrusel -->
-          <div class="characters-carousel">
-            <div
-              class="carousel-track"
-              :style="{ transform: `translateX(-${currentCharacterIndex * 100}%)` }"
+        <!-- Sección de Personajes -->
+        <div class="characters-section">
+          <div class="characters-header">
+            <h3>⚔️ Mis Personajes</h3>
+            <button
+              @click="loadCharacters"
+              class="refresh-characters-button"
+              :disabled="isLoadingCharacters"
+              title="Actualizar personajes"
             >
-              <div
-                v-for="(character, index) in characters"
-                :key="character.id"
-                class="character-card-wrapper"
+              {{ isLoadingCharacters ? '⏳' : '🔄' }}
+            </button>
+          </div>
+          <div v-if="isLoadingCharacters" class="characters-loading">
+            <p>Cargando personajes...</p>
+          </div>
+          <div v-else-if="charactersError" class="characters-error">
+            <p><strong>Error:</strong> {{ charactersError }}</p>
+            <p v-if="user && (user.id || user.userId)" class="debug-info">
+              <small>UserId: {{ user.id || user.userId }}</small>
+            </p>
+            <button @click="loadCharacters" class="retry-button-small">Reintentar</button>
+          </div>
+          <div v-else-if="characters.length === 0" class="characters-empty">
+            <p>No tienes personajes creados aún.</p>
+            <p v-if="user && (user.id || user.userId)" class="debug-info">
+              <small>UserId: {{ user.id || user.userId }}</small>
+            </p>
+            <router-link to="/formulario" class="create-character-link">
+              <button class="create-character-button">Crear Personaje</button>
+            </router-link>
+          </div>
+          <div v-else class="characters-carousel-container">
+            <div class="carousel-wrapper">
+              <!-- Botón anterior -->
+              <button
+                v-if="hasMultipleCharacters"
+                @click="prevCharacter"
+                class="carousel-button carousel-button-prev"
+                :disabled="isLoadingCharacters"
+                aria-label="Personaje anterior"
               >
-                <div class="character-card">
-                  <div class="character-avatar">
-                    <img
-                      :src="character.avatar"
-                      :alt="character.name"
-                      @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'12\'%3E100x100%3C/text%3E%3C/svg%3E'"
-                    />
-                    <span
-                      class="character-status"
-                      :class="character.isOnline ? 'online' : 'offline'"
-                    >
-                      {{ character.isOnline ? 'En línea' : 'Offline' }}
-                    </span>
-                  </div>
-                  <div class="character-info">
-                    <h4 class="character-name">{{ character.name }}</h4>
-                    <div class="character-details">
-                      <p><strong>Raza:</strong> {{ character.race }}</p>
-                      <p><strong>Clase:</strong> {{ character.class }}</p>
-                      <p><strong>Gremio:</strong> {{ character.guild }}</p>
-                      <p><strong>Nivel:</strong> {{ character.level || 1 }}</p>
-                    </div>
-                    <div class="character-stats">
-                      <div class="stat">
-                        <span class="stat-label">HP</span>
+                ◀
+              </button>
+
+              <!-- Contenedor del carrusel -->
+              <div class="characters-carousel">
+                <div
+                  class="carousel-track"
+                  :style="{ transform: `translateX(-${currentCharacterIndex * 100}%)` }"
+                >
+                  <div
+                    v-for="(character, index) in characters"
+                    :key="character.id"
+                    class="character-card-wrapper"
+                  >
+                    <div class="character-card">
+                      <div class="character-avatar">
+                        <img
+                          :src="character.avatar"
+                          :alt="character.name"
+                          @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'12\'%3E100x100%3C/text%3E%3C/svg%3E'"
+                        />
                         <span
-                          class="stat-value"
-                          :class="character.hp > 50 ? 'high' : character.hp > 20 ? 'medium' : 'low'"
+                          class="character-status"
+                          :class="character.isOnline ? 'online' : 'offline'"
                         >
-                          {{ character.hp || 0 }}
+                          {{ character.isOnline ? 'En línea' : 'Offline' }}
                         </span>
                       </div>
-                      <div class="stat" v-if="character.shield !== undefined">
-                        <span class="stat-label">Escudo</span>
-                        <span class="stat-value shield">{{ character.shield }}</span>
+                      <div class="character-info">
+                        <h4 class="character-name">{{ character.name }}</h4>
+                        <div class="character-details">
+                          <p><strong>Raza:</strong> {{ character.race }}</p>
+                          <p><strong>Clase:</strong> {{ character.class }}</p>
+                          <p><strong>Gremio:</strong> {{ character.guild }}</p>
+                          <p><strong>Nivel:</strong> {{ character.level || 1 }}</p>
+                        </div>
+                        <div class="character-stats">
+                          <div class="stat">
+                            <span class="stat-label">HP</span>
+                            <span
+                              class="stat-value"
+                              :class="character.hp > 50 ? 'high' : character.hp > 20 ? 'medium' : 'low'"
+                            >
+                              {{ character.hp || 0 }}
+                            </span>
+                          </div>
+                          <div class="stat" v-if="character.shield !== undefined">
+                            <span class="stat-label">Escudo</span>
+                            <span class="stat-value shield">{{ character.shield }}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <!-- Botón siguiente -->
+              <button
+                v-if="hasMultipleCharacters"
+                @click="nextCharacter"
+                class="carousel-button carousel-button-next"
+                :disabled="isLoadingCharacters"
+                aria-label="Siguiente personaje"
+              >
+                ▶
+              </button>
+            </div>
+
+            <!-- Indicadores de posición (dots) -->
+            <div v-if="hasMultipleCharacters" class="carousel-indicators">
+              <button
+                v-for="(character, index) in characters"
+                :key="character.id"
+                @click="goToCharacter(index)"
+                class="carousel-dot"
+                :class="{ active: index === currentCharacterIndex }"
+                :aria-label="`Ir al personaje ${index + 1}`"
+              ></button>
+            </div>
+
+            <!-- Contador de personajes -->
+            <div v-if="hasMultipleCharacters" class="carousel-counter">
+              {{ currentCharacterIndex + 1 }} / {{ characters.length }}
             </div>
           </div>
-
-          <!-- Botón siguiente -->
-          <button
-            v-if="hasMultipleCharacters"
-            @click="nextCharacter"
-            class="carousel-button carousel-button-next"
-            :disabled="isLoadingCharacters"
-            aria-label="Siguiente personaje"
-          >
-            ▶
-          </button>
         </div>
 
-        <!-- Indicadores de posición (dots) -->
-        <div v-if="hasMultipleCharacters" class="carousel-indicators">
-          <button
-            v-for="(character, index) in characters"
-            :key="character.id"
-            @click="goToCharacter(index)"
-            class="carousel-dot"
-            :class="{ active: index === currentCharacterIndex }"
-            :aria-label="`Ir al personaje ${index + 1}`"
-          ></button>
-        </div>
-
-        <!-- Contador de personajes -->
-        <div v-if="hasMultipleCharacters" class="carousel-counter">
-          {{ currentCharacterIndex + 1 }} / {{ characters.length }}
+        <div class="profile-actions">
+          <button @click="logout" class="logout-button">Cerrar Sesión</button>
         </div>
       </div>
     </div>
 
-    <div class="profile-actions">
-      <button @click="logout" class="logout-button">Cerrar Sesión</button>
+    <!-- Columna Derecha: Estadísticas -->
+    <div class="profile-right-column">
+      <Statistics :character="currentCharacter" />
     </div>
   </div>
 </div>
