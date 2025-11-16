@@ -1,0 +1,201 @@
+<div class="game-statistics-container">
+  <div v-if="isLoading" class="loading">
+    <div class="loading-icon">📊</div>
+    <p>Cargando estadísticas...</p>
+  </div>
+  <div v-else-if="error" class="error-message">
+    <h2>Error al cargar las estadísticas</h2>
+    <p>{{ error }}</p>
+    <button @click="loadStatistics" class="retry-button">Reintentar</button>
+  </div>
+  <div v-else-if="statistics" class="statistics-content">
+    <!-- Header -->
+    <div class="statistics-header">
+      <h1>📊 Estadísticas del Juego</h1>
+    </div>
+
+    <!-- Sección de Totales -->
+    <div class="statistics-section">
+      <h2 class="section-title">📈 Totales Generales</h2>
+      <div class="totals-grid">
+        <div class="total-card">
+          <div class="total-icon">👥</div>
+          <div class="total-value">{{ statistics.totales?.usuarios || 0 }}</div>
+          <div class="total-label">Usuarios</div>
+        </div>
+        <div class="total-card">
+          <div class="total-icon">⚔️</div>
+          <div class="total-value">{{ statistics.totales?.personajes || 0 }}</div>
+          <div class="total-label">Personajes</div>
+        </div>
+        <div class="total-card">
+          <div class="total-icon">🗡️</div>
+          <div class="total-value">{{ statistics.totales?.batallas || 0 }}</div>
+          <div class="total-label">Batallas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Métricas -->
+    <div class="statistics-section">
+      <h2 class="section-title">📊 Métricas del Juego</h2>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Promedio de Nivel</div>
+          <div class="metric-value">{{ statistics.metricas?.promedioNivel?.toFixed(1) || '0.0' }}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Personajes Online</div>
+          <div class="metric-value online">{{ statistics.metricas?.personajesOnline || 0 }}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Personajes Offline</div>
+          <div class="metric-value offline">{{ statistics.metricas?.personajesOffline || 0 }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leaderboards -->
+    <div class="leaderboard-section">
+      <h2 class="section-title">🏆 Leaderboards</h2>
+      
+      <div class="leaderboard-grid">
+        <!-- Leaderboard: Usuarios con más batallas -->
+        <div class="leaderboard-card">
+          <h3 class="leaderboard-title">⚔️ Usuarios con más Batallas</h3>
+          <div v-if="statistics.leaderboard?.usuariosMasBatallas?.length" class="leaderboard-list">
+            <div
+              v-for="(usuario, index) in statistics.leaderboard.usuariosMasBatallas"
+              :key="usuario.usuarioId"
+              class="leaderboard-item"
+            >
+              <div class="leaderboard-rank">{{ index + 1 }}</div>
+              <div class="leaderboard-info">
+                <div class="leaderboard-name">{{ usuario.nombre }}</div>
+                <div class="leaderboard-email">{{ usuario.email }}</div>
+              </div>
+              <div class="leaderboard-value">{{ usuario.totalBatallas }} batallas</div>
+            </div>
+          </div>
+          <div v-else class="empty-state">No hay datos disponibles</div>
+        </div>
+
+        <!-- Leaderboard: Usuarios con más personajes -->
+        <div class="leaderboard-card">
+          <h3 class="leaderboard-title">👤 Usuarios con más Personajes</h3>
+          <div v-if="statistics.leaderboard?.usuariosMasPersonajes?.length" class="leaderboard-list">
+            <div
+              v-for="(usuario, index) in statistics.leaderboard.usuariosMasPersonajes"
+              :key="usuario.usuarioId"
+              class="leaderboard-item"
+            >
+              <div class="leaderboard-rank">{{ index + 1 }}</div>
+              <div class="leaderboard-info">
+                <div class="leaderboard-name">{{ usuario.nombre }}</div>
+                <div class="leaderboard-email">{{ usuario.email }}</div>
+              </div>
+              <div class="leaderboard-value">{{ usuario.totalPersonajes }} personajes</div>
+            </div>
+          </div>
+          <div v-else class="empty-state">No hay datos disponibles</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Distribuciones -->
+    <div class="distribution-section">
+      <h2 class="section-title">📊 Distribuciones</h2>
+      
+      <div class="distribution-grid">
+        <!-- Razas -->
+        <div class="distribution-card">
+          <h3 class="distribution-title">🏛️ Razas</h3>
+          <div v-if="statistics.razas?.length" class="distribution-list">
+            <div
+              v-for="raza in statistics.razas"
+              :key="raza.race"
+              class="distribution-item"
+            >
+              <div class="distribution-name">{{ raza.race }}</div>
+              <div class="distribution-bar-container">
+                <div
+                  class="distribution-bar"
+                  :style="{ width: getPercentage(raza.cantidad, statistics.razas) + '%' }"
+                ></div>
+              </div>
+              <div class="distribution-value">{{ raza.cantidad }}</div>
+            </div>
+          </div>
+          <div v-else class="empty-state">No hay datos disponibles</div>
+        </div>
+
+        <!-- Clases -->
+        <div class="distribution-card">
+          <h3 class="distribution-title">🎭 Clases</h3>
+          <div v-if="statistics.clases?.length" class="distribution-list">
+            <div
+              v-for="clase in statistics.clases"
+              :key="clase.clase"
+              class="distribution-item"
+            >
+              <div class="distribution-name">{{ clase.clase }}</div>
+              <div class="distribution-bar-container">
+                <div
+                  class="distribution-bar"
+                  :style="{ width: getPercentage(clase.cantidad, statistics.clases) + '%' }"
+                ></div>
+              </div>
+              <div class="distribution-value">{{ clase.cantidad }}</div>
+            </div>
+          </div>
+          <div v-else class="empty-state">No hay datos disponibles</div>
+        </div>
+
+        <!-- Reinos -->
+        <div class="distribution-card">
+          <h3 class="distribution-title">🏰 Reinos</h3>
+          <div v-if="statistics.reinos?.length" class="distribution-list">
+            <div
+              v-for="reino in statistics.reinos"
+              :key="reino.reino"
+              class="distribution-item"
+            >
+              <div class="distribution-name">{{ reino.reino }}</div>
+              <div class="distribution-bar-container">
+                <div
+                  class="distribution-bar"
+                  :style="{ width: getPercentage(reino.cantidad, statistics.reinos) + '%' }"
+                ></div>
+              </div>
+              <div class="distribution-value">{{ reino.cantidad }}</div>
+            </div>
+          </div>
+          <div v-else class="empty-state">No hay datos disponibles</div>
+        </div>
+
+        <!-- Guilds -->
+        <div class="distribution-card">
+          <h3 class="distribution-title">⚔️ Gremios</h3>
+          <div v-if="statistics.guilds?.length" class="distribution-list">
+            <div
+              v-for="guild in statistics.guilds"
+              :key="guild.guild"
+              class="distribution-item"
+            >
+              <div class="distribution-name">{{ guild.guild }}</div>
+              <div class="distribution-bar-container">
+                <div
+                  class="distribution-bar"
+                  :style="{ width: getPercentage(guild.cantidad, statistics.guilds) + '%' }"
+                ></div>
+              </div>
+              <div class="distribution-value">{{ guild.cantidad }}</div>
+            </div>
+          </div>
+          <div v-else class="empty-state">No hay datos disponibles</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

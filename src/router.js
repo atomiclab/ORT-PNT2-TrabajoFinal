@@ -7,6 +7,7 @@ import Login from './components/Login/index.vue'
 import Register from './components/Register/index.vue'
 import Profile from './components/Profile/index.vue'
 import Combate from './components/Combate.vue'
+import GameStatistics from './components/GameStatistics/index.vue'
 import NotFound from './components/notFound/index.vue'
 
 const routes = [
@@ -19,6 +20,7 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/profile', component: Profile },
   { path: '/combate', component: Combate },
+  { path: '/statistics', component: GameStatistics },
   { path: '/', component: Inicio },
   /*---,
   { path: '/', redirect: '/login' },*/

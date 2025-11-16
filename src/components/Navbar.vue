@@ -39,6 +39,12 @@
               <span>Consigna</span>
             </RouterLink>
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/statistics" active-class="active">
+              <span class="nav-icon">📊</span>
+              <span>Estadísticas</span>
+            </RouterLink>
+          </li>
           <li v-if="isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/profile" active-class="active">
               <span class="nav-icon">👤</span>
