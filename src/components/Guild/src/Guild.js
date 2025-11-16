@@ -22,6 +22,7 @@ export default {
       error: null,
       paginaActual: 1,
       usuariosPorPagina: 9,
+      mostrarOffline: false,
     }
   },
 
@@ -56,9 +57,11 @@ export default {
         // Obtener usuarios online
         const servicioUsuariosOnline = new servicioUsuarios()
         const resultadoUsuariosOnline = await servicioUsuariosOnline.getOnlineUsers()
-        
+
         if (resultadoUsuariosOnline.success) {
-          this.usuariosOnline = Array.isArray(resultadoUsuariosOnline.data) ? resultadoUsuariosOnline.data : []
+          this.usuariosOnline = Array.isArray(resultadoUsuariosOnline.data)
+            ? resultadoUsuariosOnline.data
+            : []
         }
 
         // Obtener todos los personajes
@@ -67,35 +70,41 @@ export default {
         if (resultado.success) {
           // El endpoint puede devolver un array directamente o dentro de data
           let todosLosPersonajes = Array.isArray(resultado.data) ? resultado.data : []
-          
-          // Filtrar personajes: solo mostrar aquellos de usuarios online
-          // Si el personaje tiene un campo userId o usuarioId, filtrar por eso
-          // Si no, filtrar por isOnline === true (personajes que están online)
-          if (this.usuariosOnline.length > 0) {
-            // Obtener IDs de usuarios online
-            const idsUsuariosOnline = this.usuariosOnline.map(u => u.id)
-            
-            // Filtrar personajes: mostrar solo si el personaje pertenece a un usuario online
-            // o si el personaje está marcado como online
-            this.usuarios = todosLosPersonajes.filter(personaje => {
-              // Si el personaje tiene userId o usuarioId, verificar que esté en la lista de online
-              if (personaje.userId && idsUsuariosOnline.includes(personaje.userId)) {
-                return true
-              }
-              if (personaje.usuarioId && idsUsuariosOnline.includes(personaje.usuarioId)) {
-                return true
-              }
-              // Si no tiene userId pero tiene isOnline === true, también incluirlo
-              if (personaje.isOnline === true) {
-                return true
-              }
-              return false
-            })
+
+          // Filtrar personajes según la opción mostrarOffline
+          if (this.mostrarOffline) {
+            // Si mostrarOffline está activado, mostrar todos los personajes
+            this.usuarios = todosLosPersonajes
           } else {
-            // Si no hay usuarios online, mostrar solo personajes marcados como online
-            this.usuarios = todosLosPersonajes.filter(personaje => personaje.isOnline === true)
+            // Filtrar personajes: solo mostrar aquellos de usuarios online
+            // Si el personaje tiene un campo userId o usuarioId, filtrar por eso
+            // Si no, filtrar por isOnline === true (personajes que están online)
+            if (this.usuariosOnline.length > 0) {
+              // Obtener IDs de usuarios online
+              const idsUsuariosOnline = this.usuariosOnline.map((u) => u.id)
+
+              // Filtrar personajes: mostrar solo si el personaje pertenece a un usuario online
+              // o si el personaje está marcado como online
+              this.usuarios = todosLosPersonajes.filter((personaje) => {
+                // Si el personaje tiene userId o usuarioId, verificar que esté en la lista de online
+                if (personaje.userId && idsUsuariosOnline.includes(personaje.userId)) {
+                  return true
+                }
+                if (personaje.usuarioId && idsUsuariosOnline.includes(personaje.usuarioId)) {
+                  return true
+                }
+                // Si no tiene userId pero tiene isOnline === true, también incluirlo
+                if (personaje.isOnline === true) {
+                  return true
+                }
+                return false
+              })
+            } else {
+              // Si no hay usuarios online, mostrar solo personajes marcados como online
+              this.usuarios = todosLosPersonajes.filter((personaje) => personaje.isOnline === true)
+            }
           }
-          
+
           this.paginaActual = 1
         } else {
           // Si es un error 401, probablemente el token expiró
@@ -138,9 +147,9 @@ export default {
         html: `
           <div style="font-family: 'MedievalSharp', cursive; color: #c0c0c0; text-align: left;">
             <div style="text-align: center; margin-bottom: 1.5rem;">
-              <img src="${usuario.avatar}" alt="${usuario.name}" 
+              <img src="${usuario.avatar}" alt="${usuario.name}"
                    style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #d4af37; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.5);"
-                   onerror="this.src='https://via.placeholder.com/120'">
+                   onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'%3E%3Crect fill=\'%23ddd\' width=\'120\' height=\'120\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'11\'%3E120x120%3C/text%3E%3C/svg%3E'">
             </div>
             <div style="background: rgba(26, 26, 26, 0.6); padding: 1rem; border-radius: 8px; border: 2px solid #b8941f; margin-bottom: 0.5rem;">
               <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Raza:</strong> <span style="color: #c0c0c0;">${usuario.race}</span></p>
@@ -148,21 +157,29 @@ export default {
               <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Gremio:</strong> <span style="color: #c0c0c0;">${usuario.guild}</span></p>
             </div>
             <div style="background: rgba(26, 26, 26, 0.6); padding: 1rem; border-radius: 8px; border: 2px solid #b8941f; margin-bottom: 0.5rem;">
-              <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">HP:</strong> 
-                <span class="badge ${usuario.hp > 50 ? 'bg-success' : usuario.hp > 20 ? 'bg-warning' : 'bg-danger'}" 
+              <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">HP:</strong>
+                <span class="badge ${usuario.hp > 50 ? 'bg-success' : usuario.hp > 20 ? 'bg-warning' : 'bg-danger'}"
                       style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.hp || 0}</span>
               </p>
-              ${usuario.shield !== undefined ? `<p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Escudo:</strong> 
-                <span class="badge bg-info" 
+              ${
+                usuario.shield !== undefined
+                  ? `<p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Escudo:</strong>
+                <span class="badge bg-info"
                       style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.shield}</span>
-              </p>` : ''}
-              ${usuario.level !== undefined ? `<p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Nivel:</strong> 
-                <span class="badge bg-primary" 
+              </p>`
+                  : ''
+              }
+              ${
+                usuario.level !== undefined
+                  ? `<p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Nivel:</strong>
+                <span class="badge bg-primary"
                       style="padding: 0.35rem 0.7rem; font-weight: 700;">${usuario.level}</span>
-              </p>` : ''}
+              </p>`
+                  : ''
+              }
               <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Reino:</strong> <span style="color: #c0c0c0;">${usuario.kingdom}</span></p>
-              <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Estado:</strong> 
-                <span class="badge ${usuario.isOnline ? 'bg-success' : 'bg-secondary'}" 
+              <p style="margin: 0.5rem 0;"><strong style="color: #d4af37; font-family: 'Cinzel', serif;">Estado:</strong>
+                <span class="badge ${usuario.isOnline ? 'bg-success' : 'bg-secondary'}"
                       style="padding: 0.35rem 0.7rem; font-weight: 600;">${usuario.isOnline ? 'En línea' : 'Offline'}</span>
               </p>
             </div>
@@ -222,48 +239,48 @@ export default {
       const formHtml = `
         <form id="formEditarUsuario" style="font-family: 'MedievalSharp', cursive; color: #c0c0c0;">
           <div style="text-align: center; margin-bottom: 1.5rem;">
-            <img id="avatarPreview" src="${valoresOriginales.avatar}" alt="${valoresOriginales.name}" 
+            <img id="avatarPreview" src="${valoresOriginales.avatar}" alt="${valoresOriginales.name}"
                  style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #d4af37; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.5);"
-                 onerror="this.src='https://via.placeholder.com/120'">
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'%3E%3Crect fill=\'%23ddd\' width=\'120\' height=\'120\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'11\'%3E120x120%3C/text%3E%3C/svg%3E'">
           </div>
-          
+
           <div style="background: rgba(26, 26, 26, 0.6); padding: 1rem; border-radius: 8px; border: 2px solid #b8941f; margin-bottom: 1rem;">
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Nombre</label>
-              <input type="text" id="editName" value="${valoresOriginales.name}" 
+              <input type="text" id="editName" value="${valoresOriginales.name}"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Avatar URL</label>
-              <input type="text" id="editAvatar" value="${valoresOriginales.avatar}" 
+              <input type="text" id="editAvatar" value="${valoresOriginales.avatar}"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Raza</label>
-              <input type="text" id="editRace" value="${valoresOriginales.race}" 
+              <input type="text" id="editRace" value="${valoresOriginales.race}"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Clase</label>
-              <input type="text" id="editClass" value="${valoresOriginales.class}" 
+              <input type="text" id="editClass" value="${valoresOriginales.class}"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Gremio</label>
-              <input type="text" id="editGuild" value="${valoresOriginales.guild}" 
+              <input type="text" id="editGuild" value="${valoresOriginales.guild}"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
           </div>
-          
+
           <div style="background: rgba(26, 26, 26, 0.6); padding: 1rem; border-radius: 8px; border: 2px solid #b8941f; margin-bottom: 1rem;">
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">HP</label>
@@ -271,31 +288,31 @@ export default {
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Escudo</label>
               <input type="number" id="editShield" value="${valoresOriginales.shield}" min="0" max="100"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Nivel</label>
               <input type="number" id="editLevel" value="${valoresOriginales.level}" min="1" max="100"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Reino</label>
-              <input type="text" id="editKingdom" value="${valoresOriginales.kingdom}" 
+              <input type="text" id="editKingdom" value="${valoresOriginales.kingdom}"
                      style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                      class="swal-form-input">
             </div>
-            
+
             <div style="margin-bottom: 1rem;">
               <label style="display: block; color: #d4af37; font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-weight: 600;">Estado</label>
-              <select id="editIsOnline" 
+              <select id="editIsOnline"
                       style="width: 100%; padding: 0.5rem; background: rgba(13, 13, 13, 0.8); border: 2px solid #b8941f; border-radius: 4px; color: #c0c0c0; font-family: 'MedievalSharp', cursive;"
                       class="swal-form-input">
                 <option value="true" ${valoresOriginales.isOnline ? 'selected' : ''}>En línea</option>
@@ -393,7 +410,9 @@ export default {
           const avatarPreview = document.getElementById('avatarPreview')
           if (avatarInput && avatarPreview) {
             avatarInput.addEventListener('input', (e) => {
-              avatarPreview.src = e.target.value || 'https://via.placeholder.com/120'
+              avatarPreview.src =
+                e.target.value ||
+                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect fill='%23ddd' width='120' height='120'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='11'%3E120x120%3C/text%3E%3C/svg%3E"
               checkDirty()
             })
           }
@@ -445,7 +464,9 @@ export default {
               shield,
               level,
               kingdom,
-              avatar: avatar || 'https://via.placeholder.com/120',
+              avatar:
+                avatar ||
+                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect fill='%23ddd' width='120' height='120'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='11'%3E120x120%3C/text%3E%3C/svg%3E",
               isOnline,
             }
 

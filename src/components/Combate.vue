@@ -19,11 +19,14 @@
               :src="playerCharacter.avatar"
               :alt="playerCharacter.name"
               class="character-avatar-img"
-              @error="$event.target.src='https://via.placeholder.com/80'"
+              @error="
+                $event.target.src =
+                  'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'%3E%3Crect fill=\'%23ddd\' width=\'80\' height=\'80\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'10\'%3E80x80%3C/text%3E%3C/svg%3E'
+              "
             />
             <img
               v-else
-              src="https://via.placeholder.com/80"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23ddd' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='10'%3E80x80%3C/text%3E%3C/svg%3E"
               :alt="playerCharacter.name"
               class="character-avatar-img"
             />
@@ -39,7 +42,11 @@
         <div v-else-if="usuariosOnlineError" class="error-message">{{ usuariosOnlineError }}</div>
         <template v-else>
           <div class="opponent-selectors">
-            <select v-model="selectedOpponentUser" @change="loadOpponentCharacters" class="opponent-user-select">
+            <select
+              v-model="selectedOpponentUser"
+              @change="loadOpponentCharacters"
+              class="opponent-user-select"
+            >
               <option disabled value="">Selecciona un usuario oponente</option>
               <option v-for="usuario in usuariosOnline" :key="usuario.id" :value="usuario.id">
                 {{ usuario.nombre || usuario.email }}
@@ -48,13 +55,21 @@
             <div v-if="selectedOpponentUser && isLoadingOpponentCharacters" class="loading-message">
               Cargando personajes del oponente...
             </div>
-            <select v-else-if="selectedOpponentUser && opponentCharacters.length > 0" v-model="selectedOpponentCharacter" @change="loadOpponentCharacterStats" class="opponent-character-select">
+            <select
+              v-else-if="selectedOpponentUser && opponentCharacters.length > 0"
+              v-model="selectedOpponentCharacter"
+              @change="loadOpponentCharacterStats"
+              class="opponent-character-select"
+            >
               <option disabled value="">Selecciona un personaje</option>
               <option v-for="char in opponentCharacters" :key="char.id" :value="char.id">
                 {{ char.name }} (HP: {{ char.hp }})
               </option>
             </select>
-            <div v-else-if="selectedOpponentUser && opponentCharacters.length === 0" class="error-message">
+            <div
+              v-else-if="selectedOpponentUser && opponentCharacters.length === 0"
+              class="error-message"
+            >
               Este usuario no tiene personajes online disponibles
             </div>
           </div>
@@ -65,23 +80,31 @@
                 :src="opponentCharacter.avatar"
                 :alt="opponentCharacter.name || 'Oponente'"
                 class="character-avatar-img"
-                @error="$event.target.src='https://via.placeholder.com/80'"
+                @error="
+                  $event.target.src =
+                    'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'%3E%3Crect fill=\'%23ddd\' width=\'80\' height=\'80\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'10\'%3E80x80%3C/text%3E%3C/svg%3E'
+                "
               />
               <img
                 v-else
-                src="https://via.placeholder.com/80"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23ddd' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='10'%3E80x80%3C/text%3E%3C/svg%3E"
                 :alt="opponentCharacter.name || 'Oponente'"
                 class="character-avatar-img"
               />
             </div>
             <h3>{{ opponentCharacter.name || 'Oponente' }}</h3>
             <p>Vida: {{ opponentCharacter.hp }}</p>
-            <p v-if="opponentCharacter.shield !== undefined">Escudo: {{ opponentCharacter.shield }}</p>
+            <p v-if="opponentCharacter.shield !== undefined">
+              Escudo: {{ opponentCharacter.shield }}
+            </p>
           </div>
         </template>
       </div>
     </div>
-    <button @click="startCombat" :disabled="!selectedPlayerCharacter || !selectedOpponentCharacter || isBattleLoading">
+    <button
+      @click="startCombat"
+      :disabled="!selectedPlayerCharacter || !selectedOpponentCharacter || isBattleLoading"
+    >
       <span v-if="isBattleLoading">Ejecutando batalla...</span>
       <span v-else>Iniciar Combate</span>
     </button>
@@ -94,9 +117,11 @@
       <h2>Resultado del Combate</h2>
       <div class="battle-info">
         <p class="battle-id"><strong>ID de Batalla:</strong> {{ battleResult.battleId }}</p>
-        <p class="battle-date"><strong>Fecha y Hora:</strong> {{ formatBattleDate(battleResult.dateTimePelea) }}</p>
+        <p class="battle-date">
+          <strong>Fecha y Hora:</strong> {{ formatBattleDate(battleResult.dateTimePelea) }}
+        </p>
       </div>
-      
+
       <div class="battle-participants">
         <div class="participant retador">
           <div class="participant-avatar-container">
@@ -105,11 +130,14 @@
               :src="getRetadorAvatar()"
               :alt="battleResult.retador.name"
               class="participant-avatar-img"
-              @error="$event.target.src='https://via.placeholder.com/100'"
+              @error="
+                $event.target.src =
+                  'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'12\'%3E100x100%3C/text%3E%3C/svg%3E'
+              "
             />
             <img
               v-else
-              src="https://via.placeholder.com/100"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23ddd' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='12'%3E100x100%3C/text%3E%3C/svg%3E"
               :alt="battleResult.retador.name"
               class="participant-avatar-img"
             />
@@ -122,7 +150,7 @@
             <p><strong>Daño Recibido:</strong> {{ battleResult.retador.dañoRecibido }}</p>
           </div>
         </div>
-        
+
         <div class="participant retado">
           <div class="participant-avatar-container">
             <img
@@ -130,11 +158,14 @@
               :src="getRetadoAvatar()"
               :alt="battleResult.retado.name"
               class="participant-avatar-img"
-              @error="$event.target.src='https://via.placeholder.com/100'"
+              @error="
+                $event.target.src =
+                  'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'12\'%3E100x100%3C/text%3E%3C/svg%3E'
+              "
             />
             <img
               v-else
-              src="https://via.placeholder.com/100"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23ddd' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='12'%3E100x100%3C/text%3E%3C/svg%3E"
               :alt="battleResult.retado.name"
               class="participant-avatar-img"
             />
@@ -191,121 +222,116 @@ export default {
       usuariosOnlineError: null, // Errores al cargar usuarios online
       opponentCharacters: [], // Personajes del oponente seleccionado
       isLoadingOpponentCharacters: false, // Estado de carga para personajes del oponente
-    };
+    }
   },
   async mounted() {
-    await this.loadAuthenticatedUser();
+    await this.loadAuthenticatedUser()
     if (this.user) {
-      await Promise.all([
-        this.loadCharacters(),
-        this.loadUsuariosOnline()
-      ]);
+      await Promise.all([this.loadCharacters(), this.loadUsuariosOnline()])
     }
   },
   methods: {
     async loadAuthenticatedUser() {
-      const servicio = new servicioAuth();
-      this.user = servicio.getUser();
+      const servicio = new servicioAuth()
+      this.user = servicio.getUser()
     },
     async loadCharacters() {
-      const userId = this.user?.id || this.user?.userId || this.user?.data?.id;
+      const userId = this.user?.id || this.user?.userId || this.user?.data?.id
 
       if (!this.user || !userId) {
-        this.charactersError = 'No se puede cargar personajes: usuario no disponible.';
-        return;
+        this.charactersError = 'No se puede cargar personajes: usuario no disponible.'
+        return
       }
 
-      this.isLoadingCharacters = true;
-      this.charactersError = null;
+      this.isLoadingCharacters = true
+      this.charactersError = null
 
       try {
-        const servicio = new servicioCharacters();
-        const resultado = await servicio.getByUserId(userId);
+        const servicio = new servicioCharacters()
+        const resultado = await servicio.getByUserId(userId)
 
         if (resultado.success) {
-          const charactersData = resultado.data;
+          const charactersData = resultado.data
           if (Array.isArray(charactersData)) {
-            this.characters = charactersData;
+            this.characters = charactersData
           } else if (charactersData && Array.isArray(charactersData.data)) {
-            this.characters = charactersData.data;
+            this.characters = charactersData.data
           } else if (charactersData && charactersData.data) {
-            this.characters = [charactersData.data];
+            this.characters = [charactersData.data]
           } else {
-            this.characters = [];
+            this.characters = []
           }
         } else {
-          this.charactersError = resultado.error || 'Error al cargar los personajes';
+          this.charactersError = resultado.error || 'Error al cargar los personajes'
           if (resultado.statusCode === 404) {
-            this.characters = [];
-            this.charactersError = null;
+            this.characters = []
+            this.charactersError = null
           }
         }
       } catch (error) {
-        this.charactersError = 'Error al cargar los personajes';
-        console.error('Error al obtener personajes (catch):', error);
+        this.charactersError = 'Error al cargar los personajes'
+        console.error('Error al obtener personajes (catch):', error)
       } finally {
-        this.isLoadingCharacters = false;
+        this.isLoadingCharacters = false
       }
     },
     async loadUsuariosOnline() {
-      this.isLoadingUsuariosOnline = true;
-      this.usuariosOnlineError = null;
+      this.isLoadingUsuariosOnline = true
+      this.usuariosOnlineError = null
 
       try {
-        const servicio = new servicioUsuarios();
-        const resultado = await servicio.getOnlineUsers();
+        const servicio = new servicioUsuarios()
+        const resultado = await servicio.getOnlineUsers()
 
         if (resultado.success) {
-          let usuarios = Array.isArray(resultado.data) ? resultado.data : [];
-          
+          let usuarios = Array.isArray(resultado.data) ? resultado.data : []
+
           // Filtrar el usuario autenticado de la lista de oponentes
-          const userId = this.user?.id || this.user?.userId || this.user?.data?.id;
+          const userId = this.user?.id || this.user?.userId || this.user?.data?.id
           if (userId) {
-            this.usuariosOnline = usuarios.filter(usuario => {
+            this.usuariosOnline = usuarios.filter((usuario) => {
               // Excluir el usuario autenticado comparando IDs
-              const usuarioId = usuario.id || usuario.userId || usuario.data?.id;
-              return usuarioId !== userId;
-            });
+              const usuarioId = usuario.id || usuario.userId || usuario.data?.id
+              return usuarioId !== userId
+            })
           } else {
             // Si no hay userId, usar la lista completa
-            this.usuariosOnline = usuarios;
+            this.usuariosOnline = usuarios
           }
         } else {
-          this.usuariosOnlineError = resultado.error || 'Error al cargar usuarios online';
+          this.usuariosOnlineError = resultado.error || 'Error al cargar usuarios online'
           if (resultado.statusCode === 401) {
             // Si el token expiró, redirigir al login
-            const authService = new servicioAuth();
-            await authService.logout();
-            this.$router.push('/login');
+            const authService = new servicioAuth()
+            await authService.logout()
+            this.$router.push('/login')
           }
         }
       } catch (error) {
-        this.usuariosOnlineError = 'Error al cargar usuarios online';
-        console.error('Error al obtener usuarios online (catch):', error);
+        this.usuariosOnlineError = 'Error al cargar usuarios online'
+        console.error('Error al obtener usuarios online (catch):', error)
       } finally {
-        this.isLoadingUsuariosOnline = false;
+        this.isLoadingUsuariosOnline = false
       }
     },
     async loadPlayerCharacterStats() {
       if (!this.selectedPlayerCharacter) {
-        this.playerCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' };
-        return;
+        this.playerCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' }
+        return
       }
 
       // Primero intentar obtener el personaje desde la lista local
-      let selectedChar = this.characters.find(
-        (char) => char.id === this.selectedPlayerCharacter
-      );
+      let selectedChar = this.characters.find((char) => char.id === this.selectedPlayerCharacter)
 
       // Si no está en la lista local o queremos actualizar, obtener desde el servidor
       try {
-        const servicio = new servicioCharacters();
-        const resultado = await servicio.getById(this.selectedPlayerCharacter);
+        const servicio = new servicioCharacters()
+        const resultado = await servicio.getById(this.selectedPlayerCharacter)
         if (resultado.success) {
-          selectedChar = resultado.data;
+          selectedChar = resultado.data
         }
       } catch (error) {
-        console.error('Error al actualizar personaje del jugador:', error);
+        console.error('Error al actualizar personaje del jugador:', error)
         // Si falla, usar el de la lista local
       }
 
@@ -316,59 +342,59 @@ export default {
           hp: selectedChar.hp || selectedChar.health || 0,
           shield: selectedChar.shield || 0,
           avatar: selectedChar.avatar || '',
-        };
+        }
       } else {
-        this.playerCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' };
+        this.playerCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' }
       }
     },
     async loadOpponentCharacters() {
       // Limpiar selección previa
-      this.selectedOpponentCharacter = '';
-      this.opponentCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' };
-      this.opponentCharacters = [];
+      this.selectedOpponentCharacter = ''
+      this.opponentCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' }
+      this.opponentCharacters = []
 
       if (!this.selectedOpponentUser) {
-        return;
+        return
       }
 
-      this.isLoadingOpponentCharacters = true;
+      this.isLoadingOpponentCharacters = true
 
       try {
-        const servicio = new servicioCharacters();
-        const resultado = await servicio.getByUserId(this.selectedOpponentUser);
+        const servicio = new servicioCharacters()
+        const resultado = await servicio.getByUserId(this.selectedOpponentUser)
 
         if (resultado.success) {
           const personajesOponente = Array.isArray(resultado.data)
             ? resultado.data
             : resultado.data?.data
-            ? resultado.data.data
-            : resultado.data
-            ? [resultado.data]
-            : [];
+              ? resultado.data.data
+              : resultado.data
+                ? [resultado.data]
+                : []
 
           // Filtrar solo personajes online con HP >= 1
           this.opponentCharacters = personajesOponente.filter(
-            (char) => char.isOnline === true && char.hp >= 1
-          );
+            (char) => char.isOnline === true && char.hp >= 1,
+          )
         } else {
-          this.opponentCharacters = [];
+          this.opponentCharacters = []
         }
       } catch (error) {
-        console.error('Error al cargar personajes del oponente:', error);
-        this.opponentCharacters = [];
+        console.error('Error al cargar personajes del oponente:', error)
+        this.opponentCharacters = []
       } finally {
-        this.isLoadingOpponentCharacters = false;
+        this.isLoadingOpponentCharacters = false
       }
     },
     loadOpponentCharacterStats() {
       if (!this.selectedOpponentCharacter) {
-        this.opponentCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' };
-        return;
+        this.opponentCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' }
+        return
       }
 
       const selectedChar = this.opponentCharacters.find(
-        (char) => char.id === this.selectedOpponentCharacter
-      );
+        (char) => char.id === this.selectedOpponentCharacter,
+      )
 
       if (selectedChar) {
         this.opponentCharacter = {
@@ -377,100 +403,97 @@ export default {
           hp: selectedChar.hp || 0,
           shield: selectedChar.shield || 0,
           avatar: selectedChar.avatar || '',
-        };
+        }
       } else {
-        this.opponentCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' };
+        this.opponentCharacter = { name: '', health: 0, hp: 0, shield: 0, avatar: '' }
       }
     },
     async startCombat() {
       // Validar que ambos personajes estén seleccionados
       if (!this.selectedPlayerCharacter || !this.selectedOpponentCharacter) {
-        this.battleError = 'Debes seleccionar ambos personajes para iniciar la batalla';
-        return;
+        this.battleError = 'Debes seleccionar ambos personajes para iniciar la batalla'
+        return
       }
 
       // Validar que no se esté peleando contra el mismo personaje
       if (this.selectedPlayerCharacter === this.selectedOpponentCharacter) {
-        this.battleError = 'No puedes pelear contra tu propio personaje';
-        return;
+        this.battleError = 'No puedes pelear contra tu propio personaje'
+        return
       }
 
       // Limpiar resultados previos
-      this.battleResult = null;
-      this.battleError = null;
-      this.isBattleLoading = true;
+      this.battleResult = null
+      this.battleError = null
+      this.isBattleLoading = true
 
       try {
-        const servicio = new servicioBattle();
+        const servicio = new servicioBattle()
         const resultado = await servicio.realizarBatalla(
           this.selectedPlayerCharacter,
-          this.selectedOpponentCharacter
-        );
+          this.selectedOpponentCharacter,
+        )
 
         if (resultado.success) {
           // Guardar resultado completo de la batalla
-          this.battleResult = resultado.data;
+          this.battleResult = resultado.data
 
           // Recargar ambos personajes para obtener HP actualizados
-          await Promise.all([
-            this.loadPlayerCharacterStats(),
-            this.loadOpponentCharacterStats(),
-          ]);
+          await Promise.all([this.loadPlayerCharacterStats(), this.loadOpponentCharacterStats()])
 
           // También recargar la lista completa de personajes del oponente para actualizar HP
           if (this.selectedOpponentUser) {
-            await this.loadOpponentCharacters();
+            await this.loadOpponentCharacters()
             // Si el personaje seleccionado aún existe, recargar sus stats
             if (this.selectedOpponentCharacter) {
-              this.loadOpponentCharacterStats();
+              this.loadOpponentCharacterStats()
             }
           }
         } else {
           // Manejar errores según el código
-          let errorMessage = resultado.error || 'Error al realizar la batalla';
+          let errorMessage = resultado.error || 'Error al realizar la batalla'
 
           switch (resultado.code) {
             case 'RETADOR_NOT_FOUND':
-              errorMessage = 'Tu personaje no fue encontrado';
-              break;
+              errorMessage = 'Tu personaje no fue encontrado'
+              break
             case 'RETADO_NOT_FOUND':
-              errorMessage = 'El personaje oponente no fue encontrado';
-              break;
+              errorMessage = 'El personaje oponente no fue encontrado'
+              break
             case 'UNAUTHORIZED_RETADOR':
-              errorMessage = 'No tienes permiso para usar este personaje';
-              break;
+              errorMessage = 'No tienes permiso para usar este personaje'
+              break
             case 'RETADOR_OFFLINE':
-              errorMessage = 'Tu personaje debe estar online para pelear';
-              break;
+              errorMessage = 'Tu personaje debe estar online para pelear'
+              break
             case 'RETADO_OFFLINE':
-              errorMessage = 'El personaje oponente debe estar online para pelear';
-              break;
+              errorMessage = 'El personaje oponente debe estar online para pelear'
+              break
             case 'RETADO_LOW_HP':
-              errorMessage = 'El personaje oponente no tiene suficiente HP para pelear';
-              break;
+              errorMessage = 'El personaje oponente no tiene suficiente HP para pelear'
+              break
             default:
               if (resultado.statusCode === 401) {
-                errorMessage = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente';
-                const authService = new servicioAuth();
-                await authService.logout();
-                this.$router.push('/login');
-                return;
+                errorMessage = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente'
+                const authService = new servicioAuth()
+                await authService.logout()
+                this.$router.push('/login')
+                return
               }
           }
 
-          this.battleError = errorMessage;
+          this.battleError = errorMessage
         }
       } catch (error) {
-        console.error('Error en la batalla:', error);
-        this.battleError = 'Error inesperado al realizar la batalla. Intenta nuevamente.';
+        console.error('Error en la batalla:', error)
+        this.battleError = 'Error inesperado al realizar la batalla. Intenta nuevamente.'
       } finally {
-        this.isBattleLoading = false;
+        this.isBattleLoading = false
       }
     },
     formatBattleDate(dateString) {
-      if (!dateString) return 'Fecha no disponible';
+      if (!dateString) return 'Fecha no disponible'
       try {
-        const date = new Date(dateString);
+        const date = new Date(dateString)
         return date.toLocaleString('es-ES', {
           year: 'numeric',
           month: 'long',
@@ -478,45 +501,49 @@ export default {
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
-        });
+        })
       } catch {
-        return dateString;
+        return dateString
       }
     },
     getRetadorAvatar() {
       // Buscar el avatar del personaje retador en los personajes cargados
       if (this.battleResult && this.battleResult.retador) {
         // Primero buscar en los personajes del jugador
-        const playerChar = this.characters.find(char => char.id === this.battleResult.retador.id);
+        const playerChar = this.characters.find((char) => char.id === this.battleResult.retador.id)
         if (playerChar && playerChar.avatar) {
-          return playerChar.avatar;
+          return playerChar.avatar
         }
         // Si no está en los personajes del jugador, buscar en los del oponente
-        const opponentChar = this.opponentCharacters.find(char => char.id === this.battleResult.retador.id);
+        const opponentChar = this.opponentCharacters.find(
+          (char) => char.id === this.battleResult.retador.id,
+        )
         if (opponentChar && opponentChar.avatar) {
-          return opponentChar.avatar;
+          return opponentChar.avatar
         }
       }
-      return null;
+      return null
     },
     getRetadoAvatar() {
       // Buscar el avatar del personaje retado en los personajes cargados
       if (this.battleResult && this.battleResult.retado) {
         // Primero buscar en los personajes del oponente
-        const opponentChar = this.opponentCharacters.find(char => char.id === this.battleResult.retado.id);
+        const opponentChar = this.opponentCharacters.find(
+          (char) => char.id === this.battleResult.retado.id,
+        )
         if (opponentChar && opponentChar.avatar) {
-          return opponentChar.avatar;
+          return opponentChar.avatar
         }
         // Si no está en los personajes del oponente, buscar en los del jugador
-        const playerChar = this.characters.find(char => char.id === this.battleResult.retado.id);
+        const playerChar = this.characters.find((char) => char.id === this.battleResult.retado.id)
         if (playerChar && playerChar.avatar) {
-          return playerChar.avatar;
+          return playerChar.avatar
         }
       }
-      return null;
+      return null
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -586,7 +613,7 @@ select {
 
 select:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
@@ -626,7 +653,7 @@ button {
   display: block;
   width: 100%;
   padding: 15px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 8px;
@@ -741,7 +768,7 @@ button:disabled {
 }
 
 .participant.retador {
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 
 .participant.retado {
@@ -763,7 +790,7 @@ button:disabled {
 }
 
 .participant.retador .participant-avatar-img {
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 
 .participant.retado .participant-avatar-img {
@@ -803,15 +830,15 @@ button:disabled {
   .battle-participants {
     flex-direction: column;
   }
-  
+
   .character-selection {
     flex-direction: column;
   }
-  
+
   .opponent-selectors {
     flex-direction: column;
   }
-  
+
   .opponent-user-select,
   .opponent-character-select,
   .loading-message,

@@ -7,7 +7,21 @@
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <p class="mb-0">Personajes RPG del gremio</p>
+            <div class="d-flex align-items-center gap-3">
+              <p class="mb-0" style="color: white">Personajes RPG del gremio</p>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="mostrarOffline"
+                  v-model="mostrarOffline"
+                  @change="obtenerUsuarios"
+                />
+                <label class="form-check-label" for="mostrarOffline" style="color: white">
+                  Mostrar offline
+                </label>
+              </div>
+            </div>
             <button class="btn btn-primary" @click="obtenerUsuarios" :disabled="cargando">
               {{ cargando ? 'Cargando...' : 'Actualizar' }}
             </button>
@@ -32,7 +46,7 @@
                         :alt="usuario.name"
                         class="rounded-circle"
                         style="width: 100px; height: 100px; object-fit: cover"
-                        @error="$event.target.src='https://via.placeholder.com/100'"
+                        @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Crect fill=\'%23ddd\' width=\'100\' height=\'100\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23999\' font-family=\'Arial\' font-size=\'12\'%3E100x100%3C/text%3E%3C/svg%3E'"
                       />
                       <span
                         class="badge position-absolute top-0 end-0"
@@ -73,13 +87,22 @@
                       <!-- <small class="text-muted"><strong>ID:</strong> {{ usuario.id }}</small>-->
                     </p>
                     <div class="d-flex justify-content-between gap-2 mt-3">
-                      <button class="btn btn-info btn-sm flex-fill" @click="mostrarMasInfo(usuario)">
+                      <button
+                        class="btn btn-info btn-sm flex-fill"
+                        @click="mostrarMasInfo(usuario)"
+                      >
                         Más info
                       </button>
-                      <button class="btn btn-warning btn-sm flex-fill" @click="editarUsuario(usuario)">
+                      <button
+                        class="btn btn-warning btn-sm flex-fill"
+                        @click="editarUsuario(usuario)"
+                      >
                         Editar
                       </button>
-                      <button class="btn btn-danger btn-sm flex-fill" @click="borrarUsuario(usuario.id)">
+                      <button
+                        class="btn btn-danger btn-sm flex-fill"
+                        @click="borrarUsuario(usuario.id)"
+                      >
                         Borrar
                       </button>
                     </div>
@@ -122,4 +145,3 @@
     </div>
   </div>
 </div>
-
