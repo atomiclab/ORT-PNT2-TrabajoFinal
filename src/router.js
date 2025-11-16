@@ -7,6 +7,7 @@ import Login from './components/Login/index.vue'
 import Register from './components/Register/index.vue'
 import Profile from './components/Profile/index.vue'
 import Combate from './components/Combate.vue'
+import NotFound from './components/notFound/index.vue'
 
 const routes = [
   /* ---- definición de la ruta raíz ---- */
@@ -18,10 +19,12 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/profile', component: Profile },
   { path: '/combate', component: Combate },
-  { path: '/', redirect: '/login' },
+  { path: '/', component: Inicio },
+  /*---,
+  { path: '/', redirect: '/login' },*/
 
   /* ---- definición de las rutas no existentes ---- */
-  { path: '/:pathmatch(.*)*', redirect: '/' },
+  { path: '/:pathMatch(.*)*', component: NotFound },
 ]
 
 const router = createRouter({
