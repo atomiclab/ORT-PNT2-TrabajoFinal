@@ -147,7 +147,7 @@
             <p><strong>HP Antes:</strong> {{ battleResult.retador.hpAntes }}</p>
             <p><strong>HP Después:</strong> {{ battleResult.retador.hpDespues }}</p>
             <p><strong>Dado Lanzado:</strong> {{ battleResult.retador.dado }}</p>
-            <p><strong>Daño Recibido:</strong> {{ battleResult.retador.dañoRecibido }}</p>
+            <p><strong>Daño Recibido:</strong> {{ battleResult.retador.dañoEfectivoRecibido }}</p>
           </div>
         </div>
 
@@ -175,7 +175,7 @@
             <p><strong>HP Antes:</strong> {{ battleResult.retado.hpAntes }}</p>
             <p><strong>HP Después:</strong> {{ battleResult.retado.hpDespues }}</p>
             <p><strong>Dado Lanzado:</strong> {{ battleResult.retado.dado }}</p>
-            <p><strong>Daño Recibido:</strong> {{ battleResult.retado.dañoRecibido }}</p>
+            <p><strong>Daño Recibido:</strong> {{ battleResult.retado.dañoEfectivoRecibido }}</p>
           </div>
         </div>
       </div>
@@ -432,6 +432,7 @@ export default {
           this.selectedPlayerCharacter,
           this.selectedOpponentCharacter,
         )
+
 
         if (resultado.success) {
           // Guardar resultado completo de la batalla
