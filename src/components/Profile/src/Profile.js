@@ -90,20 +90,34 @@ export default {
 
       if (result.isConfirmed) {
         const servicio = new servicioAuth()
-        servicio.logout()
+        const resultado = await servicio.logout()
 
         // Emitir evento para actualizar el Navbar
         window.dispatchEvent(new CustomEvent('auth-change'))
 
-        await Swal.fire({
-          icon: 'success',
-          title: 'Sesión cerrada',
-          text: 'Has cerrado sesión correctamente.',
-          confirmButtonText: 'Aceptar',
-          background: '#1a1a1a',
-          color: '#d4af37',
-          confirmButtonColor: '#5a3d22',
-        })
+        // Mostrar mensaje según el resultado
+        if (resultado.success) {
+          await Swal.fire({
+            icon: 'success',
+            title: 'Sesión cerrada',
+            text: resultado.message || 'Has cerrado sesión correctamente.',
+            confirmButtonText: 'Aceptar',
+            background: '#1a1a1a',
+            color: '#d4af37',
+            confirmButtonColor: '#5a3d22',
+          })
+        } else {
+          // Aún así mostrar éxito si el logout falló en el servidor pero se limpió localmente
+          await Swal.fire({
+            icon: 'warning',
+            title: 'Sesión cerrada',
+            text: 'Se ha cerrado la sesión localmente. ' + (resultado.error || ''),
+            confirmButtonText: 'Aceptar',
+            background: '#1a1a1a',
+            color: '#d4af37',
+            confirmButtonColor: '#5a3d22',
+          })
+        }
 
         this.$router.push('/login')
       }

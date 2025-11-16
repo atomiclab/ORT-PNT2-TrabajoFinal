@@ -46,6 +46,12 @@
             </RouterLink>
           </li>
           <li v-if="isAuthenticated" class="nav-item">
+            <RouterLink class="nav-link" to="/combate" active-class="active">
+              <span class="nav-icon">⚔️</span>
+              <span>Combate</span>
+            </RouterLink>
+          </li>
+          <li v-if="isAuthenticated" class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">
               <span class="nav-icon">🚪</span>
               <span>Cerrar Sesión</span>
@@ -57,12 +63,7 @@
               <span>Login</span>
             </RouterLink>
           </li>
-          <li v-if="isAuthenticated" class="nav-item">
-            <RouterLink class="nav-link" to="/combate" active-class="active">
-              <span class="nav-icon">⚔️</span>
-              <span>Combate</span>
-            </RouterLink>
-          </li>
+
         </ul>
       </div>
     </div>
@@ -99,9 +100,16 @@ export default {
     },
     async logout() {
       const servicio = new servicioAuth()
-      servicio.logout()
+      await servicio.logout()
+
+      // Actualizar estado local independientemente del resultado del endpoint
       this.isAuthenticated = false
       this.user = null
+
+      // Emitir evento para actualizar otros componentes
+      window.dispatchEvent(new CustomEvent('auth-change'))
+
+      // Redirigir al login
       this.$router.push('/login')
     },
   },

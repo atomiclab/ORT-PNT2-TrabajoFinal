@@ -130,7 +130,7 @@ class servicioAuth {
 
       // Si el token es inválido, limpiar localStorage
       if (statusCode === 401) {
-        this.logout()
+        await this.logout()
       }
 
       return {
@@ -167,11 +167,64 @@ class servicioAuth {
   }
 
   /**
-   * Cierra sesión y limpia el localStorage
+   * Cierra sesión llamando al endpoint y limpia el localStorage
+   * @returns {Promise<Object>} Respuesta del logout
    */
-  logout = () => {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('user')
+  logout = async () => {
+    const token = this.getToken()
+    
+    // Intentar llamar al endpoint si hay token
+    if (token) {
+      try {
+        const { data } = await axios.post(
+          `${this.#baseURL}/api/auth/logout`,
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+
+        // Limpiar localStorage en caso de éxito
+        localStorage.removeItem('authToken')
+        localStorage.removeItem('user')
+
+        return {
+          success: true,
+          message: data.message || 'Logout exitoso',
+          statusCode: data.status || 200,
+        }
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          error.message ||
+          'Error en el logout'
+        const statusCode = error.response?.status || 500
+
+        // Limpiar localStorage incluso si hay error
+        localStorage.removeItem('authToken')
+        localStorage.removeItem('user')
+
+        return {
+          success: false,
+          error: errorMessage,
+          statusCode,
+        }
+      }
+    } else {
+      // Si no hay token, solo limpiar localStorage
+      localStorage.removeItem('authToken')
+      localStorage.removeItem('user')
+
+      return {
+        success: true,
+        message: 'Logout exitoso',
+        statusCode: 200,
+      }
+    }
   }
 }
 

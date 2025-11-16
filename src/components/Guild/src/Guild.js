@@ -1,5 +1,6 @@
 import servicioCharacters from '../../../servicios/characters.js'
 import servicioAuth from '../../../servicios/auth.js'
+import servicioUsuarios from '../../../servicios/usuarios.js'
 import Swal from 'sweetalert2'
 
 export default {
@@ -16,6 +17,7 @@ export default {
   data() {
     return {
       usuarios: [],
+      usuariosOnline: [],
       cargando: false,
       error: null,
       paginaActual: 1,
@@ -51,17 +53,58 @@ export default {
           return
         }
 
+        // Obtener usuarios online
+        const servicioUsuariosOnline = new servicioUsuarios()
+        const resultadoUsuariosOnline = await servicioUsuariosOnline.getOnlineUsers()
+        
+        if (resultadoUsuariosOnline.success) {
+          this.usuariosOnline = Array.isArray(resultadoUsuariosOnline.data) ? resultadoUsuariosOnline.data : []
+        }
+
+        // Obtener todos los personajes
         const servicio = new servicioCharacters()
         const resultado = await servicio.getAll()
         if (resultado.success) {
           // El endpoint puede devolver un array directamente o dentro de data
-          this.usuarios = Array.isArray(resultado.data) ? resultado.data : []
+          let todosLosPersonajes = Array.isArray(resultado.data) ? resultado.data : []
+          
+          // Filtrar personajes: solo mostrar aquellos de usuarios online
+          // Si el personaje tiene un campo userId o usuarioId, filtrar por eso
+          // Si no, filtrar por isOnline === true (personajes que están online)
+          if (this.usuariosOnline.length > 0) {
+            // Obtener IDs de usuarios online
+            const idsUsuariosOnline = this.usuariosOnline.map(u => u.id)
+            
+            // Filtrar personajes: mostrar solo si el personaje pertenece a un usuario online
+            // o si el personaje está marcado como online
+            this.usuarios = todosLosPersonajes.filter(personaje => {
+              // Si el personaje tiene userId o usuarioId, verificar que esté en la lista de online
+              if (personaje.userId && idsUsuariosOnline.includes(personaje.userId)) {
+                return true
+              }
+              if (personaje.usuarioId && idsUsuariosOnline.includes(personaje.usuarioId)) {
+                return true
+              }
+              // Si no tiene userId pero tiene isOnline === true, también incluirlo
+              if (personaje.isOnline === true) {
+                return true
+              }
+              return false
+            })
+          } else {
+            // Si no hay usuarios online, mostrar solo personajes marcados como online
+            this.usuarios = todosLosPersonajes.filter(personaje => personaje.isOnline === true)
+          }
+          
           this.paginaActual = 1
         } else {
           // Si es un error 401, probablemente el token expiró
           if (resultado.statusCode === 401) {
             this.error = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.'
-            authService.logout()
+            const authService = new servicioAuth()
+            await authService.logout()
+            // Emitir evento para actualizar el Navbar
+            window.dispatchEvent(new CustomEvent('auth-change'))
           } else {
             this.error = resultado.error || 'Error al cargar los personajes'
           }
