@@ -36,18 +36,18 @@ export default {
     validateForm() {
       // Validar nombre
       if (!this.form.nombre) {
-        this.errors.nombre = 'El nombre es requerido'
+        this.errors.nombre = this.$t('register.validations.nameRequired')
       } else if (this.form.nombre.length < 2) {
-        this.errors.nombre = 'El nombre debe tener al menos 2 caracteres'
+        this.errors.nombre = this.$t('register.validations.nameMinLength')
       } else {
         this.errors.nombre = ''
       }
 
       // Validar password
       if (!this.form.password) {
-        this.errors.password = 'La contraseña es requerida'
+        this.errors.password = this.$t('register.validations.passwordRequired')
       } else if (this.form.password.length < 6) {
-        this.errors.password = 'La contraseña debe tener al menos 6 caracteres'
+        this.errors.password = this.$t('register.validations.passwordMinLength')
       } else {
         this.errors.password = ''
       }
@@ -55,7 +55,7 @@ export default {
       // Validar edad si se proporciona
       if (this.form.edad !== null && this.form.edad !== '') {
         if (this.form.edad < 1 || this.form.edad > 120) {
-          this.errors.edad = 'La edad debe estar entre 1 y 120 años'
+          this.errors.edad = this.$t('register.validations.ageInvalid')
         } else {
           this.errors.edad = ''
         }
@@ -68,7 +68,7 @@ export default {
       if (!this.form.email) {
         this.errors.email = ''
       } else if (!emailRegex.test(this.form.email)) {
-        this.errors.email = 'Por favor, introduce un formato de email válido.'
+        this.errors.email = this.$t('register.validations.emailInvalid')
       } else {
         this.errors.email = ''
       }
@@ -90,9 +90,9 @@ export default {
       if (!this.isFormValid) {
         await Swal.fire({
           icon: 'warning',
-          title: 'Campos incompletos',
-          text: 'Por favor, completa todos los campos requeridos correctamente.',
-          confirmButtonText: 'Aceptar',
+          title: this.$t('register.messages.fieldsIncomplete'),
+          text: this.$t('register.messages.completeFields'),
+          confirmButtonText: this.$t('common.accept'),
           background: '#1a1a1a',
           color: '#d4af37',
           confirmButtonColor: '#5a3d22',
@@ -125,9 +125,9 @@ export default {
         if (resultado.success) {
           await Swal.fire({
             icon: 'success',
-            title: '¡Registro exitoso!',
-            text: `Bienvenido, ${resultado.data.user?.nombre || this.form.nombre}. Tu cuenta ha sido creada exitosamente.`,
-            confirmButtonText: 'Aceptar',
+            title: this.$t('register.messages.registrationSuccess'),
+            text: this.$t('register.messages.welcomeMessage').replace('{name}', resultado.data.user?.nombre || this.form.nombre),
+            confirmButtonText: this.$t('common.accept'),
             background: '#1a1a1a',
             color: '#d4af37',
             confirmButtonColor: '#5a3d22',
@@ -136,21 +136,20 @@ export default {
           // Redirigir al login después del registro
           this.$router.push('/login')
         } else {
-          let errorMessage = resultado.error || 'Error al registrar usuario'
+          let errorMessage = resultado.error || this.$t('register.messages.registrationError')
 
           // Mensajes de error más amigables según el código de estado
           if (resultado.statusCode === 409) {
-            errorMessage = 'Este email ya está registrado. Por favor, usa otro email o inicia sesión.'
+            errorMessage = this.$t('register.messages.emailExists')
           } else if (resultado.statusCode === 400) {
-            errorMessage =
-              'Datos incompletos o inválidos. Por favor, verifica que todos los campos requeridos estén completos.'
+            errorMessage = this.$t('register.messages.invalidData')
           }
 
           await Swal.fire({
             icon: 'error',
-            title: 'Error al registrar',
+            title: this.$t('register.messages.registrationError'),
             text: errorMessage,
-            confirmButtonText: 'Aceptar',
+            confirmButtonText: this.$t('common.accept'),
             background: '#1a1a1a',
             color: '#d4af37',
             confirmButtonColor: '#5a3d22',
@@ -159,9 +158,9 @@ export default {
       } catch {
         await Swal.fire({
           icon: 'error',
-          title: 'Error',
-          text: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.',
-          confirmButtonText: 'Aceptar',
+          title: this.$t('common.error'),
+          text: this.$t('register.messages.unexpectedError'),
+          confirmButtonText: this.$t('common.accept'),
           background: '#1a1a1a',
           color: '#d4af37',
           confirmButtonColor: '#5a3d22',

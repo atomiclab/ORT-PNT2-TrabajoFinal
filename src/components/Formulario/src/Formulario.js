@@ -135,9 +135,9 @@ export default {
 
       // name: requerido y mínimo 2 caracteres
       if (!name) {
-        mensaje = 'El nombre es requerido'
+        mensaje = this.$t('character.form.validations.nameRequired')
       } else if (name.length < 2) {
-        mensaje = 'El nombre debe tener al menos 2 caracteres'
+        mensaje = this.$t('character.form.validations.nameMinLength')
       }
 
       return {
@@ -152,7 +152,7 @@ export default {
 
       // avatar: requerido
       if (!avatar) {
-        mensaje = 'Debes seleccionar un avatar'
+        mensaje = this.$t('character.form.validations.avatarRequired')
       }
 
       return {
@@ -173,7 +173,7 @@ export default {
       let race = this.form.race
 
       if (!race) {
-        mensaje = 'La raza es requerida'
+        mensaje = this.$t('character.form.validations.raceRequired')
       }
 
       return {
@@ -187,7 +187,7 @@ export default {
       let classValue = this.form.class
 
       if (!classValue) {
-        mensaje = 'La clase es requerida'
+        mensaje = this.$t('character.form.validations.classRequired')
       }
 
       return {
@@ -201,7 +201,7 @@ export default {
       let guild = this.form.guild
 
       if (!guild) {
-        mensaje = 'El gremio es requerido'
+        mensaje = this.$t('character.form.validations.guildRequired')
       }
 
       return {
@@ -215,7 +215,7 @@ export default {
       let kingdom = this.form.kingdom
 
       if (!kingdom) {
-        mensaje = 'El reino es requerido'
+        mensaje = this.$t('character.form.validations.kingdomRequired')
       }
 
       return {

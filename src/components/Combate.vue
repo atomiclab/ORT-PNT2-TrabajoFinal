@@ -1,13 +1,13 @@
 <template>
   <div class="combate-container">
-    <h1>Arena de Combate</h1>
+    <h1>{{ $t('battle.title') }}</h1>
     <div class="character-selection">
       <div class="player-character">
-        <h2>Tu Personaje</h2>
-        <div v-if="isLoadingCharacters">Cargando personajes...</div>
+        <h2>{{ $t('battle.selectYourCharacter') }}</h2>
+        <div v-if="isLoadingCharacters">{{ $t('battle.loadingCharacters') }}</div>
         <div v-else-if="charactersError" class="error-message">{{ charactersError }}</div>
         <select v-else v-model="selectedPlayerCharacter" @change="loadPlayerCharacterStats">
-          <option disabled value="">Selecciona tu personaje</option>
+          <option disabled value="">{{ $t('character.form.placeholders.selectRace') }}</option>
           <option v-for="char in characters" :key="char.id" :value="char.id">
             {{ char.name }} (HP: {{ char.hp || 0 }})
           </option>
@@ -32,13 +32,13 @@
             />
           </div>
           <h3>{{ playerCharacter.name }}</h3>
-          <p>Vida: {{ playerCharacter.hp }}</p>
-          <p>Escudo: {{ playerCharacter.shield }}</p>
+          <p>{{ $t('battle.health') }}: {{ playerCharacter.hp }}</p>
+          <p>{{ $t('battle.shield') }}: {{ playerCharacter.shield }}</p>
         </div>
       </div>
       <div class="opponent-character">
-        <h2>Oponente Online</h2>
-        <div v-if="isLoadingUsuariosOnline">Cargando usuarios online...</div>
+        <h2>{{ $t('battle.onlineOpponent') }}</h2>
+        <div v-if="isLoadingUsuariosOnline">{{ $t('battle.loadingOnlineUsers') }}</div>
         <div v-else-if="usuariosOnlineError" class="error-message">{{ usuariosOnlineError }}</div>
         <template v-else>
           <div class="opponent-selectors">
@@ -47,13 +47,13 @@
               @change="loadOpponentCharacters"
               class="opponent-user-select"
             >
-              <option disabled value="">Selecciona un usuario oponente</option>
+              <option disabled value="">{{ $t('battle.selectOpponent') }}</option>
               <option v-for="usuario in usuariosOnline" :key="usuario.id" :value="usuario.id">
                 {{ usuario.nombre || usuario.email }}
               </option>
             </select>
             <div v-if="selectedOpponentUser && isLoadingOpponentCharacters" class="loading-message">
-              Cargando personajes del oponente...
+              {{ $t('battle.loadingOpponentCharacters') }}
             </div>
             <select
               v-else-if="selectedOpponentUser && opponentCharacters.length > 0"
@@ -61,7 +61,7 @@
               @change="loadOpponentCharacterStats"
               class="opponent-character-select"
             >
-              <option disabled value="">Selecciona un personaje</option>
+              <option disabled value="">{{ $t('battle.selectOpponentCharacter') }}</option>
               <option v-for="char in opponentCharacters" :key="char.id" :value="char.id">
                 {{ char.name }} (HP: {{ char.hp }})
               </option>
@@ -70,7 +70,7 @@
               v-else-if="selectedOpponentUser && opponentCharacters.length === 0"
               class="error-message"
             >
-              Este usuario no tiene personajes online disponibles
+              {{ $t('battle.noCharactersAvailable') }}
             </div>
           </div>
           <div v-if="selectedOpponentCharacter" class="character-stats">
@@ -93,9 +93,9 @@
               />
             </div>
             <h3>{{ opponentCharacter.name || 'Oponente' }}</h3>
-            <p>Vida: {{ opponentCharacter.hp }}</p>
+            <p>{{ $t('battle.health') }}: {{ opponentCharacter.hp }}</p>
             <p v-if="opponentCharacter.shield !== undefined">
-              Escudo: {{ opponentCharacter.shield }}
+              {{ $t('battle.shield') }}: {{ opponentCharacter.shield }}
             </p>
           </div>
         </template>
@@ -105,8 +105,8 @@
       @click="startCombat"
       :disabled="!selectedPlayerCharacter || !selectedOpponentCharacter || isBattleLoading"
     >
-      <span v-if="isBattleLoading">Ejecutando batalla...</span>
-      <span v-else>Iniciar Combate</span>
+      <span v-if="isBattleLoading">{{ $t('battle.executingBattle') }}...</span>
+      <span v-else>{{ $t('battle.startCombat') }}</span>
     </button>
 
     <div v-if="battleError" class="error-message battle-error">
@@ -114,11 +114,11 @@
     </div>
 
     <div v-if="battleResult" class="combat-log">
-      <h2>Resultado del Combate</h2>
+      <h2>{{ $t('battle.combatResult') }}</h2>
       <div class="battle-info">
-        <p class="battle-id"><strong>ID de Batalla:</strong> {{ battleResult.battleId }}</p>
+        <p class="battle-id"><strong>{{ $t('battle.battleId') }}:</strong> {{ battleResult.battleId }}</p>
         <p class="battle-date">
-          <strong>Fecha y Hora:</strong> {{ formatBattleDate(battleResult.dateTimePelea) }}
+          <strong>{{ $t('battle.dateTime') }}:</strong> {{ formatBattleDate(battleResult.dateTimePelea) }}
         </p>
       </div>
 
@@ -142,12 +142,12 @@
               class="participant-avatar-img"
             />
           </div>
-          <h3>Retador: {{ battleResult.retador.name }}</h3>
+          <h3>{{ $t('battle.challenger') }}: {{ battleResult.retador.name }}</h3>
           <div class="participant-stats">
-            <p><strong>HP Antes:</strong> {{ battleResult.retador.hpAntes }}</p>
-            <p><strong>HP Después:</strong> {{ battleResult.retador.hpDespues }}</p>
-            <p><strong>Dado Lanzado:</strong> {{ battleResult.retador.dado }}</p>
-            <p><strong>Daño Recibido:</strong> {{ battleResult.retador.dañoEfectivoRecibido }}</p>
+            <p><strong>{{ $t('battle.hpBefore') }}:</strong> {{ battleResult.retador.hpAntes }}</p>
+            <p><strong>{{ $t('battle.hpAfter') }}:</strong> {{ battleResult.retador.hpDespues }}</p>
+            <p><strong>{{ $t('battle.diceRolled') }}:</strong> {{ battleResult.retador.dado }}</p>
+            <p><strong>{{ $t('battle.damageReceived') }}:</strong> {{ battleResult.retador.dañoEfectivoRecibido }}</p>
           </div>
         </div>
 
@@ -170,12 +170,12 @@
               class="participant-avatar-img"
             />
           </div>
-          <h3>Retado: {{ battleResult.retado.name }}</h3>
+          <h3>{{ $t('battle.challenged') }}: {{ battleResult.retado.name }}</h3>
           <div class="participant-stats">
-            <p><strong>HP Antes:</strong> {{ battleResult.retado.hpAntes }}</p>
-            <p><strong>HP Después:</strong> {{ battleResult.retado.hpDespues }}</p>
-            <p><strong>Dado Lanzado:</strong> {{ battleResult.retado.dado }}</p>
-            <p><strong>Daño Recibido:</strong> {{ battleResult.retado.dañoEfectivoRecibido }}</p>
+            <p><strong>{{ $t('battle.hpBefore') }}:</strong> {{ battleResult.retado.hpAntes }}</p>
+            <p><strong>{{ $t('battle.hpAfter') }}:</strong> {{ battleResult.retado.hpDespues }}</p>
+            <p><strong>{{ $t('battle.diceRolled') }}:</strong> {{ battleResult.retado.dado }}</p>
+            <p><strong>{{ $t('battle.damageReceived') }}:</strong> {{ battleResult.retado.dañoEfectivoRecibido }}</p>
           </div>
         </div>
       </div>
@@ -243,7 +243,7 @@ export default {
     async loadAuthenticatedUser() {
       this.authStore.syncFromStorage()
       if (!this.authStore.isAuthenticated) {
-        this.charactersError = 'Debes iniciar sesión para acceder al modo combate.'
+        this.charactersError = this.$t('battle.errors.notAuthenticated')
         return
       }
       if (!this.authStore.userId) {
@@ -254,7 +254,7 @@ export default {
       const userId = this.currentUserId
 
       if (!this.authStore.isAuthenticated || !userId) {
-        this.charactersError = 'No se puede cargar personajes: usuario no disponible.'
+        this.charactersError = this.$t('battle.errors.userNotAvailable')
         return
       }
 
@@ -277,14 +277,14 @@ export default {
             this.characters = []
           }
         } else {
-          this.charactersError = resultado.error || 'Error al cargar los personajes'
+          this.charactersError = resultado.error || this.$t('battle.errors.loadingCharacters')
           if (resultado.statusCode === 404) {
             this.characters = []
             this.charactersError = null
           }
         }
       } catch (error) {
-        this.charactersError = 'Error al cargar los personajes'
+        this.charactersError = this.$t('battle.errors.loadingCharacters')
         console.error('Error al obtener personajes (catch):', error)
       } finally {
         this.isLoadingCharacters = false

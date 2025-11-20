@@ -3,13 +3,13 @@
     <div class="col-12 col-lg-10 mx-auto">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          <h5 class="m-0">⚔️ Alta de Guerrero</h5>
+          <h5 class="m-0">⚔️ {{ $t('character.form.title') }}</h5>
         </div>
         <div class="card-body">
           <form @submit.prevent="onSubmit" novalidate>
             <div class="row">
               <div class="col-12 mb-3">
-                <label class="form-label" for="name">Nombre del Personaje</label>
+                <label class="form-label" for="name">{{ $t('character.form.name') }}</label>
                 <input
                   id="name"
                   type="text"
@@ -17,7 +17,7 @@
                   v-model.trim="form.name"
                   @input="formDirty.name = true"
                   :class="{ 'is-invalid': errorName.mostrar, 'is-valid': formDirty.name && errorName.ok }"
-                  placeholder="Ingresa el nombre del personaje"
+                  :placeholder="$t('character.form.placeholders.name')"
                 />
                 <div class="invalid-feedback" v-if="errorName.mostrar">{{ errorName.mensaje }}</div>
               </div>
@@ -25,7 +25,7 @@
 
             <div class="row">
               <div class="col-12 col-md-6 mb-3">
-                <label class="form-label" for="race">Raza</label>
+                <label class="form-label" for="race">{{ $t('character.form.race') }}</label>
                 <select
                   id="race"
                   class="form-control"
@@ -33,7 +33,7 @@
                   @change="formDirty.race = true"
                   :class="{ 'is-invalid': errorRace.mostrar, 'is-valid': formDirty.race && errorRace.ok }"
                 >
-                  <option value="">Selecciona una raza</option>
+                  <option value="">{{ $t('character.form.placeholders.selectRace') }}</option>
                   <option v-for="raza in razas" :key="raza" :value="raza">{{ raza }}</option>
                 </select>
                 <div class="invalid-feedback" v-if="errorRace.mostrar">{{ errorRace.mensaje }}</div>
@@ -53,7 +53,7 @@
 
             <div class="row">
               <div class="col-12 col-md-6 mb-3">
-                <label class="form-label" for="class">Clase</label>
+                <label class="form-label" for="class">{{ $t('character.form.class') }}</label>
                 <select
                   id="class"
                   class="form-control"
@@ -61,7 +61,7 @@
                   @change="formDirty.class = true"
                   :class="{ 'is-invalid': errorClass.mostrar, 'is-valid': formDirty.class && errorClass.ok }"
                 >
-                  <option value="">Selecciona una clase</option>
+                  <option value="">{{ $t('character.form.placeholders.selectClass') }}</option>
                   <option v-for="clase in clases" :key="clase" :value="clase">{{ clase }}</option>
                 </select>
                 <div class="invalid-feedback" v-if="errorClass.mostrar">
@@ -72,7 +72,7 @@
 
             <div class="row">
               <div class="col-12 col-md-6 mb-3">
-                <label class="form-label" for="guild">Gremio</label>
+                <label class="form-label" for="guild">{{ $t('character.form.guild') }}</label>
                 <select
                   id="guild"
                   class="form-control"
@@ -80,7 +80,7 @@
                   @change="formDirty.guild = true"
                   :class="{ 'is-invalid': errorGuild.mostrar, 'is-valid': formDirty.guild && errorGuild.ok }"
                 >
-                  <option value="">Selecciona un gremio</option>
+                  <option value="">{{ $t('character.form.placeholders.selectGuild') }}</option>
                   <option v-for="gremio in gremios" :key="gremio" :value="gremio">
                     {{ gremio }}
                   </option>
@@ -91,7 +91,7 @@
               </div>
 
               <div class="col-12 col-md-6 mb-3">
-                <label class="form-label" for="kingdom">Reino</label>
+                <label class="form-label" for="kingdom">{{ $t('character.form.kingdom') }}</label>
                 <select
                   id="kingdom"
                   class="form-control"
@@ -99,7 +99,7 @@
                   @change="formDirty.kingdom = true"
                   :class="{ 'is-invalid': errorKingdom.mostrar, 'is-valid': formDirty.kingdom && errorKingdom.ok }"
                 >
-                  <option value="">Selecciona un reino</option>
+                  <option value="">{{ $t('character.form.placeholders.selectKingdom') }}</option>
                   <option v-for="reino in reinos" :key="reino" :value="reino">{{ reino }}</option>
                 </select>
                 <div class="invalid-feedback" v-if="errorKingdom.mostrar">
@@ -113,15 +113,14 @@
               style="background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37"
             >
               <small>
-                <strong>ℹ️ Nota:</strong> La vida (HP) se generará automáticamente entre 50 y 100
-                puntos. El escudo (Shield) entre 10 y 30 puntos, y el nivel inicial será 1.
+                <strong>ℹ️ {{ $t('character.form.note.title') }}:</strong> {{ $t('character.form.note.description') }}
               </small>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
               <button class="btn btn-primary" type="submit" :disabled="!isValid || enviando">
-                <span v-if="enviando">⏳ Creando...</span>
-                <span v-else>✨ Crear Personaje</span>
+                <span v-if="enviando">⏳ {{ $t('character.form.creating') }}...</span>
+                <span v-else">✨ {{ $t('character.form.createCharacter') }}</span>
               </button>
               <button
                 class="btn btn-secondary"
@@ -129,7 +128,7 @@
                 @click="resetForm"
                 :disabled="enviando"
               >
-                🗑️ Limpiar
+                🗑️ {{ $t('character.form.clear') }}
               </button>
             </div>
           </form>

@@ -1,41 +1,38 @@
 <template>
   <div class="container mt-5">
     <div class="text-center mb-5">
-      <h1 class="home-title">⚔️ Reino de los Dados ⚔️</h1>
-      <p class="home-subtitle">Crea tu personaje y aventúrate en un mundo épico</p>
+      <h1 class="home-title">⚔️ {{ $t('home.title') }} ⚔️</h1>
+      <p class="home-subtitle">{{ $t('home.subtitle') }}</p>
     </div>
 
     <div class="home-content">
       <div class="intro-section">
-        <h2 class="section-title">Bienvenido, Aventurero</h2>
+        <h2 class="section-title">{{ $t('home.welcome.title') }}</h2>
         <p class="intro-text">
-          En este reino de fantasía, tu destino está en tus manos. Crea tu personaje único, elige
-          sus habilidades y características, y prepárate para vivir increíbles aventuras donde cada
-          lanzamiento de dados puede cambiar el curso de tu historia.
+          {{ $t('home.welcome.paragraph1') }}
         </p>
         <p class="intro-text">
-          Cada personaje que crees será único, con sus propias fortalezas y debilidades. La suerte y
-          la estrategia se combinarán para crear historias épicas que recordarás para siempre.
+          {{ $t('home.welcome.paragraph2') }}
         </p>
       </div>
 
       <div class="features-section mt-5">
-        <h3 class="features-title">¿Qué puedes hacer?</h3>
+        <h3 class="features-title">{{ $t('home.features.title') }}</h3>
         <div class="features-grid">
           <div class="feature-card">
             <span class="feature-icon">👤</span>
-            <h4>Crear Personajes</h4>
-            <p>Diseña tu héroe personalizado con atributos y habilidades únicas</p>
+            <h4>{{ $t('home.features.createCharacters.title') }}</h4>
+            <p>{{ $t('home.features.createCharacters.description') }}</p>
           </div>
           <div class="feature-card">
             <span class="feature-icon">🎲</span>
-            <h4>Sistema de Dados</h4>
-            <p>Utiliza el sistema de dados para determinar el destino de tus acciones</p>
+            <h4>{{ $t('home.features.diceSystem.title') }}</h4>
+            <p>{{ $t('home.features.diceSystem.description') }}</p>
           </div>
           <div class="feature-card">
             <span class="feature-icon">🗺️</span>
-            <h4>Explorar Mundos</h4>
-            <p>Vive aventuras en un mundo rico en historias y desafíos</p>
+            <h4>{{ $t('home.features.exploreWorlds.title') }}</h4>
+            <p>{{ $t('home.features.exploreWorlds.description') }}</p>
           </div>
         </div>
       </div>

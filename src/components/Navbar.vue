@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <RouterLink class="navbar-brand" to="/">
         <span class="nav-icon">⚔️</span>
-        <span class="brand-text">Reino</span>
+        <span class="brand-text">{{ $t('nav.home') }}</span>
       </RouterLink>
 
       <button
@@ -24,50 +24,62 @@
           <li v-if="isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/formulario" active-class="active">
               <span class="nav-icon">📜</span>
-              <span>Crear Personaje</span>
+              <span>{{ $t('nav.createCharacter') }}</span>
             </RouterLink>
           </li>
           <li v-if="isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/guild" active-class="active">
               <span class="nav-icon">🏰</span>
-              <span>Guild Masters</span>
+              <span>{{ $t('nav.guildMasters') }}</span>
             </RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/consigna" active-class="active">
               <span class="nav-icon">📖</span>
-              <span>Consigna</span>
+              <span>{{ $t('nav.assignment') }}</span>
             </RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/statistics" active-class="active">
               <span class="nav-icon">📊</span>
-              <span>Estadísticas</span>
+              <span>{{ $t('nav.statistics') }}</span>
             </RouterLink>
           </li>
           <li v-if="isAuthenticated && userId" class="nav-item">
             <RouterLink class="nav-link" :to="profileRoute" active-class="active">
               <span class="nav-icon">👤</span>
-              <span>Perfil</span>
+              <span>{{ $t('nav.profile') }}</span>
             </RouterLink>
           </li>
           <li v-if="isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/combate" active-class="active">
               <span class="nav-icon">⚔️</span>
-              <span>Combate</span>
+              <span>{{ $t('nav.combat') }}</span>
             </RouterLink>
           </li>
           <li v-if="isAuthenticated" class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">
               <span class="nav-icon">🚪</span>
-              <span>Cerrar Sesión</span>
+              <span>{{ $t('nav.logout') }}</span>
             </a>
           </li>
+          
           <li v-if="!isAuthenticated" class="nav-item">
             <RouterLink class="nav-link" to="/login" active-class="active">
               <span class="nav-icon">🔐</span>
-              <span>Login</span>
+              <span>{{ $t('nav.login') }}</span>
             </RouterLink>
+          </li>
+          <li v-if="!isAuthenticated" class="nav-item">
+            <RouterLink class="nav-link" to="/register" active-class="active">
+              <span class="nav-icon">📝</span>
+              <span>{{ $t('nav.register') }}</span>
+            </RouterLink>
+          </li>
+
+          <!-- Selector de idioma -->
+          <li class="nav-item nav-language">
+            <LanguageSelector />
           </li>
 
         </ul>
@@ -79,9 +91,13 @@
 <script>
 import { mapStores } from 'pinia'
 import { useAuthStore } from '../stores/auth.js'
+import LanguageSelector from './LanguageSelector.vue'
 
 export default {
   name: 'AppNavbar',
+  components: {
+    LanguageSelector,
+  },
   computed: {
     ...mapStores(useAuthStore),
     isAuthenticated() {
@@ -246,6 +262,31 @@ export default {
 
   .nav-link {
     margin: 0.25rem 0;
+  }
+}
+
+/* Estilos para el selector de idioma */
+.nav-language {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.nav-language .language-toggle-button {
+  border-color: #d4af37;
+  background: rgba(13, 13, 13, 0.8);
+}
+
+.nav-language .language-toggle-button:hover {
+  border-color: #f4d777;
+  background: rgba(212, 175, 55, 0.1);
+}
+
+@media (max-width: 767px) {
+  .nav-language {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    justify-content: center;
   }
 }
 </style>
