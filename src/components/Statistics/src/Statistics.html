@@ -2,18 +2,18 @@
   <div class="last-battle-panel">
     <div class="last-battle-controls">
       <select v-model="selectedCharacterId" class="character-select" :disabled="!characters.length">
-        <option disabled value="">Selecciona un personaje</option>
+        <option disabled value="">{{ $t('statistics.character.selectCharacter') }}</option>
         <option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }}</option>
       </select>
       <button class="last-battle-button" @click="fetchLastBattle" :disabled="!selectedCharacterId || loadingLastBattle || !characters.length">
-        {{ loadingLastBattle ? 'Buscando...' : 'Última Batalla' }}
+        {{ loadingLastBattle ? $t('statistics.battle.searching') : $t('statistics.battle.lastBattle') }}
       </button>
     </div>
     <div class="last-battle-result" v-if="lastBattleResult">
       <template v-if="lastBattleResult.success && battleEntries.length">
         <div class="statistics-card battle-card">
           <div class="statistics-header battle-header">
-            <h2>⚔️ Resultados de la última batalla</h2>
+            <h2>⚔️ {{ $t('statistics.battle.lastBattleResults') }}</h2>
           </div>
           <div class="statistics-content battle-content">
             <div class="statistics-section">
@@ -28,19 +28,19 @@
         </div>
       </template>
       <div v-else class="battle-error-box">
-        <h4>Error al obtener batalla</h4>
-        <p>{{ lastBattleResult.error || 'Error desconocido' }}</p>
+        <h4>{{ $t('statistics.battle.error') }}</h4>
+        <p>{{ lastBattleResult.error || $t('statistics.battle.unknownError') }}</p>
       </div>
     </div>
   </div>
   <div v-if="!character" class="no-character">
     <div class="no-character-icon">📊</div>
-    <h3>Estadísticas</h3>
-    <p>Selecciona un personaje para ver sus estadísticas</p>
+    <h3>{{ $t('statistics.title') }}</h3>
+    <p>{{ $t('statistics.character.selectToView') }}</p>
   </div>
   <div v-else class="statistics-card">
     <div class="statistics-header">
-      <h2>📊 Estadísticas</h2>
+      <h2>📊 {{ $t('statistics.title') }}</h2>
       <div class="character-avatar-small">
         <img
           :src="character.avatar"
@@ -52,43 +52,43 @@
 
     <div class="statistics-content">
       <div class="statistics-section">
-        <h3 class="section-title">⚔️ Información General</h3>
+        <h3 class="section-title">⚔️ {{ $t('statistics.character.generalInfo') }}</h3>
         <div class="stat-item">
-          <span class="stat-label">Nombre:</span>
+          <span class="stat-label">{{ $t('character.name') }}:</span>
           <span class="stat-value-text">{{ character.name }}</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Raza:</span>
-          <span class="stat-value-text">{{ character.race || 'No especificada' }}</span>
+          <span class="stat-label">{{ $t('character.race') }}:</span>
+          <span class="stat-value-text">{{ character.race || $t('character.notSpecified') }}</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Clase:</span>
-          <span class="stat-value-text">{{ character.class || 'No especificada' }}</span>
+          <span class="stat-label">{{ $t('character.class') }}:</span>
+          <span class="stat-value-text">{{ character.class || $t('character.notSpecified') }}</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Gremio:</span>
-          <span class="stat-value-text">{{ character.guild || 'Sin gremio' }}</span>
+          <span class="stat-label">{{ $t('character.guild') }}:</span>
+          <span class="stat-value-text">{{ character.guild || $t('character.noGuild') }}</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">Estado:</span>
+          <span class="stat-label">{{ $t('character.status') }}:</span>
           <span
             class="stat-value-text status-badge"
             :class="character.isOnline ? 'online' : 'offline'"
           >
-            {{ character.isOnline ? '🟢 En línea' : '⚫ Offline' }}
+            {{ character.isOnline ? '🟢 ' + $t('character.online') : '⚫ ' + $t('character.offline') }}
           </span>
         </div>
       </div>
 
       <div class="statistics-section">
-        <h3 class="section-title">💪 Atributos</h3>
+        <h3 class="section-title">💪 {{ $t('statistics.character.attributes') }}</h3>
         <div class="stats-grid">
           <div class="stat-box">
-            <div class="stat-box-label">Nivel</div>
+            <div class="stat-box-label">{{ $t('character.level') }}</div>
             <div class="stat-box-value level">{{ character.level || 1 }}</div>
           </div>
           <div class="stat-box">
-            <div class="stat-box-label">HP</div>
+            <div class="stat-box-label">{{ $t('character.hp') }}</div>
             <div
               class="stat-box-value hp"
               :class="character.hp > 50 ? 'high' : character.hp > 20 ? 'medium' : 'low'"
@@ -97,17 +97,17 @@
             </div>
           </div>
           <div class="stat-box" v-if="character.shield !== undefined">
-            <div class="stat-box-label">Escudo</div>
+            <div class="stat-box-label">{{ $t('character.shield') }}</div>
             <div class="stat-box-value shield">{{ character.shield || 0 }}</div>
           </div>
         </div>
       </div>
 
       <div class="statistics-section" v-if="character.hp !== undefined">
-        <h3 class="section-title">❤️ Salud</h3>
+        <h3 class="section-title">❤️ {{ $t('statistics.character.health') }}</h3>
         <div class="health-bar-container">
           <div class="health-bar-label">
-            <span>Vida: {{ character.hp || 0 }}%</span>
+            <span>{{ $t('character.life') }}: {{ character.hp || 0 }}%</span>
           </div>
           <div class="health-bar">
             <div
@@ -122,7 +122,7 @@
           v-if="character.shield !== undefined && character.shield > 0"
         >
           <div class="health-bar-label">
-            <span>Escudo: {{ character.shield }}%</span>
+            <span>{{ $t('character.shield') }}: {{ character.shield }}%</span>
           </div>
           <div class="health-bar">
             <div

@@ -24,11 +24,11 @@ export default {
         if (resultado.success) {
           this.statistics = resultado.data
         } else {
-          this.error = resultado.error || 'Error al cargar las estadísticas'
+          this.error = resultado.error || this.$t('statistics.errors.loadError')
         }
       } catch (error) {
-        this.error = 'Ocurrió un error inesperado al cargar las estadísticas'
-        console.error('Error al cargar estadísticas:', error)
+        this.error = this.$t('statistics.errors.loadError')
+        console.error('Error loading statistics:', error)
       } finally {
         this.isLoading = false
       }

@@ -69,7 +69,21 @@ export default {
     notAuthenticated: 'No autenticado',
     goToLogin: 'Ir al Login',
     creating: 'Creando personaje...',
-    errorCreating: 'Error al crear el personaje'
+    errorCreating: 'Error al crear el personaje',
+    // Campos adicionales para estadísticas
+    name: 'Nombre',
+    race: 'Raza',
+    class: 'Clase',
+    guild: 'Gremio',
+    level: 'Nivel',
+    hp: 'HP',
+    shield: 'Escudo',
+    life: 'Vida',
+    status: 'Estado',
+    online: 'En línea',
+    offline: 'Offline',
+    notSpecified: 'No especificada',
+    noGuild: 'Sin gremio'
   },
 
   // Login
@@ -185,9 +199,23 @@ export default {
 
   // Estadísticas
   statistics: {
-    title: 'Estadísticas del Juego',
+    title: 'Estadísticas',
     loading: 'Cargando estadísticas...',
     noData: 'No hay datos disponibles',
+    character: {
+      selectCharacter: 'Selecciona un personaje',
+      selectToView: 'Selecciona un personaje para ver sus estadísticas',
+      generalInfo: 'Información General',
+      attributes: 'Atributos',
+      health: 'Salud'
+    },
+    battle: {
+      searching: 'Buscando...',
+      lastBattle: 'Última Batalla',
+      lastBattleResults: 'Resultados de la última batalla',
+      error: 'Error al obtener batalla',
+      unknownError: 'Error desconocido'
+    },
     errors: {
       loadError: 'Error al cargar las estadísticas'
     },
@@ -333,6 +361,13 @@ export default {
       invalidData: 'Datos incompletos o inválidos. Por favor, verifica que todos los campos requeridos estén completos.',
       unexpectedError: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.'
     }
+  },
+
+  // Página de error 404
+  notFound: {
+    title: 'Página No Encontrada',
+    message: 'Lo sentimos, la página que estás buscando no existe o ha sido movida.',
+    goHome: 'Volver al Inicio'
   },
 
   // Generales

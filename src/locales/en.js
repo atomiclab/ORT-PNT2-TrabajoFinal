@@ -59,17 +59,31 @@ export default {
       kingdomRequired: 'Kingdom is required',
       avatarRequired: 'Avatar is required'
     },
-    races: ['Human', 'Elf', 'Orc', 'Dwarf', 'Half-Elf', 'Tiefling'],
+    races: ['Human', 'Elf', 'Orc', 'Dwarf', 'Half-elf', 'Tiefling'],
     classes: ['Warrior', 'Mage', 'Paladin', 'Archer', 'Rogue', 'Barbarian'],
     info: 'Health (HP) will be automatically generated between 50 and 100 points. Shield between 10 and 30 points, and initial level will be 1.',
     success: 'Character created successfully!',
     characterCreated: 'Character created!',
     characterCreatedText: 'has been created successfully.',
-    authRequired: 'You must login to create a character.',
+    authRequired: 'You must log in to create a character.',
     notAuthenticated: 'Not authenticated',
     goToLogin: 'Go to Login',
     creating: 'Creating character...',
-    errorCreating: 'Error creating character'
+    errorCreating: 'Error creating character',
+    // Additional fields for statistics
+    name: 'Name',
+    race: 'Race',
+    class: 'Class',
+    guild: 'Guild',
+    level: 'Level',
+    hp: 'HP',
+    shield: 'Shield',
+    life: 'Life',
+    status: 'Status',
+    online: 'Online',
+    offline: 'Offline',
+    notSpecified: 'Not specified',
+    noGuild: 'No guild'
   },
 
   // Login
@@ -185,9 +199,23 @@ export default {
 
   // Statistics
   statistics: {
-    title: 'Game Statistics',
+    title: 'Statistics',
     loading: 'Loading statistics...',
     noData: 'No data available',
+    character: {
+      selectCharacter: 'Select a character',
+      selectToView: 'Select a character to view their statistics',
+      generalInfo: 'General Information',
+      attributes: 'Attributes',
+      health: 'Health'
+    },
+    battle: {
+      searching: 'Searching...',
+      lastBattle: 'Last Battle',
+      lastBattleResults: 'Last battle results',
+      error: 'Error getting battle',
+      unknownError: 'Unknown error'
+    },
     errors: {
       loadError: 'Error loading statistics'
     },
@@ -333,6 +361,13 @@ export default {
       invalidData: 'Incomplete or invalid data. Please verify that all required fields are complete.',
       unexpectedError: 'An unexpected error occurred. Please try again.'
     }
+  },
+
+  // 404 Error Page
+  notFound: {
+    title: 'Page Not Found',
+    message: 'Sorry, the page you are looking for does not exist or has been moved.',
+    goHome: 'Go Home'
   },
 
   // Common
