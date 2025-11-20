@@ -362,7 +362,7 @@
 
 .distribution-item {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1.5fr) minmax(60px, 1fr) min-content;
   align-items: center;
   gap: 15px;
   padding: 12px;
@@ -385,13 +385,12 @@
 }
 
 .distribution-bar-container {
-  flex: 1;
   height: 20px;
   background: rgba(26, 26, 26, 0.8);
   border: 1px solid #d4af37;
   border-radius: 10px;
   overflow: hidden;
-  min-width: 100px;
+  min-width: 60px; 
 }
 
 .distribution-bar {
@@ -407,7 +406,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: #c0c0c0;
-  min-width: 40px;
+  min-width: 30px; 
   text-align: right;
 }
 
