@@ -28,6 +28,7 @@ export default {
       placeholders: {
         name: 'Enter character name',
         selectRace: 'Select a race',
+        selectYourCharacter: 'Select your Character',
         selectClass: 'Select a class', 
         selectGuild: 'Select a guild',
         selectKingdom: 'Select a kingdom'

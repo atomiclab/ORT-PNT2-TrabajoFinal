@@ -1,4 +1,5 @@
 <!-- Este sera un SINGLE FILE COMPONENT -->
+
 <template>
   <nav class="navbar navbar-expand-md navbar-medieval mb-3">
     <div class="container-fluid">
@@ -92,6 +93,7 @@
 import { mapStores } from 'pinia'
 import { useAuthStore } from '../stores/auth.js'
 import LanguageSelector from './LanguageSelector.vue'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'AppNavbar',
@@ -118,7 +120,41 @@ export default {
   },
   methods: {
     async logout() {
+      let confirmed = false
+      if (typeof Swal !== 'undefined') {
+        const result = await Swal.fire({
+          icon: 'question',
+          title: this.$t('profile.logout.confirm'),
+          text: this.$t('profile.logout.message'),
+          showCancelButton: true,
+          confirmButtonText: this.$t('profile.logout.yes'),
+          cancelButtonText: this.$t('profile.logout.cancel'),
+          background: '#1a1a1a',
+          color: '#d4af37',
+          confirmButtonColor: '#5a3d22',
+          cancelButtonColor: '#666',
+        })
+        confirmed = result.isConfirmed
+      } else {
+        confirmed = window.confirm(this.$t('profile.logout.message'))
+      }
+
+      if (!confirmed) return
+
       await this.authStore.logout()
+
+      if (typeof Swal !== 'undefined') {
+        await Swal.fire({
+          icon: 'success',
+          title: this.$t('profile.logout.success'),
+          text: this.$t('profile.logout.successText'),
+          confirmButtonText: this.$t('common.accept'),
+          background: '#1a1a1a',
+          color: '#d4af37',
+          confirmButtonColor: '#5a3d22',
+        })
+      }
+
       this.$router.push('/login')
     },
   },

@@ -7,7 +7,7 @@
         <div v-if="isLoadingCharacters">{{ $t('battle.loadingCharacters') }}</div>
         <div v-else-if="charactersError" class="error-message">{{ charactersError }}</div>
         <select v-else v-model="selectedPlayerCharacter" @change="loadPlayerCharacterStats">
-          <option disabled value="">{{ $t('character.form.placeholders.selectRace') }}</option>
+          <option disabled value="">{{ $t('character.form.placeholders.selectYourCharacter') }}</option>
           <option v-for="char in characters" :key="char.id" :value="char.id">
             {{ char.name }} (HP: {{ char.hp || 0 }})
           </option>

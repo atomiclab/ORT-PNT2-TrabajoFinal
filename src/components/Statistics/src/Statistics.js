@@ -68,7 +68,7 @@ export default {
           try {
             const parsed = JSON.parse(storedUser)
             this.userId = parsed?.id || parsed?.userId || parsed?.data?.id || null
-          } catch {}
+          } catch {e}
         }
       }
       this.loadCharacters()
@@ -88,7 +88,7 @@ export default {
             this.selectedCharacterId = this.characters[0].id
           }
         }
-      } catch (e) {
+      } catch {
         this.characters = []
       }
     },
