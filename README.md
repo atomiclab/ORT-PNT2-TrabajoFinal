@@ -310,6 +310,48 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
+### OpenAPI
+El proyecto consume APIs REST mediante `axios`, pero no incluye una especificación OpenAPI documentada. Las llamadas a la API se realizan a través de servicios encapsulados en `src/servicios/` (characters.js, auth.js, usuarios.js, battle.js, statistics.js), que manejan headers, autenticación y parsing de respuestas de forma consistente.
+
+### Composition API
+Se implementa Vue 3 Composition API de forma híbrida con Options API:
+
+- **Componente con Composition API**: `LanguageSelector.vue` utiliza `setup()` con `computed()` y `useI18n()` para manejar el cambio de idioma de forma reactiva.
+
+```18:39:src/components/LanguageSelector.vue
+  setup() {
+    const { locale } = useI18n()
+
+    const currentLocale = computed(() => {
+      return availableLocales.find(l => l.code === locale.value) || availableLocales[0]
+    })
+
+    // El idioma que se mostrará al hacer clic (el otro idioma)
+    const nextLocale = computed(() => {
+      const current = currentLocale.value.code
+      return availableLocales.find(l => l.code !== current) || availableLocales[0]
+    })
+
+    const toggleLanguage = () => {
+      setLocale(nextLocale.value.code)
+    }
+
+    return {
+      nextLocale,
+      toggleLanguage
+    }
+  }
+```
+
+- **Configuración de vue-i18n**: Se configura con `legacy: false` para usar Composition API en lugar de la API legacy.
+
+```24:25:src/locales/index.js
+const i18n = createI18n({
+  legacy: false, // Usar Composition API
+```
+
+- **Mayoría de componentes**: Utilizan Options API tradicional (`data()`, `computed`, `methods`, lifecycle hooks) para mantener consistencia y compatibilidad con el resto del código.
+
 ## Cómo ejecutar
 
 ```bash
