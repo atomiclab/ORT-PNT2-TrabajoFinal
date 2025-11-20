@@ -1,7 +1,9 @@
+/* eslint-disable no-useless-escape */
 import servicioCharacters from '../../../servicios/characters.js'
-import servicioAuth from '../../../servicios/auth.js'
 import servicioUsuarios from '../../../servicios/usuarios.js'
 import Swal from 'sweetalert2'
+import { mapStores } from 'pinia'
+import { useAuthStore } from '../../../stores/auth.js'
 
 export default {
   name: 'Guild',
@@ -27,6 +29,7 @@ export default {
   },
 
   computed: {
+    ...mapStores(useAuthStore),
     totalPaginas() {
       return Math.ceil(this.usuarios.length / this.usuariosPorPagina)
     },
@@ -37,18 +40,13 @@ export default {
     },
   },
 
-  watch: {
-    // observadores
-  },
-
   methods: {
     async obtenerUsuarios() {
       this.cargando = true
       this.error = null
       try {
         // Verificar autenticación
-        const authService = new servicioAuth()
-        if (!authService.isAuthenticated()) {
+        if (!this.authStore.isAuthenticated) {
           this.error = 'Debes iniciar sesión para ver los personajes'
           this.cargando = false
           return
@@ -110,10 +108,7 @@ export default {
           // Si es un error 401, probablemente el token expiró
           if (resultado.statusCode === 401) {
             this.error = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.'
-            const authService = new servicioAuth()
-            await authService.logout()
-            // Emitir evento para actualizar el Navbar
-            window.dispatchEvent(new CustomEvent('auth-change'))
+            await this.authStore.logout()
           } else {
             this.error = resultado.error || 'Error al cargar los personajes'
           }

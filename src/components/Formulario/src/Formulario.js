@@ -1,12 +1,14 @@
 import servicioCharacters from '../../../servicios/characters.js'
-import servicioAuth from '../../../servicios/auth.js'
 import Swal from 'sweetalert2'
+import { mapStores } from 'pinia'
+import { useAuthStore } from '../../../stores/auth.js'
+import AvatarSelector from './AvatarSelector.vue'
 
 export default {
   name: 'Formulario',
 
   components: {
-    // componentes hijos
+    AvatarSelector,
   },
 
   props: {
@@ -126,6 +128,7 @@ export default {
   },
 
   computed: {
+    ...mapStores(useAuthStore),
     errorName() {
       let mensaje = ''
       let name = this.form.name
@@ -281,8 +284,7 @@ export default {
       if (!this.isValid) return
 
       // Verificar autenticación
-      const authService = new servicioAuth()
-      if (!authService.isAuthenticated()) {
+      if (!this.authStore.isAuthenticated) {
         await Swal.fire({
           icon: 'warning',
           title: 'No autenticado',
@@ -297,39 +299,20 @@ export default {
       }
 
       // Obtener el userId del usuario autenticado
-      let user = authService.getUser()
-      let userId = null
+      let userId = this.authStore.userId
 
-      // Intentar obtener el ID del usuario desde localStorage
-      if (user) {
-        // El userId puede estar en user.id, user.userId, o dentro de user.data.id
-        userId = user.id || user.userId || user.data?.id
-      }
-
-      // Si no está en localStorage, obtenerlo del perfil
+      // Si no tenemos userId sincronizado, intentar obtener el perfil desde el store
       if (!userId) {
-        try {
-          const profileResult = await authService.getProfile()
-          if (profileResult.success) {
-            user = profileResult.data.user || profileResult.data
-            // Intentar obtener el ID de diferentes formas posibles
-            userId = user?.id || user?.userId || user?.data?.id
-            // Actualizar localStorage con los datos del perfil
-            if (user && userId) {
-              localStorage.setItem('user', JSON.stringify(user))
-            }
-          } else {
-            // Si falla al obtener el perfil, puede ser un problema de autenticación
-            throw new Error(profileResult.error || 'Error al obtener el perfil del usuario')
-          }
-        } catch (error) {
-          console.error('Error al obtener el perfil:', error)
+        const profileResult = await this.authStore.fetchProfile()
+        if (profileResult.success) {
+          userId = this.authStore.userId
+        } else {
           await Swal.fire({
             icon: 'error',
             title: 'Error de autenticación',
             text:
-              error.message ||
-              'No se pudo obtener la información del usuario. Por favor, inicia sesión nuevamente.',
+              profileResult.error ||
+              'No se pudo obtener el ID del usuario. Por favor, inicia sesión nuevamente.',
             confirmButtonText: 'Ir al Login',
             background: '#1a1a1a',
             color: '#d4af37',

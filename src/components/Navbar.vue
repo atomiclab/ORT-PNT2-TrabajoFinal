@@ -45,8 +45,8 @@
               <span>Estadísticas</span>
             </RouterLink>
           </li>
-          <li v-if="isAuthenticated" class="nav-item">
-            <RouterLink class="nav-link" to="/profile" active-class="active">
+          <li v-if="isAuthenticated && userId" class="nav-item">
+            <RouterLink class="nav-link" :to="profileRoute" active-class="active">
               <span class="nav-icon">👤</span>
               <span>Perfil</span>
             </RouterLink>
@@ -77,52 +77,33 @@
 </template>
 
 <script>
-import servicioAuth from '../servicios/auth.js'
+import { mapStores } from 'pinia'
+import { useAuthStore } from '../stores/auth.js'
 
 export default {
   name: 'AppNavbar',
-  data() {
-    return {
-      isAuthenticated: false,
-      user: null,
-    }
+  computed: {
+    ...mapStores(useAuthStore),
+    isAuthenticated() {
+      return this.authStore.isAuthenticated
+    },
+    user() {
+      return this.authStore.user
+    },
+    userId() {
+      return this.authStore.userId
+    },
+    profileRoute() {
+      return { name: 'profile', params: { id: this.userId || 'me' } }
+    },
   },
-  mounted() {
-    this.checkAuth()
-    // Escuchar cambios en el almacenamiento para actualizar el estado
-    window.addEventListener('storage', this.checkAuth)
-    // Escuchar eventos personalizados de autenticación
-    window.addEventListener('auth-change', this.checkAuth)
-  },
-  beforeUnmount() {
-    window.removeEventListener('storage', this.checkAuth)
-    window.removeEventListener('auth-change', this.checkAuth)
+  created() {
+    this.authStore.syncFromStorage()
   },
   methods: {
-    checkAuth() {
-      const servicio = new servicioAuth()
-      this.isAuthenticated = servicio.isAuthenticated()
-      this.user = servicio.getUser()
-    },
     async logout() {
-      const servicio = new servicioAuth()
-      await servicio.logout()
-
-      // Actualizar estado local independientemente del resultado del endpoint
-      this.isAuthenticated = false
-      this.user = null
-
-      // Emitir evento para actualizar otros componentes
-      window.dispatchEvent(new CustomEvent('auth-change'))
-
-      // Redirigir al login
+      await this.authStore.logout()
       this.$router.push('/login')
-    },
-  },
-  watch: {
-    // Observar cambios en la ruta para actualizar el estado de autenticación
-    $route() {
-      this.checkAuth()
     },
   },
 }

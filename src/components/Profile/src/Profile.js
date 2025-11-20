@@ -1,11 +1,18 @@
-import servicioAuth from '../../../servicios/auth.js'
 import servicioCharacters from '../../../servicios/characters.js'
 import Swal from 'sweetalert2'
 import Statistics from '../../Statistics/index.vue'
+import { mapStores } from 'pinia'
+import { useAuthStore } from '../../../stores/auth.js'
 
 export default {
   components: {
     Statistics,
+  },
+  props: {
+    id: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -18,8 +25,31 @@ export default {
       currentCharacterIndex: 0,
     }
   },
+  computed: {
+    ...mapStores(useAuthStore),
+    requestedProfileId() {
+      return this.id || this.$route.params.id || null
+    },
+    storeUserId() {
+      return this.authStore.userId
+    },
+    currentCharacter() {
+      if (this.characters.length > 0 && this.currentCharacterIndex < this.characters.length) {
+        return this.characters[this.currentCharacterIndex]
+      }
+      return null
+    },
+    hasMultipleCharacters() {
+      return this.characters.length > 1
+    },
+  },
   async mounted() {
     await this.loadProfile()
+  },
+  watch: {
+    requestedProfileId() {
+      this.loadProfile()
+    },
   },
   methods: {
     async loadProfile() {
@@ -27,31 +57,35 @@ export default {
       this.error = null
 
       try {
-        const servicio = new servicioAuth()
-
-        // Verificar si hay token
-        if (!servicio.isAuthenticated()) {
+        if (!this.authStore.isAuthenticated) {
           this.error = 'No estás autenticado. Por favor, inicia sesión.'
           this.isLoading = false
           return
         }
 
-        // Obtener perfil del usuario
-        const resultado = await servicio.getProfile()
+        // Sincronizar perfil en el store
+        const resultado = await this.authStore.fetchProfile()
 
         if (resultado.success) {
-          this.user = resultado.data.user || resultado.data
-          console.log('Usuario cargado en perfil:', this.user)
-          // Intentar obtener el userId de diferentes ubicaciones
-          const userId = this.user?.id || this.user?.userId || this.user?.data?.id
-          console.log('UserId del usuario:', userId)
-          console.log('Claves del objeto usuario:', this.user ? Object.keys(this.user) : [])
+          this.user = this.authStore.user
+          const userId = this.storeUserId
 
-          // Actualizar localStorage con los datos actualizados
+          // Si se intenta acceder a un perfil distinto al del usuario autenticado, redirigir
+          if (this.requestedProfileId && this.requestedProfileId !== String(userId)) {
+            await Swal.fire({
+              icon: 'info',
+              title: 'Perfil no disponible',
+              text: 'Solo puedes acceder a tu propio perfil.',
+              confirmButtonText: 'Ir a mi perfil',
+              background: '#1a1a1a',
+              color: '#d4af37',
+              confirmButtonColor: '#5a3d22',
+            })
+            this.$router.replace({ name: 'profile', params: { id: userId || 'me' } })
+            return
+          }
+
           if (this.user) {
-            localStorage.setItem('user', JSON.stringify(this.user))
-            // Cargar personajes del usuario después de obtener el perfil
-            // Esperar un poco para asegurar que el usuario está completamente cargado
             await this.$nextTick()
             await this.loadCharacters()
           }
@@ -93,36 +127,16 @@ export default {
       })
 
       if (result.isConfirmed) {
-        const servicio = new servicioAuth()
-        const resultado = await servicio.logout()
-
-        // Emitir evento para actualizar el Navbar
-        window.dispatchEvent(new CustomEvent('auth-change'))
-
-        // Mostrar mensaje según el resultado
-        if (resultado.success) {
-          await Swal.fire({
-            icon: 'success',
-            title: 'Sesión cerrada',
-            text: resultado.message || 'Has cerrado sesión correctamente.',
-            confirmButtonText: 'Aceptar',
-            background: '#1a1a1a',
-            color: '#d4af37',
-            confirmButtonColor: '#5a3d22',
-          })
-        } else {
-          // Aún así mostrar éxito si el logout falló en el servidor pero se limpió localmente
-          await Swal.fire({
-            icon: 'warning',
-            title: 'Sesión cerrada',
-            text: 'Se ha cerrado la sesión localmente. ' + (resultado.error || ''),
-            confirmButtonText: 'Aceptar',
-            background: '#1a1a1a',
-            color: '#d4af37',
-            confirmButtonColor: '#5a3d22',
-          })
-        }
-
+        await this.authStore.logout()
+        await Swal.fire({
+          icon: 'success',
+          title: 'Sesión cerrada',
+          text: 'Has cerrado sesión correctamente.',
+          confirmButtonText: 'Aceptar',
+          background: '#1a1a1a',
+          color: '#d4af37',
+          confirmButtonColor: '#5a3d22',
+        })
         this.$router.push('/login')
       }
     },
@@ -144,7 +158,7 @@ export default {
     },
     async loadCharacters() {
       // Obtener el userId de diferentes posibles ubicaciones
-      const userId = this.user?.id || this.user?.userId || this.user?.data?.id
+      const userId = this.storeUserId
 
       if (!this.user || !userId) {
         console.warn('No se puede cargar personajes: usuario o userId no disponible', {
@@ -221,17 +235,6 @@ export default {
       if (index >= 0 && index < this.characters.length) {
         this.currentCharacterIndex = index
       }
-    },
-  },
-  computed: {
-    currentCharacter() {
-      if (this.characters.length > 0 && this.currentCharacterIndex < this.characters.length) {
-        return this.characters[this.currentCharacterIndex]
-      }
-      return null
-    },
-    hasMultipleCharacters() {
-      return this.characters.length > 1
     },
   },
 }

@@ -184,10 +184,11 @@
 </template>
 
 <script>
-import servicioAuth from '../servicios/auth.js'
 import servicioCharacters from '../servicios/characters.js'
 import servicioUsuarios from '../servicios/usuarios.js'
 import servicioBattle from '../servicios/battle.js'
+import { mapStores } from 'pinia'
+import { useAuthStore } from '../stores/auth.js'
 
 export default {
   name: 'Combate',
@@ -213,7 +214,6 @@ export default {
       battleResult: null, // Resultado completo de la batalla
       battleError: null, // Error específico de la batalla
       isBattleLoading: false, // Estado de carga durante la batalla
-      user: null, // Para almacenar el usuario autenticado
       characters: [], // Para almacenar los personajes del usuario
       isLoadingCharacters: false, // Estado de carga para personajes
       charactersError: null, // Errores al cargar personajes
@@ -224,21 +224,36 @@ export default {
       isLoadingOpponentCharacters: false, // Estado de carga para personajes del oponente
     }
   },
+  computed: {
+    ...mapStores(useAuthStore),
+    currentUser() {
+      return this.authStore.user
+    },
+    currentUserId() {
+      return this.authStore.userId
+    },
+  },
   async mounted() {
     await this.loadAuthenticatedUser()
-    if (this.user) {
+    if (this.authStore.isAuthenticated) {
       await Promise.all([this.loadCharacters(), this.loadUsuariosOnline()])
     }
   },
   methods: {
     async loadAuthenticatedUser() {
-      const servicio = new servicioAuth()
-      this.user = servicio.getUser()
+      this.authStore.syncFromStorage()
+      if (!this.authStore.isAuthenticated) {
+        this.charactersError = 'Debes iniciar sesión para acceder al modo combate.'
+        return
+      }
+      if (!this.authStore.userId) {
+        await this.authStore.fetchProfile()
+      }
     },
     async loadCharacters() {
-      const userId = this.user?.id || this.user?.userId || this.user?.data?.id
+      const userId = this.currentUserId
 
-      if (!this.user || !userId) {
+      if (!this.authStore.isAuthenticated || !userId) {
         this.charactersError = 'No se puede cargar personajes: usuario no disponible.'
         return
       }
@@ -287,7 +302,7 @@ export default {
           let usuarios = Array.isArray(resultado.data) ? resultado.data : []
 
           // Filtrar el usuario autenticado de la lista de oponentes
-          const userId = this.user?.id || this.user?.userId || this.user?.data?.id
+          const userId = this.currentUserId
           if (userId) {
             this.usuariosOnline = usuarios.filter((usuario) => {
               // Excluir el usuario autenticado comparando IDs
@@ -302,8 +317,7 @@ export default {
           this.usuariosOnlineError = resultado.error || 'Error al cargar usuarios online'
           if (resultado.statusCode === 401) {
             // Si el token expiró, redirigir al login
-            const authService = new servicioAuth()
-            await authService.logout()
+            await this.authStore.logout()
             this.$router.push('/login')
           }
         }
@@ -475,8 +489,7 @@ export default {
             default:
               if (resultado.statusCode === 401) {
                 errorMessage = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente'
-                const authService = new servicioAuth()
-                await authService.logout()
+                await this.authStore.logout()
                 this.$router.push('/login')
                 return
               }

@@ -18,7 +18,12 @@ const routes = [
   { path: '/consigna', component: Consigna },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
-  { path: '/profile', component: Profile },
+  {
+    path: '/profile/:id?',
+    name: 'profile',
+    component: Profile,
+    props: true,
+  },
   { path: '/combate', component: Combate },
   { path: '/statistics', component: GameStatistics },
   { path: '/', component: Inicio },

@@ -1,5 +1,6 @@
-import servicioAuth from '../../../servicios/auth.js'
 import Swal from 'sweetalert2'
+import { mapActions, mapStores } from 'pinia'
+import { useAuthStore } from '../../../stores/auth.js'
 
 export default {
   data() {
@@ -11,7 +12,11 @@ export default {
       isLoading: false,
     }
   },
+  computed: {
+    ...mapStores(useAuthStore),
+  },
   methods: {
+    ...mapActions(useAuthStore, ['loginWithCredentials']),
     validateEmail() {
       const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
       if (!this.email) {
@@ -43,8 +48,10 @@ export default {
       this.isLoading = true
 
       try {
-        const servicio = new servicioAuth()
-        const resultado = await servicio.login(this.email, this.password)
+        const resultado = await this.loginWithCredentials({
+          email: this.email,
+          password: this.password,
+        })
 
         if (resultado.success) {
           await Swal.fire({
@@ -57,11 +64,8 @@ export default {
             confirmButtonColor: '#5a3d22',
           })
 
-          // Emitir evento para actualizar el Navbar
-          window.dispatchEvent(new CustomEvent('auth-change'))
-
-          // Redirigir al perfil después del login exitoso
-          this.$router.push('/profile')
+          const destinationId = this.authStore.userId || 'me'
+          this.$router.push({ name: 'profile', params: { id: destinationId } })
         } else {
           let errorMessage = resultado.error || 'Error al iniciar sesión'
 
