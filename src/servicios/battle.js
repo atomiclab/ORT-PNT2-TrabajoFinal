@@ -68,6 +68,43 @@ class servicioBattle {
       }
     }
   }
+
+  /**
+   * Obtiene el resultado de la última batalla para un personaje dado
+   * @param {string} idPersonaje - ID del personaje
+   * @returns {Promise<Object>} Respuesta estructurada con el resultado de la última batalla
+   */
+  ObtenerResultadoUltimaBatalla = async (idPersonaje) => {
+    try {
+      const { data } = await axios.get(
+        `${this.#baseURL}/api/battle/last/${idPersonaje}`,
+        {
+          headers: this.getHeaders(),
+        },
+      )
+
+      return {
+        success: true,
+        data: data.data || data,
+        message: data.message || 'Resultado de la última batalla obtenido',
+      }
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        error.message ||
+        'Error al obtener el resultado de la última batalla'
+      const statusCode = error.response?.status || 500
+      const errorCode = error.response?.data?.code || null
+
+      return {
+        success: false,
+        error: errorMessage,
+        statusCode,
+        code: errorCode,
+      }
+    }
+  }
 }
 
 export default servicioBattle

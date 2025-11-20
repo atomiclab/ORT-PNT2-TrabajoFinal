@@ -1,4 +1,38 @@
 <div class="statistics-container">
+  <div class="last-battle-panel">
+    <div class="last-battle-controls">
+      <select v-model="selectedCharacterId" class="character-select" :disabled="!characters.length">
+        <option disabled value="">Selecciona un personaje</option>
+        <option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }}</option>
+      </select>
+      <button class="last-battle-button" @click="fetchLastBattle" :disabled="!selectedCharacterId || loadingLastBattle || !characters.length">
+        {{ loadingLastBattle ? 'Buscando...' : 'Última Batalla' }}
+      </button>
+    </div>
+    <div class="last-battle-result" v-if="lastBattleResult">
+      <template v-if="lastBattleResult.success && battleEntries.length">
+        <div class="statistics-card battle-card">
+          <div class="statistics-header battle-header">
+            <h2>⚔️ Resultados de la última batalla</h2>
+          </div>
+          <div class="statistics-content battle-content">
+            <div class="statistics-section">
+              <div class="battle-grid">
+                <div class="battle-grid-item" v-for="e in battleEntries" :key="e.path">
+                  <div class="battle-grid-label">{{ e.path || '(raíz)' }}</div>
+                  <div class="battle-grid-value" :class="valueClass(e)">{{ formatEntryValue(e.value) }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <div v-else class="battle-error-box">
+        <h4>Error al obtener batalla</h4>
+        <p>{{ lastBattleResult.error || 'Error desconocido' }}</p>
+      </div>
+    </div>
+  </div>
   <div v-if="!character" class="no-character">
     <div class="no-character-icon">📊</div>
     <h3>Estadísticas</h3>
