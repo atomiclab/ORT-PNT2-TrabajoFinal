@@ -103,38 +103,63 @@ export default {
     phone: 'Teléfono',
     age: 'Edad',
     registrationDate: 'Fecha de Registro',
-    characters: 'Mis Personajes',
+    myCharacters: 'Mis Personajes',
+    charactersCount: 'Total: {count}',
     loading: 'Cargando perfil...',
     loadingCharacters: 'Cargando personajes...',
     refreshCharacters: 'Actualizar personajes',
     noCharacters: 'No tienes personajes creados aún.',
     createFirst: 'Crear mi primer personaje',
-    logout: 'Cerrar Sesión',
     updateProfile: 'Actualizar perfil',
+    character: {
+      online: 'En línea',
+      offline: 'Offline'
+    },
     errors: {
       loadProfile: 'Error al cargar el perfil',
-      loadCharacters: 'Error al cargar los personajes', 
-      sessionExpired: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
-      unexpected: 'Ocurrió un error inesperado al cargar el perfil',
+      loadCharacters: 'Error al cargar los personajes',
+      sessionExpired: 'Sesión expirada',
+      sessionExpiredText: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+      unexpectedError: 'Ocurrió un error inesperado al cargar el perfil',
       cannotLoadCharacters: 'No se puede cargar personajes: usuario o userId no disponible'
     },
     actions: {
       retry: 'Reintentar',
-      goToLogin: 'Ir al Login'
+      goToLogin: 'Ir al Login',
+      refreshCharacters: 'Actualizar personajes',
+      createCharacter: 'Crear Personaje',
+      createFirstCharacter: 'Crea tu primer personaje',
+      prevCharacter: 'Personaje anterior',
+      nextCharacter: 'Siguiente personaje',
+      goToCharacter: 'Ir al personaje {number}',
+      logout: 'Cerrar Sesión'
+    },
+    logout: {
+      confirm: '¿Cerrar sesión?',
+      message: '¿Estás seguro de que deseas cerrar sesión?',
+      yes: 'Sí, cerrar sesión',
+      cancel: 'Cancelar',
+      success: 'Sesión cerrada',
+      successText: 'Has cerrado sesión correctamente.'
     }
   },
 
   // Guild
   guild: {
     title: 'Guild Masters',
-    loading: 'Cargando personajes...',
+    description: 'Personajes RPG del gremio',
+    loading: 'Cargando...',
     noCharacters: 'No hay personajes disponibles',
     update: 'Actualizar',
-    showOffline: 'Mostrar personajes offline',
+    showOffline: 'Mostrar offline',
+    character: {
+      online: 'En línea',
+      offline: 'Offline'
+    },
     actions: {
       moreInfo: 'Más Info',
       edit: 'Editar',
-      delete: 'Eliminar'
+      delete: 'Borrar'
     },
     stats: {
       hp: 'HP',
@@ -144,6 +169,12 @@ export default {
       class: 'Clase',
       guild: 'Gremio',
       kingdom: 'Reino'
+    },
+    pagination: {
+      label: 'Paginación de personajes',
+      previous: 'Anterior',
+      next: 'Siguiente',
+      showing: 'Mostrando {start} - {end} de {total} personajes'
     },
     errors: {
       mustLogin: 'Debes iniciar sesión para ver los personajes',
@@ -156,13 +187,36 @@ export default {
   statistics: {
     title: 'Estadísticas del Juego',
     loading: 'Cargando estadísticas...',
-    generalStats: 'Estadísticas Generales',
-    topUsers: 'Usuarios Destacados',
-    distributions: 'Distribuciones',
-    races: 'Razas',
-    classes: 'Clases',
-    guilds: 'Gremios',
-    kingdoms: 'Reinos'
+    noData: 'No hay datos disponibles',
+    errors: {
+      loadError: 'Error al cargar las estadísticas'
+    },
+    totals: {
+      title: 'Totales Generales',
+      users: 'Usuarios',
+      characters: 'Personajes',
+      battles: 'Batallas'
+    },
+    metrics: {
+      title: 'Métricas del Juego',
+      averageLevel: 'Promedio de Nivel',
+      charactersOnline: 'Personajes Online',
+      charactersOffline: 'Personajes Offline'
+    },
+    leaderboards: {
+      title: 'Leaderboards',
+      mostBattles: 'Usuarios con más Batallas',
+      mostCharacters: 'Usuarios con más Personajes',
+      battles: 'batallas',
+      characters: 'personajes'
+    },
+    distributions: {
+      title: 'Distribuciones',
+      races: 'Razas',
+      classes: 'Clases',
+      kingdoms: 'Reinos',
+      guilds: 'Gremios'
+    }
   },
 
   // Batalla

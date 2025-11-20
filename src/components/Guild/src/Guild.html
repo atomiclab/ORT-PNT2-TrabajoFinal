@@ -3,12 +3,12 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header bg-success text-white">
-          <h5 class="m-0">Guild Masters</h5>
+          <h5 class="m-0">{{ $t('guild.title') }}</h5>
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center gap-3">
-              <p class="mb-0" style="color: white">Personajes RPG del gremio</p>
+              <p class="mb-0" style="color: white">{{ $t('guild.description') }}</p>
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -18,16 +18,16 @@
                   @change="obtenerUsuarios"
                 />
                 <label class="form-check-label" for="mostrarOffline" style="color: white">
-                  Mostrar offline
+                  {{ $t('guild.showOffline') }}
                 </label>
               </div>
             </div>
             <button class="btn btn-primary" @click="obtenerUsuarios" :disabled="cargando">
-              {{ cargando ? 'Cargando...' : 'Actualizar' }}
+              {{ cargando ? $t('guild.loading') : $t('guild.update') }}
             </button>
           </div>
 
-          <div v-if="cargando" class="alert alert-info">Cargando personajes...</div>
+          <div v-if="cargando" class="alert alert-info">{{ $t('guild.loading') }}</div>
 
           <div v-else-if="error" class="alert alert-danger">{{ error }}</div>
 
@@ -53,23 +53,23 @@
                         :class="usuario.isOnline ? 'bg-success' : 'bg-secondary'"
                         style="margin-right: 10px"
                       >
-                        {{ usuario.isOnline ? 'En línea' : 'Offline' }}
+                        {{ usuario.isOnline ? $t('guild.character.online') : $t('guild.character.offline') }}
                       </span>
                     </div>
                     <h6 class="card-title text-center">{{ usuario.name }}</h6>
                     <hr />
                     <p class="card-text mb-2">
-                      <small class="text-muted"><strong>Raza:</strong> {{ usuario.race }}</small>
+                      <small class="text-muted"><strong>{{ $t('guild.stats.race') }}:</strong> {{ usuario.race }}</small>
                     </p>
                     <p class="card-text mb-2">
-                      <small class="text-muted"><strong>Clase:</strong> {{ usuario.class }}</small>
+                      <small class="text-muted"><strong>{{ $t('guild.stats.class') }}:</strong> {{ usuario.class }}</small>
                     </p>
                     <p class="card-text mb-2">
-                      <small class="text-muted"><strong>Gremio:</strong> {{ usuario.guild }}</small>
+                      <small class="text-muted"><strong>{{ $t('guild.stats.guild') }}:</strong> {{ usuario.guild }}</small>
                     </p>
                     <p class="card-text mb-2">
                       <small class="text-muted"
-                        ><strong>HP:</strong>
+                        ><strong>{{ $t('guild.stats.hp') }}:</strong>
                         <span
                           class="badge"
                           :class="usuario.hp > 50 ? 'bg-success' : usuario.hp > 20 ? 'bg-warning' : 'bg-danger'"
@@ -80,7 +80,7 @@
                     </p>
                     <p class="card-text mb-2">
                       <small class="text-muted"
-                        ><strong>Reino:</strong> {{ usuario.kingdom }}</small
+                        ><strong>{{ $t('guild.stats.kingdom') }}:</strong> {{ usuario.kingdom }}</small
                       >
                     </p>
                     <p class="card-text">
@@ -91,19 +91,19 @@
                         class="btn btn-info btn-sm flex-fill"
                         @click="mostrarMasInfo(usuario)"
                       >
-                        Más info
+                        {{ $t('guild.actions.moreInfo') }}
                       </button>
                       <button
                         class="btn btn-warning btn-sm flex-fill"
                         @click="editarUsuario(usuario)"
                       >
-                        Editar
+                        {{ $t('guild.actions.edit') }}
                       </button>
                       <button
                         class="btn btn-danger btn-sm flex-fill"
                         @click="borrarUsuario(usuario.id)"
                       >
-                        Borrar
+                        {{ $t('guild.actions.delete') }}
                       </button>
                     </div>
                   </div>
@@ -112,10 +112,10 @@
             </div>
 
             <!-- Controles de paginación -->
-            <nav v-if="totalPaginas > 1" aria-label="Paginación de personajes">
+            <nav v-if="totalPaginas > 1" :aria-label="$t('guild.pagination.label')">
               <ul class="pagination justify-content-center">
                 <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                  <a class="page-link" href="#" @click.prevent="paginaAnterior">Anterior</a>
+                  <a class="page-link" href="#" @click.prevent="paginaAnterior">{{ $t('guild.pagination.previous') }}</a>
                 </li>
                 <li
                   v-for="pagina in totalPaginas"
@@ -126,7 +126,7 @@
                   <a class="page-link" href="#" @click.prevent="irAPagina(pagina)">{{ pagina }}</a>
                 </li>
                 <li class="page-item" :class="{ disabled: paginaActual === totalPaginas }">
-                  <a class="page-link" href="#" @click.prevent="paginaSiguiente">Siguiente</a>
+                  <a class="page-link" href="#" @click.prevent="paginaSiguiente">{{ $t('guild.pagination.next') }}</a>
                 </li>
               </ul>
             </nav>
@@ -134,9 +134,11 @@
             <!-- Información de paginación -->
             <div class="text-center mt-3">
               <small class="text-muted">
-                Mostrando {{ (paginaActual - 1) * usuariosPorPagina + 1 }} - {{
-                Math.min(paginaActual * usuariosPorPagina, usuarios.length) }} de {{ usuarios.length
-                }} personajes
+                {{ $t('guild.pagination.showing', { 
+                  start: (paginaActual - 1) * usuariosPorPagina + 1,
+                  end: Math.min(paginaActual * usuariosPorPagina, usuarios.length),
+                  total: usuarios.length 
+                }) }}
               </small>
             </div>
           </div>

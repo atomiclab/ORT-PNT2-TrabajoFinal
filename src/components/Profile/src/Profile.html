@@ -1,41 +1,41 @@
 <div class="profile-container">
   <div v-if="isLoading" class="loading">
-    <p>Cargando perfil...</p>
+    <p>{{ $t('profile.loading') }}</p>
   </div>
   <div v-else-if="error" class="error-message">
-    <h2>Error al cargar el perfil</h2>
+    <h2>{{ $t('profile.errors.loadProfile') }}</h2>
     <p>{{ error }}</p>
-    <button @click="loadProfile" class="retry-button">Reintentar</button>
-    <button @click="goToLogin" class="login-button">Ir al Login</button>
+    <button @click="loadProfile" class="retry-button">{{ $t('profile.actions.retry') }}</button>
+    <button @click="goToLogin" class="login-button">{{ $t('profile.actions.goToLogin') }}</button>
   </div>
   <div v-else-if="user" class="profile-layout">
     <!-- Columna Izquierda: Información del Usuario y Personajes -->
     <div class="profile-left-column">
       <div class="profile-card">
         <div class="profile-header">
-          <h2>Mi Perfil</h2>
+          <h2>{{ $t('profile.title') }}</h2>
           <div class="profile-icon">👤</div>
         </div>
         <div class="profile-content">
           <div class="profile-field">
-            <label>Nombre:</label>
-            <span class="profile-value">{{ user.nombre || 'No especificado' }}</span>
+            <label>{{ $t('profile.name') }}:</label>
+            <span class="profile-value">{{ user.nombre || $t('common.notSpecified') }}</span>
           </div>
           <div class="profile-field">
-            <label>Email:</label>
-            <span class="profile-value">{{ user.email || 'No especificado' }}</span>
+            <label>{{ $t('profile.email') }}:</label>
+            <span class="profile-value">{{ user.email || $t('common.notSpecified') }}</span>
           </div>
           <div class="profile-field" v-if="user.telefono">
-            <label>Teléfono:</label>
+            <label>{{ $t('profile.phone') }}:</label>
             <span class="profile-value">{{ user.telefono }}</span>
           </div>
           <div class="profile-field" v-if="user.edad">
-            <label>Edad:</label>
-            <span class="profile-value">{{ user.edad }} años</span>
+            <label>{{ $t('profile.age') }}:</label>
+            <span class="profile-value">{{ user.edad }} {{ $t('common.years') }}</span>
           </div>
 
           <div class="profile-field" v-if="user.createdAt">
-            <label>Fecha de Registro:</label>
+            <label>{{ $t('profile.registrationDate') }}:</label>
             <span class="profile-value">{{ formatDate(user.createdAt) }}</span>
           </div>
         </div>
@@ -43,33 +43,33 @@
         <!-- Sección de Personajes -->
         <div class="characters-section">
           <div class="characters-header">
-            <h3>⚔️ Mis Personajes</h3>
+            <h3>{{ $t('profile.myCharacters') }}</h3>
             <button
               @click="loadCharacters"
               class="refresh-characters-button"
               :disabled="isLoadingCharacters"
-              title="Actualizar personajes"
+              :title="$t('profile.actions.refreshCharacters')"
             >
               {{ isLoadingCharacters ? '⏳' : '🔄' }}
             </button>
           </div>
           <div v-if="isLoadingCharacters" class="characters-loading">
-            <p>Cargando personajes...</p>
+            <p>{{ $t('profile.loadingCharacters') }}</p>
           </div>
           <div v-else-if="charactersError" class="characters-error">
-            <p><strong>Error:</strong> {{ charactersError }}</p>
+            <p><strong>{{ $t('common.error') }}:</strong> {{ charactersError }}</p>
             <p v-if="user && (user.id || user.userId)" class="debug-info">
               <small>UserId: {{ user.id || user.userId }}</small>
             </p>
-            <button @click="loadCharacters" class="retry-button-small">Reintentar</button>
+            <button @click="loadCharacters" class="retry-button-small">{{ $t('profile.actions.retry') }}</button>
           </div>
           <div v-else-if="characters.length === 0" class="characters-empty">
-            <p>No tienes personajes creados aún.</p>
+            <p>{{ $t('profile.noCharacters') }}</p>
             <p v-if="user && (user.id || user.userId)" class="debug-info">
               <small>UserId: {{ user.id || user.userId }}</small>
             </p>
             <router-link to="/formulario" class="create-character-link">
-              <button class="create-character-button">Crear Personaje</button>
+              <button class="create-character-button">{{ $t('profile.actions.createCharacter') }}</button>
             </router-link>
           </div>
           <div v-else class="characters-carousel-container">
@@ -80,7 +80,7 @@
                 @click="prevCharacter"
                 class="carousel-button carousel-button-prev"
                 :disabled="isLoadingCharacters"
-                aria-label="Personaje anterior"
+                :aria-label="$t('profile.actions.prevCharacter')"
               >
                 ◀
               </button>
@@ -107,16 +107,16 @@
                           class="character-status"
                           :class="character.isOnline ? 'online' : 'offline'"
                         >
-                          {{ character.isOnline ? 'En línea' : 'Offline' }}
+                          {{ character.isOnline ? $t('profile.character.online') : $t('profile.character.offline') }}
                         </span>
                       </div>
                       <div class="character-info">
                         <h4 class="character-name">{{ character.name }}</h4>
                         <div class="character-details">
-                          <p><strong>Raza:</strong> {{ character.race }}</p>
-                          <p><strong>Clase:</strong> {{ character.class }}</p>
-                          <p><strong>Gremio:</strong> {{ character.guild }}</p>
-                          <p><strong>Nivel:</strong> {{ character.level || 1 }}</p>
+                          <p><strong>{{ $t('character.race') }}:</strong> {{ character.race }}</p>
+                          <p><strong>{{ $t('character.class') }}:</strong> {{ character.class }}</p>
+                          <p><strong>{{ $t('character.guild') }}:</strong> {{ character.guild }}</p>
+                          <p><strong>{{ $t('character.level') }}:</strong> {{ character.level || 1 }}</p>
                         </div>
                         <div class="character-stats">
                           <div class="stat">
@@ -145,7 +145,7 @@
                 @click="nextCharacter"
                 class="carousel-button carousel-button-next"
                 :disabled="isLoadingCharacters"
-                aria-label="Siguiente personaje"
+                :aria-label="$t('profile.actions.nextCharacter')"
               >
                 ▶
               </button>
@@ -159,7 +159,7 @@
                 @click="goToCharacter(index)"
                 class="carousel-dot"
                 :class="{ active: index === currentCharacterIndex }"
-                :aria-label="`Ir al personaje ${index + 1}`"
+                :aria-label="$t('profile.actions.goToCharacter', { number: index + 1 })"
               ></button>
             </div>
 
@@ -171,7 +171,7 @@
         </div>
 
         <div class="profile-actions">
-          <button @click="logout" class="logout-button">Cerrar Sesión</button>
+          <button @click="logout" class="logout-button">{{ $t('profile.actions.logout') }}</button>
         </div>
       </div>
     </div>

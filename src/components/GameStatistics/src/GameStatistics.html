@@ -1,55 +1,55 @@
 <div class="game-statistics-container">
   <div v-if="isLoading" class="loading">
     <div class="loading-icon">📊</div>
-    <p>Cargando estadísticas...</p>
+    <p>{{ $t('statistics.loading') }}</p>
   </div>
   <div v-else-if="error" class="error-message">
-    <h2>Error al cargar las estadísticas</h2>
+    <h2>{{ $t('statistics.errors.loadError') }}</h2>
     <p>{{ error }}</p>
-    <button @click="loadStatistics" class="retry-button">Reintentar</button>
+    <button @click="loadStatistics" class="retry-button">{{ $t('common.retry') }}</button>
   </div>
   <div v-else-if="statistics" class="statistics-content">
     <!-- Header -->
     <div class="statistics-header">
-      <h1>📊 Estadísticas del Juego</h1>
+      <h1>📊 {{ $t('statistics.title') }}</h1>
     </div>
 
     <!-- Sección de Totales -->
     <div class="statistics-section">
-      <h2 class="section-title">📈 Totales Generales</h2>
+      <h2 class="section-title">📈 {{ $t('statistics.totals.title') }}</h2>
       <div class="totals-grid">
         <div class="total-card">
           <div class="total-icon">👥</div>
           <div class="total-value">{{ statistics.totales?.usuarios || 0 }}</div>
-          <div class="total-label">Usuarios</div>
+          <div class="total-label">{{ $t('statistics.totals.users') }}</div>
         </div>
         <div class="total-card">
           <div class="total-icon">⚔️</div>
           <div class="total-value">{{ statistics.totales?.personajes || 0 }}</div>
-          <div class="total-label">Personajes</div>
+          <div class="total-label">{{ $t('statistics.totals.characters') }}</div>
         </div>
         <div class="total-card">
           <div class="total-icon">🗡️</div>
           <div class="total-value">{{ statistics.totales?.batallas || 0 }}</div>
-          <div class="total-label">Batallas</div>
+          <div class="total-label">{{ $t('statistics.totals.battles') }}</div>
         </div>
       </div>
     </div>
 
     <!-- Sección de Métricas -->
     <div class="statistics-section">
-      <h2 class="section-title">📊 Métricas del Juego</h2>
+      <h2 class="section-title">📊 {{ $t('statistics.metrics.title') }}</h2>
       <div class="metrics-grid">
         <div class="metric-card">
-          <div class="metric-label">Promedio de Nivel</div>
+          <div class="metric-label">{{ $t('statistics.metrics.averageLevel') }}</div>
           <div class="metric-value">{{ statistics.metricas?.promedioNivel?.toFixed(1) || '0.0' }}</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Personajes Online</div>
+          <div class="metric-label">{{ $t('statistics.metrics.charactersOnline') }}</div>
           <div class="metric-value online">{{ statistics.metricas?.personajesOnline || 0 }}</div>
         </div>
         <div class="metric-card">
-          <div class="metric-label">Personajes Offline</div>
+          <div class="metric-label">{{ $t('statistics.metrics.charactersOffline') }}</div>
           <div class="metric-value offline">{{ statistics.metricas?.personajesOffline || 0 }}</div>
         </div>
       </div>
@@ -57,12 +57,12 @@
 
     <!-- Leaderboards -->
     <div class="leaderboard-section">
-      <h2 class="section-title">🏆 Leaderboards</h2>
+      <h2 class="section-title">🏆 {{ $t('statistics.leaderboards.title') }}</h2>
       
       <div class="leaderboard-grid">
         <!-- Leaderboard: Usuarios con más batallas -->
         <div class="leaderboard-card">
-          <h3 class="leaderboard-title">⚔️ Usuarios con más Batallas</h3>
+          <h3 class="leaderboard-title">⚔️ {{ $t('statistics.leaderboards.mostBattles') }}</h3>
           <div v-if="statistics.leaderboard?.usuariosMasBatallas?.length" class="leaderboard-list">
             <div
               v-for="(usuario, index) in statistics.leaderboard.usuariosMasBatallas"
@@ -74,15 +74,15 @@
                 <div class="leaderboard-name">{{ usuario.nombre }}</div>
                 <div class="leaderboard-email">{{ usuario.email }}</div>
               </div>
-              <div class="leaderboard-value">{{ usuario.totalBatallas }} batallas</div>
+              <div class="leaderboard-value">{{ usuario.totalBatallas }} {{ $t('statistics.leaderboards.battles') }}</div>
             </div>
           </div>
-          <div v-else class="empty-state">No hay datos disponibles</div>
+          <div v-else class="empty-state">{{ $t('statistics.noData') }}</div>
         </div>
 
         <!-- Leaderboard: Usuarios con más personajes -->
         <div class="leaderboard-card">
-          <h3 class="leaderboard-title">👤 Usuarios con más Personajes</h3>
+          <h3 class="leaderboard-title">👤 {{ $t('statistics.leaderboards.mostCharacters') }}</h3>
           <div v-if="statistics.leaderboard?.usuariosMasPersonajes?.length" class="leaderboard-list">
             <div
               v-for="(usuario, index) in statistics.leaderboard.usuariosMasPersonajes"
@@ -94,22 +94,22 @@
                 <div class="leaderboard-name">{{ usuario.nombre }}</div>
                 <div class="leaderboard-email">{{ usuario.email }}</div>
               </div>
-              <div class="leaderboard-value">{{ usuario.totalPersonajes }} personajes</div>
+              <div class="leaderboard-value">{{ usuario.totalPersonajes }} {{ $t('statistics.leaderboards.characters') }}</div>
             </div>
           </div>
-          <div v-else class="empty-state">No hay datos disponibles</div>
+          <div v-else class="empty-state">{{ $t('statistics.noData') }}</div>
         </div>
       </div>
     </div>
 
     <!-- Distribuciones -->
     <div class="distribution-section">
-      <h2 class="section-title">📊 Distribuciones</h2>
+      <h2 class="section-title">📊 {{ $t('statistics.distributions.title') }}</h2>
       
       <div class="distribution-grid">
         <!-- Razas -->
         <div class="distribution-card">
-          <h3 class="distribution-title">🏛️ Razas</h3>
+          <h3 class="distribution-title">🏛️ {{ $t('statistics.distributions.races') }}</h3>
           <div v-if="statistics.razas?.length" class="distribution-list">
             <div
               v-for="raza in statistics.razas"
@@ -126,12 +126,12 @@
               <div class="distribution-value">{{ raza.cantidad }}</div>
             </div>
           </div>
-          <div v-else class="empty-state">No hay datos disponibles</div>
+          <div v-else class="empty-state">{{ $t('statistics.noData') }}</div>
         </div>
 
         <!-- Clases -->
         <div class="distribution-card">
-          <h3 class="distribution-title">🎭 Clases</h3>
+          <h3 class="distribution-title">🎭 {{ $t('statistics.distributions.classes') }}</h3>
           <div v-if="statistics.clases?.length" class="distribution-list">
             <div
               v-for="clase in statistics.clases"
@@ -148,12 +148,12 @@
               <div class="distribution-value">{{ clase.cantidad }}</div>
             </div>
           </div>
-          <div v-else class="empty-state">No hay datos disponibles</div>
+          <div v-else class="empty-state">{{ $t('statistics.noData') }}</div>
         </div>
 
         <!-- Reinos -->
         <div class="distribution-card">
-          <h3 class="distribution-title">🏰 Reinos</h3>
+          <h3 class="distribution-title">🏰 {{ $t('statistics.distributions.kingdoms') }}</h3>
           <div v-if="statistics.reinos?.length" class="distribution-list">
             <div
               v-for="reino in statistics.reinos"
@@ -170,12 +170,12 @@
               <div class="distribution-value">{{ reino.cantidad }}</div>
             </div>
           </div>
-          <div v-else class="empty-state">No hay datos disponibles</div>
+          <div v-else class="empty-state">{{ $t('statistics.noData') }}</div>
         </div>
 
         <!-- Guilds -->
         <div class="distribution-card">
-          <h3 class="distribution-title">⚔️ Gremios</h3>
+          <h3 class="distribution-title">⚔️ {{ $t('statistics.distributions.guilds') }}</h3>
           <div v-if="statistics.guilds?.length" class="distribution-list">
             <div
               v-for="guild in statistics.guilds"
@@ -192,7 +192,7 @@
               <div class="distribution-value">{{ guild.cantidad }}</div>
             </div>
           </div>
-          <div v-else class="empty-state">No hay datos disponibles</div>
+          <div v-else class="empty-state">{{ $t('statistics.noData') }}</div>
         </div>
       </div>
     </div>

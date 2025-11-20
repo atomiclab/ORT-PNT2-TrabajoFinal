@@ -103,34 +103,59 @@ export default {
     phone: 'Phone',
     age: 'Age',
     registrationDate: 'Registration Date',
-    characters: 'My Characters',
+    myCharacters: 'My Characters',
+    charactersCount: 'Total: {count}',
     loading: 'Loading profile...',
     loadingCharacters: 'Loading characters...',
     refreshCharacters: 'Refresh characters',
     noCharacters: "You don't have any characters created yet.",
     createFirst: 'Create my first character',
-    logout: 'Logout',
     updateProfile: 'Update profile',
+    character: {
+      online: 'Online',
+      offline: 'Offline'
+    },
     errors: {
       loadProfile: 'Error loading profile',
       loadCharacters: 'Error loading characters',
-      sessionExpired: 'Your session has expired. Please login again.',
-      unexpected: 'An unexpected error occurred while loading profile',
+      sessionExpired: 'Session expired',
+      sessionExpiredText: 'Your session has expired. Please login again.',
+      unexpectedError: 'An unexpected error occurred while loading profile',
       cannotLoadCharacters: 'Cannot load characters: user or userId not available'
     },
     actions: {
       retry: 'Retry',
-      goToLogin: 'Go to Login'
+      goToLogin: 'Go to Login',
+      refreshCharacters: 'Refresh characters',
+      createCharacter: 'Create Character',
+      createFirstCharacter: 'Create your first character',
+      prevCharacter: 'Previous character',
+      nextCharacter: 'Next character',
+      goToCharacter: 'Go to character {number}',
+      logout: 'Logout'
+    },
+    logout: {
+      confirm: 'Logout?',
+      message: 'Are you sure you want to logout?',
+      yes: 'Yes, logout',
+      cancel: 'Cancel',
+      success: 'Session closed',
+      successText: 'You have logged out successfully.'
     }
   },
 
   // Guild
   guild: {
     title: 'Guild Masters',
-    loading: 'Loading characters...',
+    description: 'Guild RPG characters',
+    loading: 'Loading...',
     noCharacters: 'No characters available',
     update: 'Update',
-    showOffline: 'Show offline characters',
+    showOffline: 'Show offline',
+    character: {
+      online: 'Online',
+      offline: 'Offline'
+    },
     actions: {
       moreInfo: 'More Info',
       edit: 'Edit',
@@ -145,6 +170,12 @@ export default {
       guild: 'Guild',
       kingdom: 'Kingdom'
     },
+    pagination: {
+      label: 'Character pagination',
+      previous: 'Previous',
+      next: 'Next',
+      showing: 'Showing {start} - {end} of {total} characters'
+    },
     errors: {
       mustLogin: 'You must login to view characters',
       sessionExpired: 'Your session has expired. Please login again.',
@@ -156,13 +187,36 @@ export default {
   statistics: {
     title: 'Game Statistics',
     loading: 'Loading statistics...',
-    generalStats: 'General Statistics',
-    topUsers: 'Top Users',
-    distributions: 'Distributions',
-    races: 'Races',
-    classes: 'Classes',
-    guilds: 'Guilds',
-    kingdoms: 'Kingdoms'
+    noData: 'No data available',
+    errors: {
+      loadError: 'Error loading statistics'
+    },
+    totals: {
+      title: 'General Totals',
+      users: 'Users',
+      characters: 'Characters',
+      battles: 'Battles'
+    },
+    metrics: {
+      title: 'Game Metrics',
+      averageLevel: 'Average Level',
+      charactersOnline: 'Characters Online',
+      charactersOffline: 'Characters Offline'
+    },
+    leaderboards: {
+      title: 'Leaderboards',
+      mostBattles: 'Users with Most Battles',
+      mostCharacters: 'Users with Most Characters',
+      battles: 'battles',
+      characters: 'characters'
+    },
+    distributions: {
+      title: 'Distributions',
+      races: 'Races',
+      classes: 'Classes',
+      kingdoms: 'Kingdoms',
+      guilds: 'Guilds'
+    }
   },
 
   // Battle

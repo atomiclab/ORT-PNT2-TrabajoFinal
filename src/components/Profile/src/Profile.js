@@ -90,15 +90,15 @@ export default {
             await this.loadCharacters()
           }
         } else {
-          this.error = resultado.error || 'Error al cargar el perfil'
+          this.error = resultado.error || this.$t('profile.errors.loadProfile')
 
           // Si el token es inválido, redirigir al login
           if (resultado.statusCode === 401) {
             await Swal.fire({
               icon: 'warning',
-              title: 'Sesión expirada',
-              text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
-              confirmButtonText: 'Ir al Login',
+              title: this.$t('profile.errors.sessionExpired'),
+              text: this.$t('profile.errors.sessionExpiredText'),
+              confirmButtonText: this.$t('profile.actions.goToLogin'),
               background: '#1a1a1a',
               color: '#d4af37',
               confirmButtonColor: '#5a3d22',
@@ -107,7 +107,7 @@ export default {
           }
         }
       } catch {
-        this.error = 'Ocurrió un error inesperado al cargar el perfil'
+        this.error = this.$t('profile.errors.unexpectedError')
       } finally {
         this.isLoading = false
       }
@@ -115,11 +115,11 @@ export default {
     async logout() {
       const result = await Swal.fire({
         icon: 'question',
-        title: '¿Cerrar sesión?',
-        text: '¿Estás seguro de que deseas cerrar sesión?',
+        title: this.$t('profile.logout.confirm'),
+        text: this.$t('profile.logout.message'),
         showCancelButton: true,
-        confirmButtonText: 'Sí, cerrar sesión',
-        cancelButtonText: 'Cancelar',
+        confirmButtonText: this.$t('profile.logout.yes'),
+        cancelButtonText: this.$t('profile.logout.cancel'),
         background: '#1a1a1a',
         color: '#d4af37',
         confirmButtonColor: '#5a3d22',
@@ -130,9 +130,9 @@ export default {
         await this.authStore.logout()
         await Swal.fire({
           icon: 'success',
-          title: 'Sesión cerrada',
-          text: 'Has cerrado sesión correctamente.',
-          confirmButtonText: 'Aceptar',
+          title: this.$t('profile.logout.success'),
+          text: this.$t('profile.logout.successText'),
+          confirmButtonText: this.$t('common.accept'),
           background: '#1a1a1a',
           color: '#d4af37',
           confirmButtonColor: '#5a3d22',
@@ -198,7 +198,7 @@ export default {
           // Resetear el índice del carrusel cuando se cargan nuevos personajes
           this.currentCharacterIndex = 0
         } else {
-          this.charactersError = resultado.error || 'Error al cargar los personajes'
+          this.charactersError = resultado.error || this.$t('profile.errors.loadCharacters')
           console.error('Error al obtener personajes:', resultado)
           // Si es un error 404, puede que el usuario no tenga personajes todavía
           if (resultado.statusCode === 404) {
@@ -207,7 +207,7 @@ export default {
           }
         }
       } catch (error) {
-        this.charactersError = 'Error al cargar los personajes'
+        this.charactersError = this.$t('profile.errors.loadCharacters')
         console.error('Error al obtener personajes (catch):', error)
         console.error('Detalles del error:', {
           message: error.message,
