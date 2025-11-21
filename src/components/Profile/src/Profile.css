@@ -1,13 +1,13 @@
 .profile-container {
-  max-width: 1400px;
-  margin: 50px auto;
-  padding: 20px;
+  max-width: 1200px; /* Ancho máximo un poco más pequeño para empezar */
+  margin: 40px auto; /* Centrado y con menos margen vertical */
+  padding: 1rem; /* Usar rem para un mejor escalado */
 }
 
 .profile-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  gap: 1.5rem; /* Reducir el gap para pantallas más grandes */
   align-items: start;
 }
 
@@ -104,18 +104,18 @@
 }
 
 .profile-icon {
-  font-size: 3rem;
-  margin-top: 10px;
+  font-size: 2.5rem; /* Ajustar el tamaño del icono */
+  margin-top: 0.5rem; /* Usar rem */
   filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
 }
 
 .profile-content {
-  padding: 30px;
+  padding: 1.5rem; /* Usar rem */
 }
 
 .profile-field {
-  margin-bottom: 20px;
-  padding: 15px;
+  margin-bottom: 1rem; /* Usar rem */
+  padding: 0.75rem; /* Usar rem */
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   display: flex;
   justify-content: space-between;
@@ -131,37 +131,39 @@
   font-family: 'Cinzel', serif;
   font-weight: 600;
   color: #d4af37;
-  font-size: 1rem;
+  font-size: 0.95rem; /* Ligeramente más pequeño */
   text-transform: uppercase;
   letter-spacing: 1px;
-  min-width: 150px;
+  /* min-width: 150px; <-- Eliminar o hacer flexible */
+  flex-shrink: 0; /* Evitar que la etiqueta se encoja */
 }
 
 .profile-value {
   font-family: 'Cinzel', serif;
   color: #c0c0c0;
-  font-size: 1rem;
+  font-size: 0.95rem; /* Ligeramente más pequeño */
   text-align: right;
-  flex: 1;
-  margin-left: 20px;
+  flex: 1 1 auto; /* Permitir que se encoja y crezca */
+  margin-left: 1rem; /* Usar rem */
+  word-break: break-all; /* Asegurar que el texto largo se rompa */
 }
 
 .profile-actions {
-  padding: 20px 30px;
+  padding: 1rem 1.5rem; /* Usar rem */
   border-top: 2px solid #d4af37;
   background: rgba(26, 26, 26, 0.5);
   text-align: center;
 }
 
 .logout-button {
-  padding: 12px 30px;
+  padding: 0.75rem 1.5rem; /* Usar rem */
   border: 2px solid #ff6b6b;
   border-radius: 6px;
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.8) 0%, rgba(90, 61, 34, 0.8) 100%);
   color: #ff6b6b;
   font-family: 'Cinzel', serif;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem; /* Ligeramente más pequeño */
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
@@ -182,24 +184,24 @@
 
 /* Sección de Personajes */
 .characters-section {
-  margin-top: 30px;
+  margin-top: 1.5rem; /* Usar rem */
   border-top: 2px solid #d4af37;
-  padding-top: 30px;
+  padding-top: 1.5rem; /* Usar rem */
 }
 
 .characters-header {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 1.25rem; /* Usar rem */
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 0.75rem; /* Usar rem */
 }
 
 .characters-header h3 {
   font-family: 'Cinzel Decorative', cursive;
-  font-size: 1.8rem;
+  font-size: 1.5rem; /* Ligeramente más pequeño */
   color: #d4af37;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   margin: 0;
@@ -210,16 +212,17 @@
   background: transparent;
   border: 2px solid #d4af37;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 2.2rem; /* Usar rem */
+  height: 2.2rem; /* Usar rem */
   color: #d4af37;
-  font-size: 1.2rem;
+  font-size: 1rem; /* Usar rem */
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .refresh-characters-button:hover:not(:disabled) {
@@ -230,21 +233,21 @@
 }
 
 .refresh-characters-button:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
 .debug-info {
-  margin-top: 10px;
+  margin-top: 0.5rem; /* Usar rem */
   color: #888;
-  font-size: 0.85rem;
+  font-size: 0.8rem; /* Usar rem */
 }
 
 .characters-loading,
 .characters-error,
 .characters-empty {
   text-align: center;
-  padding: 30px;
+  padding: 1.5rem; /* Usar rem */
   color: #c0c0c0;
   font-family: 'Cinzel', serif;
 }
@@ -254,8 +257,8 @@
 }
 
 .characters-empty p {
-  margin-bottom: 15px;
-  font-size: 1.1rem;
+  margin-bottom: 0.75rem; /* Usar rem */
+  font-size: 1rem; /* Usar rem */
 }
 
 .create-character-link {
@@ -263,7 +266,7 @@
 }
 
 .create-character-button {
-  padding: 10px 25px;
+  padding: 0.6rem 1.25rem; /* Usar rem */
   border: 2px solid #d4af37;
   border-radius: 6px;
   background: linear-gradient(135deg, #5a3d22 0%, #3d2914 100%);
@@ -285,8 +288,8 @@
 }
 
 .retry-button-small {
-  padding: 8px 16px;
-  margin-top: 10px;
+  padding: 0.4rem 0.8rem; /* Usar rem */
+  margin-top: 0.5rem; /* Usar rem */
   border: 2px solid #d4af37;
   border-radius: 6px;
   background: linear-gradient(135deg, #5a3d22 0%, #3d2914 100%);
@@ -295,7 +298,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Usar rem */
 }
 
 .retry-button-small:hover {
@@ -308,14 +311,14 @@
 /* Carrusel de Personajes */
 .characters-carousel-container {
   position: relative;
-  padding: 20px;
+  padding: 1rem; /* Usar rem */
 }
 
 .carousel-wrapper {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 0.75rem; /* Usar rem */
 }
 
 .characters-carousel {
@@ -333,7 +336,7 @@
 .character-card-wrapper {
   min-width: 100%;
   flex-shrink: 0;
-  padding: 0 10px;
+  padding: 0 0.5rem; /* Usar rem */
   box-sizing: border-box;
 }
 
@@ -341,10 +344,10 @@
   background: linear-gradient(135deg, rgba(90, 61, 34, 0.9) 0%, rgba(61, 41, 20, 0.9) 100%);
   border: 2px solid #d4af37;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 2.5rem; /* Usar rem */
+  height: 2.5rem; /* Usar rem */
   color: #d4af37;
-  font-size: 1.5rem;
+  font-size: 1.2rem; /* Usar rem */
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -380,14 +383,14 @@
 .carousel-indicators {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-  padding: 10px;
+  gap: 0.5rem; /* Usar rem */
+  margin-top: 1rem; /* Usar rem */
+  padding: 0.5rem; /* Usar rem */
 }
 
 .carousel-dot {
-  width: 12px;
-  height: 12px;
+  width: 0.6rem; /* Usar rem */
+  height: 0.6rem; /* Usar rem */
   border-radius: 50%;
   border: 2px solid #d4af37;
   background: transparent;
@@ -408,10 +411,10 @@
 
 .carousel-counter {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 0.75rem; /* Usar rem */
   font-family: 'Cinzel', serif;
   color: #d4af37;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Usar rem */
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -419,9 +422,9 @@
 /* Mantener el grid para compatibilidad, pero no se usará si hay carrusel */
 .characters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajustar minmax */
+  gap: 1rem; /* Usar rem */
+  padding: 1rem; /* Usar rem */
 }
 
 .character-card {
@@ -455,13 +458,13 @@
 .character-avatar {
   position: relative;
   text-align: center;
-  padding: 20px;
+  padding: 1rem; /* Usar rem */
   background: linear-gradient(135deg, rgba(90, 61, 34, 0.5) 0%, rgba(61, 41, 20, 0.5) 100%);
 }
 
 .character-avatar img {
-  width: 100px;
-  height: 100px;
+  width: 5rem; /* Usar rem */
+  height: 5rem; /* Usar rem */
   border-radius: 50%;
   border: 3px solid #d4af37;
   object-fit: cover;
@@ -470,10 +473,10 @@
 
 .character-status {
   display: inline-block;
-  margin-top: 10px;
-  padding: 4px 12px;
+  margin-top: 0.5rem; /* Usar rem */
+  padding: 0.25rem 0.6rem; /* Usar rem */
   border-radius: 12px;
-  font-size: 0.85rem;
+  font-size: 0.75rem; /* Usar rem */
   font-family: 'Cinzel', serif;
   font-weight: 600;
   text-transform: uppercase;
@@ -493,39 +496,39 @@
 }
 
 .character-info {
-  padding: 15px 20px;
+  padding: 0.75rem 1rem; /* Usar rem */
 }
 
 .character-name {
   font-family: 'Cinzel Decorative', cursive;
-  font-size: 1.3rem;
+  font-size: 1.2rem; /* Usar rem */
   color: #d4af37;
   text-align: center;
-  margin: 0 0 15px 0;
+  margin: 0 0 0.75rem 0; /* Usar rem */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .character-details {
-  margin-bottom: 15px;
+  margin-bottom: 0.75rem; /* Usar rem */
 }
 
 .character-details p {
-  margin: 8px 0;
+  margin: 0.4rem 0; /* Usar rem */
   font-family: 'Cinzel', serif;
   color: #c0c0c0;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Usar rem */
 }
 
 .character-details strong {
   color: #d4af37;
-  margin-right: 8px;
+  margin-right: 0.4rem; /* Usar rem */
 }
 
 .character-stats {
   display: flex;
   justify-content: space-around;
-  gap: 15px;
-  padding-top: 15px;
+  gap: 0.75rem; /* Usar rem */
+  padding-top: 0.75rem; /* Usar rem */
   border-top: 1px solid rgba(212, 175, 55, 0.3);
 }
 
@@ -533,12 +536,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 0.25rem; /* Usar rem */
 }
 
 .stat-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.75rem; /* Usar rem */
   color: #d4af37;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -546,11 +549,11 @@
 
 .stat-value {
   font-family: 'Cinzel', serif;
-  font-size: 1.5rem;
+  font-size: 1.3rem; /* Usar rem */
   font-weight: 700;
-  padding: 5px 12px;
+  padding: 0.25rem 0.6rem; /* Usar rem */
   border-radius: 6px;
-  min-width: 50px;
+  min-width: unset; /* Asegurar que no haya min-width fijo */
   text-align: center;
 }
 
@@ -578,79 +581,183 @@
   border: 1px solid #17a2b8;
 }
 
-@media (max-width: 1024px) {
+/* Media query para pantallas más grandes, por ejemplo, tablets en modo paisaje */
+@media (max-width: 1200px) {
   .profile-layout {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr; /* Cambiar a una sola columna */
+    gap: 1.5rem; /* Ajustar el gap */
+  }
+
+  .profile-container {
+    max-width: 900px; /* Ajustar el ancho máximo del contenedor principal */
+    padding: 1rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .profile-container {
-    padding: 10px;
+    max-width: 768px;
+    padding: 0.8rem;
   }
 
-  .profile-layout {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .profile-header h2 {
+    font-size: 1.8rem;
   }
 
   .profile-field {
     flex-direction: column;
     align-items: flex-start;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .profile-field label {
-    margin-bottom: 8px;
-    min-width: auto;
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
   }
 
   .profile-value {
-    text-align: left;
+    font-size: 0.8rem;
     margin-left: 0;
     width: 100%;
   }
 
-  .characters-carousel-container {
-    padding: 10px;
+  .characters-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
   }
 
-  .carousel-wrapper {
-    gap: 10px;
+  .characters-header {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  .carousel-button {
-    width: 40px;
-    height: 40px;
+  .characters-header h3 {
     font-size: 1.2rem;
   }
 
-  .character-card-wrapper {
-    padding: 0 5px;
+  .refresh-characters-button {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.8rem;
   }
 
-  .carousel-indicators {
-    gap: 8px;
-    margin-top: 15px;
+  .characters-loading,
+  .characters-error,
+  .characters-empty {
+    padding: 1rem;
   }
 
-  .carousel-dot {
-    width: 10px;
-    height: 10px;
-  }
-
-  .carousel-counter {
+  .characters-empty p {
     font-size: 0.9rem;
-    margin-top: 10px;
   }
 
-  /* Mantener el grid para compatibilidad */
-  .characters-grid {
-    grid-template-columns: 1fr;
-    padding: 10px;
+  .create-character-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .retry-button-small {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+  }
+
+  .characters-carousel-container {
+    padding: 0.5rem;
+  }
+
+  .carousel-wrapper {
+    gap: 0.25rem;
+  }
+
+  .carousel-button {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .character-card-wrapper {
+    padding: 0 0.2rem;
   }
 
   .character-card {
-    margin-bottom: 15px;
+    padding: 0.5rem;
+  }
+
+  .character-avatar img {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .character-status {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .character-info {
+    padding: 0.5rem;
+  }
+
+  .character-name {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .character-details p {
+    font-size: 0.7rem;
+    margin: 0.2rem 0;
+  }
+
+  .character-details strong {
+    margin-right: 0.2rem;
+  }
+
+  .character-stats {
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+    min-width: unset;
+  }
+
+  .carousel-indicators {
+    gap: 0.3rem;
+    margin-top: 0.75rem;
+  }
+
+  .carousel-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  .carousel-counter {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .characters-grid {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+
+  .character-card {
+    margin-bottom: 0.75rem;
+  }
+
+  .profile-actions {
+    padding: 0.75rem;
+  }
+
+  .logout-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
   }
 }

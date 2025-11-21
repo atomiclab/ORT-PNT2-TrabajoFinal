@@ -427,11 +427,11 @@
   }
 
   .statistics-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem; /* Ajustado */
   }
 
   .section-title {
-    font-size: 1.4rem;
+    font-size: 1.2rem; /* Ajustado */
   }
 
   .totals-grid,
@@ -439,26 +439,102 @@
     grid-template-columns: 1fr;
   }
 
+  .total-value {
+    font-size: 2.2rem; /* Reducir de 3rem */
+  }
+
+  .total-label {
+    font-size: 0.9rem; /* Reducir de 1.1rem */
+  }
+
+  .metric-value {
+    font-size: 2rem; /* Reducir de 2.5rem */
+  }
+
+  .metric-label {
+    font-size: 0.8rem; /* Reducir de 0.95rem */
+  }
+
   .leaderboard-grid,
   .distribution-grid {
     grid-template-columns: 1fr;
   }
 
+  .leaderboard-card,
+  .distribution-card {
+    padding: 10px;
+  }
+
+  .leaderboard-title,
+  .distribution-title {
+    font-size: 1.1rem;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+
   .leaderboard-item {
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 8px;
+    flex-basis: 100%;
+  }
+
+  .leaderboard-rank {
+    font-size: 1rem;
+    min-width: unset;
+    word-break: break-all;
+  }
+
+  .leaderboard-info {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    gap: 2px;
+  }
+
+  .leaderboard-name {
+    font-size: 0.8rem;
+    word-break: break-all;
+  }
+
+  .leaderboard-email {
+    font-size: 0.65rem;
+    word-break: break-all;
+  }
+
+  .leaderboard-value {
+    font-size: 0.8rem;
+    text-align: left;
+    word-break: break-all;
   }
 
   .distribution-item {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    align-items: flex-start;
+  }
+
+  .distribution-name {
+    width: 100%;
+    font-size: 0.9rem;
+    word-break: break-all;
   }
 
   .distribution-bar-container {
     width: 100%;
+    min-width: 0;
+    height: 15px;
   }
 
   .distribution-value {
+    width: 100%;
     text-align: left;
+    min-width: unset;
+    font-size: 0.85rem;
   }
 }
 
